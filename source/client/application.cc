@@ -93,9 +93,10 @@ Application::Application(int& argc, char* argv[])
         }
         else if (message.startsWith(kOpenHost))
         {
-            // "<entry_id>:<session_type>:<base64 user name>:<base64 password>". The two trailing
-            // fields are empty when the record keeps its own credentials. A payload that does not
-            // parse is not an answer to anything: it is dropped like any other made-up message.
+            // "<base64 identifier>:<session_type>:<base64 user name>:<base64 password>". The
+            // trailing fields are empty when the record keeps its own credentials. A payload that
+            // does not parse is not an answer to anything: it is dropped like any other message
+            // the peer made up.
             const QByteArray payload = message.mid(static_cast<qsizetype>(qstrlen(kOpenHost)));
             const QList<QByteArray> fields = payload.split(':');
 
@@ -105,12 +106,11 @@ Application::Application(int& argc, char* argv[])
                 return;
             }
 
-            bool id_ok = false;
             bool type_ok = false;
-            const qint64 entry_id = fields.at(0).toLongLong(&id_ok);
             const int session_type = fields.at(1).toInt(&type_ok);
+            const QString identifier = QString::fromUtf8(QByteArray::fromBase64(fields.at(0)));
 
-            if (!id_ok || !type_ok || entry_id <= 0)
+            if (!type_ok || identifier.isEmpty())
             {
                 LOG(ERROR) << "Malformed open host message:" << payload;
                 return;
@@ -133,12 +133,12 @@ Application::Application(int& argc, char* argv[])
                 return;
             }
 
-            LOG(INFO) << "Connect to host requested from the command line:" << entry_id
+            LOG(INFO) << "Connect to host requested from the command line:" << identifier
                       << "(session type:" << session_type
                       << (username.isEmpty() ? ", credentials of the record" : ", credentials given")
                       << ")";
 
-            emit sig_hostOpened(entry_id, session_type, username, password);
+            emit sig_hostOpened(identifier, session_type, username, password);
         }
         else
         {
@@ -205,14 +205,14 @@ void Application::openUrl(const QString& url)
 }
 
 //--------------------------------------------------------------------------------------------------
-void Application::openHost(qint64 entry_id, int session_type, const QString& username,
+void Application::openHost(const QString& identifier, int session_type, const QString& username,
                            const QString& password)
 {
-    // The credentials are base64-encoded because either of them may hold the separator the fields
-    // are written with; an empty pair is written as two empty fields, which reads back as "the
-    // credentials of the record".
+    // Every field but the session type is text that may hold the separator the fields are written
+    // with, so all three are base64-encoded. An empty pair reads back as "the credentials of the
+    // record", which is what an empty field means here.
     const QByteArray payload =
-        QByteArray::number(entry_id) + ':' +
+        identifier.toUtf8().toBase64() + ':' +
         QByteArray::number(session_type) + ':' +
         username.toUtf8().toBase64() + ':' +
         password.toUtf8().toBase64();

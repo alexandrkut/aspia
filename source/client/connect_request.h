@@ -69,9 +69,11 @@ public:
     ConnectRequest(ConnectRequest&&) = default;
     ConnectRequest& operator=(ConnectRequest&&) = default;
 
-    // The record to connect to, 0 when the command line named none.
-    qint64 entryId() const { return entry_id_; }
-    void setEntryId(qint64 entry_id) { entry_id_ = entry_id; }
+    // What the command line named the host by: a record ID, a host ID, or nothing at all for a
+    // plain start. Kept exactly as written, since which of the two it is can only be decided when
+    // the record is found.
+    const QString& identifier() const { return identifier_; }
+    void setIdentifier(const QString& identifier) { identifier_ = identifier; }
 
     // The kind of the session to open. SESSION_TYPE_UNKNOWN when the command line named none, in
     // which case the caller falls back to the settings.
@@ -96,14 +98,14 @@ public:
         password_ = SecureString();
     }
 
-    bool isEmpty() const { return entry_id_ <= 0; }
+    bool isEmpty() const { return identifier_.isEmpty(); }
 
     // The name a --session-type value may carry. Returns SESSION_TYPE_UNKNOWN when the name names
     // no session, or is a number that is not one of the values below.
     static proto::peer::SessionType sessionTypeFromName(const QString& name);
 
 private:
-    qint64 entry_id_ = 0;
+    QString identifier_;
     proto::peer::SessionType session_type_ = proto::peer::SESSION_TYPE_UNKNOWN;
     QString username_;
     SecureString password_;

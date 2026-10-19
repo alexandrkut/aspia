@@ -65,7 +65,7 @@ TEST(ConnectRequestTest, EmptyCommandLine)
     const ConnectRequest request = parse({});
 
     EXPECT_TRUE(request.isEmpty());
-    EXPECT_EQ(request.entryId(), 0);
+    EXPECT_TRUE(request.identifier().isEmpty());
     EXPECT_EQ(request.sessionType(), proto::peer::SESSION_TYPE_UNKNOWN);
 }
 
@@ -83,7 +83,7 @@ TEST(ConnectRequestTest, ConnectOptionForms)
         const ConnectRequest request = parse(rest);
 
         EXPECT_FALSE(request.isEmpty()) << rest.join(' ').toStdString();
-        EXPECT_EQ(request.entryId(), 7) << rest.join(' ').toStdString();
+        EXPECT_EQ(request.identifier(), QStringLiteral("7")) << rest.join(' ').toStdString();
     }
 }
 
@@ -94,7 +94,7 @@ TEST(ConnectRequestTest, BareIdentifier)
     const ConnectRequest request = parse({ QStringLiteral("42") });
 
     EXPECT_FALSE(request.isEmpty());
-    EXPECT_EQ(request.entryId(), 42);
+    EXPECT_EQ(request.identifier(), QStringLiteral("42"));
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ TEST(ConnectRequestTest, OptionWinsOverBareIdentifier)
                                            QStringLiteral("--connect"),
                                            QStringLiteral("7") });
 
-    EXPECT_EQ(request.entryId(), 7);
+    EXPECT_EQ(request.identifier(), QStringLiteral("7"));
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -196,7 +196,7 @@ TEST(ConnectRequestTest, UnknownOptionsAreIgnored)
 {
     const ConnectRequest request = parse({ QStringLiteral("--platform"), QStringLiteral("--connect=7") });
 
-    EXPECT_EQ(request.entryId(), 7);
+    EXPECT_EQ(request.identifier(), QStringLiteral("7"));
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -207,7 +207,7 @@ TEST(ConnectRequestTest, RequestCarriesNoCredentialsByDefault)
     const ConnectRequest request = parse({ QStringLiteral("--connect=7"),
                                            QStringLiteral("--session-type=file") });
 
-    EXPECT_EQ(request.entryId(), 7);
+    EXPECT_EQ(request.identifier(), QStringLiteral("7"));
     EXPECT_EQ(request.sessionType(), proto::peer::SESSION_TYPE_FILE_TRANSFER);
     EXPECT_FALSE(request.hasCredentials());
     EXPECT_TRUE(request.username().isEmpty());
@@ -263,4 +263,53 @@ TEST(ConnectRequestTest, HalfCredentialsAreRefused)
 TEST(ConnectRequestTest, CredentialsWithoutAHostAreRefused)
 {
     EXPECT_TRUE(fails({ QStringLiteral("--username=admin"), QStringLiteral("--password=secret") }));
+}
+
+//--------------------------------------------------------------------------------------------------
+// The host ID is a number the host was given, the one a connection is made with and the one the
+// "Address / ID" column shows. It is written exactly like a record ID, so it comes through as it is
+// and is told apart from a record only by what the address book holds.
+TEST(ConnectRequestTest, HostIdentifierIsAccepted)
+{
+    const QStringList forms[] = {
+        { QStringLiteral("--connect"), QStringLiteral("1234567890123") },
+        { QStringLiteral("--connect=1234567890123") },
+        { QStringLiteral("-c"), QStringLiteral("1234567890123") },
+        { QStringLiteral("1234567890123") }};
+
+    for (const QStringList& rest : forms)
+    {
+        const ConnectRequest request = parse(rest);
+
+        EXPECT_FALSE(request.isEmpty()) << rest.join(' ').toStdString();
+        EXPECT_EQ(request.identifier(), QStringLiteral("1234567890123"));
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+// A host ID takes nothing away from the session type and the credentials given next to it.
+TEST(ConnectRequestTest, HostIdentifierWithTheRest)
+{
+    const ConnectRequest request = parse({ QStringLiteral("--connect=1234567890123"),
+                                           QStringLiteral("--session-type=terminal"),
+                                           QStringLiteral("--username=admin"),
+                                           QStringLiteral("--password=secret") });
+
+    EXPECT_EQ(request.identifier(), QStringLiteral("1234567890123"));
+    EXPECT_EQ(request.sessionType(), proto::peer::SESSION_TYPE_TERMINAL);
+    EXPECT_EQ(request.username(), QStringLiteral("admin"));
+    EXPECT_EQ(request.password().toString(), QStringLiteral("secret"));
+}
+
+//--------------------------------------------------------------------------------------------------
+// Neither a record ID nor a host ID: a misspelt identifier is refused with a reason instead of
+// being looked up in vain.
+TEST(ConnectRequestTest, NeitherIdentifierIsRefused)
+{
+    EXPECT_TRUE(fails({ QStringLiteral("--connect=host-one") }));
+    EXPECT_TRUE(fails({ QStringLiteral("--connect=ZT00MiZzPTE") }));
+    EXPECT_TRUE(fails({ QStringLiteral("--connect=0") }));
+    EXPECT_TRUE(fails({ QStringLiteral("--connect=-3") }));
+    EXPECT_TRUE(fails({ QStringLiteral("--connect=") }));
+    EXPECT_TRUE(fails({ QStringLiteral("--connect=12.5") }));
 }

@@ -237,8 +237,8 @@ int main(int argc, char* argv[])
     const QCommandLineOption connect_option(
         { QStringLiteral("connect"), QStringLiteral("c") },
         QApplication::translate("Client",
-            "Connect to the host of the address book with this record ID, using the login and "
-            "the password stored in it."),
+            "Connect to the host of the address book with this record ID or host ID, using the "
+            "login and the password stored in it."),
         QApplication::translate("Client", "id"));
 
     const QCommandLineOption session_type_option(
@@ -303,7 +303,7 @@ int main(int argc, char* argv[])
 
     if (!connect_request.isEmpty())
     {
-        LOG(INFO) << "Command line asks for host" << connect_request.entryId()
+        LOG(INFO) << "Command line asks for host" << connect_request.identifier()
                   << "with session type" << connect_request.sessionType()
                   << (connect_request.hasCredentials() ?
                          ", credentials given on the command line" : "");
@@ -323,12 +323,13 @@ int main(int argc, char* argv[])
     // The same for a connection asked for on the command line of a second instance: it is held
     // until the window that can open it exists, which spans the unlock of a master password and
     // the lock and unlock that destroys and recreates the window.
-    auto remember_host = [&connect_request, &connect_request_pending](qint64 entry_id, int session_type,
+    auto remember_host = [&connect_request, &connect_request_pending](const QString& identifier,
+                                                                  int session_type,
                                                                   const QString& username,
                                                                   const QString& password)
     {
         connect_request = ConnectRequest();
-        connect_request.setEntryId(entry_id);
+        connect_request.setIdentifier(identifier);
         connect_request.setSessionType(static_cast<proto::peer::SessionType>(session_type));
         connect_request.setCredentials(username, SecureString(password));
         connect_request_pending = true;
@@ -346,7 +347,7 @@ int main(int argc, char* argv[])
         else if (!connect_request.isEmpty())
         {
             LOG(INFO) << "Another instance is already running, forwarding host to it";
-            application.openHost(connect_request.entryId(), connect_request.sessionType(),
+            application.openHost(connect_request.identifier(), connect_request.sessionType(),
                                  connect_request.username(),
                                  connect_request.password().toString());
         }
@@ -456,10 +457,10 @@ int main(int argc, char* argv[])
         // slot signature out of a functor, which it does not manage here.
         MainWindow* window = main_window.get();
         QObject::connect(&application, &Application::sig_hostOpened, window,
-                         [window](qint64 entry_id, int session_type,
+                         [window](const QString& identifier, int session_type,
                                   const QString& username, const QString& password)
         {
-            window->connectToLocalHost(entry_id, session_type, username, password);
+            window->connectToLocalHost(identifier, session_type, username, password);
         });
         QObject::connect(main_window.get(), &MainWindow::sig_lockRequested, &application, [&]()
         {
@@ -506,7 +507,7 @@ int main(int argc, char* argv[])
 
             QTimer::singleShot(MilliSeconds(0), main_window.get(), [window = main_window.get(), request]()
             {
-                window->connectToLocalHost(request.entryId(), request.sessionType(),
+                window->connectToLocalHost(request.identifier(), request.sessionType(),
                                           request.username(),
                                           request.password().toString());
             });

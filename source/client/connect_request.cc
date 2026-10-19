@@ -24,6 +24,7 @@
 #include <QStringLiteral>
 
 #include "base/crypto/secure_string.h"
+#include "base/peer/host_id.h"
 #include "client/host_url.h"
 
 namespace {
@@ -46,18 +47,25 @@ constexpr SessionTypeName kSessionTypes[] = {
     { "terminal", proto::peer::SESSION_TYPE_TERMINAL }};
 
 //--------------------------------------------------------------------------------------------------
-// A record ID is a positive number and nothing else. The value is not checked against the database
-// here: the client may be starting before it was unlocked, and the lookup that opens the session
-// reports a record that is not there in a way the user can act on.
-std::optional<qint64> entryIdFromString(const QString& str)
+// What identifies a saved host on the command line. It is always a number, and which of the two it
+// is can only be told by looking: a record ID is a small autoincrement, a host ID is a number the
+// host was given. The value is not checked against the database here - the client may be starting
+// before it was unlocked - so only its shape is checked, and a misspelt identifier is refused with a
+// reason instead of being looked up in vain.
+std::optional<QString> identifierFromString(const QString& str)
 {
-    bool ok = false;
-    const qint64 entry_id = str.trimmed().toLongLong(&ok);
+    const QString trimmed = str.trimmed();
 
-    if (!ok || entry_id <= 0)
+    if (trimmed.isEmpty())
         return std::nullopt;
 
-    return entry_id;
+    bool number_ok = false;
+    const qulonglong identifier = trimmed.toULongLong(&number_ok);
+
+    if (!number_ok || identifier == 0)
+        return std::nullopt;
+
+    return trimmed;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -108,16 +116,16 @@ bool ConnectRequest::parse(const QStringList& arguments, ConnectRequest* request
         {
             // An option at the end of the line with nothing behind it is a refusal, not a plain
             // start: something was asked for and could not be read.
-            const std::optional<qint64> entry_id =
-                connect.value ? entryIdFromString(*connect.value) : std::nullopt;
+            const std::optional<QString> identifier =
+                connect.value ? identifierFromString(*connect.value) : std::nullopt;
 
-            if (!entry_id)
+            if (!identifier)
             {
                 if (error)
                 {
                     *error = connect.value ?
                         QCoreApplication::translate(
-                            "Client", "\"%1\" is not a valid host ID.").arg(*connect.value) :
+                            "Client", "\"%1\" is neither a host ID nor a record ID.").arg(*connect.value) :
                         QCoreApplication::translate(
                             "Client", "The host ID of --connect is missing.");
                 }
@@ -125,7 +133,7 @@ bool ConnectRequest::parse(const QStringList& arguments, ConnectRequest* request
             }
 
             // Spelled out, so it wins over a bare argument found anywhere on the line.
-            result.entry_id_ = *entry_id;
+            result.identifier_ = *identifier;
             continue;
         }
 
@@ -194,15 +202,15 @@ bool ConnectRequest::parse(const QStringList& arguments, ConnectRequest* request
             continue;
         }
 
-        // What is left is a link or a bare record ID. A link wins: it names a host of its own.
+        // What is left is a link or a bare identifier. A link wins: it names a host of its own.
         if (HostUrl::isHostUrl(argument))
         {
             start_url = argument;
             continue;
         }
 
-        std::optional<qint64> entry_id = entryIdFromString(argument);
-        if (!entry_id)
+        std::optional<QString> identifier = identifierFromString(argument);
+        if (!identifier)
         {
             if (error)
             {
@@ -212,8 +220,8 @@ bool ConnectRequest::parse(const QStringList& arguments, ConnectRequest* request
             return false;
         }
 
-        if (result.entry_id_ <= 0)
-            result.entry_id_ = *entry_id;
+        if (result.identifier_.isEmpty())
+            result.identifier_ = *identifier;
     }
 
     // Half of a pair is no pair: the session would fall back to asking for the rest in a dialog,
@@ -233,7 +241,7 @@ bool ConnectRequest::parse(const QStringList& arguments, ConnectRequest* request
     }
 
     // Credentials on their own are a connection to no record at all.
-    if (!result.username_.isEmpty() && result.entry_id_ <= 0)
+    if (!result.username_.isEmpty() && result.identifier_.isEmpty())
     {
         if (error)
         {

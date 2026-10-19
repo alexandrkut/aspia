@@ -377,16 +377,10 @@ void MainWindow::connectToUrl(const QString& url)
 }
 
 //--------------------------------------------------------------------------------------------------
-void MainWindow::connectToLocalHost(qint64 entry_id, int session_type)
+void MainWindow::connectToLocalHost(const QString& identifier, int session_type,
+                                    const QString& username, const QString& password)
 {
-    connectToLocalHost(entry_id, session_type, QString(), QString());
-}
-
-//--------------------------------------------------------------------------------------------------
-void MainWindow::connectToLocalHost(qint64 entry_id, int session_type, const QString& username,
-                                    const QString& password)
-{
-    LOG(INFO) << "Connect to host from the command line:" << entry_id
+    LOG(INFO) << "Connect to host from the command line:" << identifier
               << "(session type:" << session_type << ")";
 
     // A forwarded request carries the credentials it was given; a request of the first instance
@@ -394,7 +388,7 @@ void MainWindow::connectToLocalHost(qint64 entry_id, int session_type, const QSt
     const bool with_credentials = !username.isEmpty() && !password.isEmpty();
 
     if (with_credentials)
-        LOG(INFO) << "Credentials given on the command line for host" << entry_id;
+        LOG(INFO) << "Credentials given on the command line for the host";
 
     showAndActivate();
 
@@ -404,9 +398,49 @@ void MainWindow::connectToLocalHost(qint64 entry_id, int session_type, const QSt
     // with no login or no password at all.
     if (ManagementTab* management_tab = managementTab())
     {
-        management_tab->connectLocalHost(entry_id, static_cast<proto::peer::SessionType>(session_type),
+        management_tab->connectLocalHost(findEntryId(identifier),
+                                         static_cast<proto::peer::SessionType>(session_type),
                                          username, SecureString(password));
     }
+}
+
+//--------------------------------------------------------------------------------------------------
+qint64 MainWindow::findEntryId(const QString& identifier) const
+{
+    Database& db = Database::instance();
+
+    // A number is looked for first as the record ID of the address book: that is the autoincrement
+    // the book keeps for itself.
+    LocalHostConfig entry;
+
+    if (db.findLocalHost(identifier.toLongLong(), &entry) == Database::FindResult::FOUND)
+        return entry.id();
+
+    // And then as the ID of a host, which is the number a connection to it is made with. The
+    // record that carries it is the one that holds that ID in its address, which is what the
+    // "Address / ID" column of the host list shows.
+    QList<LocalHostConfig> hosts;
+
+    if (db.allLocalHosts(&hosts) != Database::ReadResult::OK)
+    {
+        LOG(ERROR) << "Unable to read the address book";
+        return -1;
+    }
+
+    for (const LocalHostConfig& host : std::as_const(hosts))
+    {
+        if (host.address().compare(identifier, Qt::CaseInsensitive) == 0)
+        {
+            LOG(INFO) << "Host ID" << identifier << "belongs to the address book record"
+                      << host.id() << "(" << host.name() << ")";
+            return host.id();
+        }
+    }
+
+    LOG(ERROR) << "No record of the address book holds the ID" << identifier;
+
+    // Nothing found: the management tab reports it the way it reports any record that is not there.
+    return -1;
 }
 
 //--------------------------------------------------------------------------------------------------
