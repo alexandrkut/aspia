@@ -1,0 +1,11 @@
+vcpkg_from_github(
+    OUT_SOURCE_PATH SOURCE_PATH
+    REPO avaneev/lzav
+    REF ${VERSION}
+    SHA512 d61e1d94bc5f059c2ab976b7a9fe157fce18231318c830772e711c735910ea3e4a67c18474d5e39ac03677ad987e070d5772040cb34075b247c5db154ca316d0
+    HEAD_REF master
+)
+
+file(COPY "${SOURCE_PATH}/lzav.h" DESTINATION "${CURRENT_PACKAGES_DIR}/include")
+
+vcpkg_install_copyright(FILE_LIST "${SOURCE_PATH}/LICENSE")
