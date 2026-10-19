@@ -60,6 +60,15 @@ public slots:
     void showAndActivate();
     void connectToUrl(const QString& url);
 
+    // Connects to the address book record |entry_id|. Called for the --connect argument of the
+    // command line, both for the instance that was started with it and for the one another instance
+    // forwarded the request to. The credentials of the record are used unless |username| and
+    // |password| carry a pair of their own, which is what --username and --password produce.
+    // |session_type| is a proto::peer::SessionType value.
+    void connectToLocalHost(qint64 entry_id, int session_type);
+    void connectToLocalHost(qint64 entry_id, int session_type, const QString& username,
+                            const QString& password);
+
 signals:
     // The state of the window is saved by then, and the window is expected to be destroyed.
     void sig_lockRequested();

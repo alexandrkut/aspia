@@ -32,6 +32,7 @@
 #endif // !defined(Q_OS_ANDROID)
 
 #include <QIcon>
+#include <QList>
 
 #if defined(Q_OS_WINDOWS)
 #include <QDir>
@@ -51,6 +52,7 @@ namespace {
 
 const char kActivateWindow[] = "activate_window";
 const char kOpenUrl[] = "open_url:";
+const char kOpenHost[] = "open_host:";
 
 #if defined(Q_OS_ANDROID)
 //--------------------------------------------------------------------------------------------------
@@ -88,6 +90,55 @@ Application::Application(int& argc, char* argv[])
         else if (message.startsWith(kOpenUrl))
         {
             emit sig_urlOpened(QString::fromUtf8(message.mid(static_cast<qsizetype>(qstrlen(kOpenUrl)))));
+        }
+        else if (message.startsWith(kOpenHost))
+        {
+            // "<entry_id>:<session_type>:<base64 user name>:<base64 password>". The two trailing
+            // fields are empty when the record keeps its own credentials. A payload that does not
+            // parse is not an answer to anything: it is dropped like any other made-up message.
+            const QByteArray payload = message.mid(static_cast<qsizetype>(qstrlen(kOpenHost)));
+            const QList<QByteArray> fields = payload.split(':');
+
+            if (fields.size() != 4)
+            {
+                LOG(ERROR) << "Malformed open host message:" << payload;
+                return;
+            }
+
+            bool id_ok = false;
+            bool type_ok = false;
+            const qint64 entry_id = fields.at(0).toLongLong(&id_ok);
+            const int session_type = fields.at(1).toInt(&type_ok);
+
+            if (!id_ok || !type_ok || entry_id <= 0)
+            {
+                LOG(ERROR) << "Malformed open host message:" << payload;
+                return;
+            }
+
+            QString username;
+            QString password;
+
+            if (!fields.at(2).isEmpty())
+                username = QString::fromUtf8(QByteArray::fromBase64(fields.at(2)));
+
+            if (!fields.at(3).isEmpty())
+                password = QString::fromUtf8(QByteArray::fromBase64(fields.at(3)));
+
+            // Half a pair is no pair: the receiver would fall back to the stored credentials, which
+            // is not what the sender meant.
+            if (username.isEmpty() != password.isEmpty())
+            {
+                LOG(ERROR) << "Open host message with half a pair of credentials";
+                return;
+            }
+
+            LOG(INFO) << "Connect to host requested from the command line:" << entry_id
+                      << "(session type:" << session_type
+                      << (username.isEmpty() ? ", credentials of the record" : ", credentials given")
+                      << ")";
+
+            emit sig_hostOpened(entry_id, session_type, username, password);
         }
         else
         {
@@ -151,6 +202,22 @@ void Application::activateWindow()
 void Application::openUrl(const QString& url)
 {
     sendMessage(kOpenUrl + url.toUtf8());
+}
+
+//--------------------------------------------------------------------------------------------------
+void Application::openHost(qint64 entry_id, int session_type, const QString& username,
+                           const QString& password)
+{
+    // The credentials are base64-encoded because either of them may hold the separator the fields
+    // are written with; an empty pair is written as two empty fields, which reads back as "the
+    // credentials of the record".
+    const QByteArray payload =
+        QByteArray::number(entry_id) + ':' +
+        QByteArray::number(session_type) + ':' +
+        username.toUtf8().toBase64() + ':' +
+        password.toUtf8().toBase64();
+
+    sendMessage(kOpenHost + payload);
 }
 
 #if defined(Q_OS_MACOS)

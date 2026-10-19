@@ -69,6 +69,12 @@ public:
 
     void reloadRouters();
     void connectLocalHost(qint64 entry_id, proto::peer::SessionType session_type);
+
+    // The same, with credentials given by the caller (the command line) instead of the ones of the
+    // record. An empty |username| with an empty |password| is the plain call above.
+    void connectLocalHost(qint64 entry_id, proto::peer::SessionType session_type,
+                          const QString& username, const SecureString& password);
+
     void connectRouterHost(const HostConfig& host, proto::peer::SessionType session_type);
 
 private slots:

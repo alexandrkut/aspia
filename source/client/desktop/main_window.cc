@@ -16,6 +16,7 @@
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 
+#include "base/crypto/secure_string.h"
 #include "client/desktop/main_window.h"
 
 #include <QDateTime>
@@ -373,6 +374,39 @@ void MainWindow::connectToUrl(const QString& url)
     }
 
     onConnect(host, host_url.sessionType());
+}
+
+//--------------------------------------------------------------------------------------------------
+void MainWindow::connectToLocalHost(qint64 entry_id, int session_type)
+{
+    connectToLocalHost(entry_id, session_type, QString(), QString());
+}
+
+//--------------------------------------------------------------------------------------------------
+void MainWindow::connectToLocalHost(qint64 entry_id, int session_type, const QString& username,
+                                    const QString& password)
+{
+    LOG(INFO) << "Connect to host from the command line:" << entry_id
+              << "(session type:" << session_type << ")";
+
+    // A forwarded request carries the credentials it was given; a request of the first instance
+    // does not, and empty ones mean "the ones of the record".
+    const bool with_credentials = !username.isEmpty() && !password.isEmpty();
+
+    if (with_credentials)
+        LOG(INFO) << "Credentials given on the command line for host" << entry_id;
+
+    showAndActivate();
+
+    // Everything else (the router the host belongs to, the credentials it points at, the connect
+    // time) is resolved by the management tab, the same way it is for a connection started from
+    // the host list. The authorization dialog of the session only opens for a host that ends up
+    // with no login or no password at all.
+    if (ManagementTab* management_tab = managementTab())
+    {
+        management_tab->connectLocalHost(entry_id, static_cast<proto::peer::SessionType>(session_type),
+                                         username, SecureString(password));
+    }
 }
 
 //--------------------------------------------------------------------------------------------------

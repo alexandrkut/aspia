@@ -35,9 +35,20 @@ public slots:
     void activateWindow();
     void openUrl(const QString& url);
 
+    // Asks the running instance to connect to the address book record |entry_id|. An empty |username|
+    // with an empty |password| means the credentials of the record. |session_type| is a
+    // proto::peer::SessionType value.
+    void openHost(qint64 entry_id, int session_type, const QString& username,
+                  const QString& password);
+
 signals:
     void sig_windowActivated();
     void sig_urlOpened(const QString& url);
+
+    // The command line of a second instance asked for this record. |session_type| is a
+    // proto::peer::SessionType value; the credentials are empty when the record keeps its own.
+    void sig_hostOpened(qint64 entry_id, int session_type, const QString& username,
+                        const QString& password);
 
 #if defined(Q_OS_MACOS)
 protected:
