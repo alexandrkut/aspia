@@ -74,9 +74,14 @@ done
 #--------------------------------------------------------------------------------------------------
 # Version and architecture.
 #--------------------------------------------------------------------------------------------------
-version_part() { sed -n "s/^set(ASPIA_VERSION_$1 \([0-9][0-9]*\))/\1/p" "$SOURCE_ROOT/CMakeLists.txt"; }
+version_part() { sed -n "s/^set(ASPIA_VERSION_$1 \([^)]*\))/\1/p" "$SOURCE_ROOT/CMakeLists.txt" | tr -d '\r'; }
 
 VERSION="$(version_part MAJOR).$(version_part MINOR).$(version_part PATCH)"
+
+# The version the binary carries also has the suffix of a build that is not the released
+# one, and the package version cannot have it: a hyphen starts the revision there.
+VERSION_SUFFIX="$(version_part SUFFIX)"
+VERSION_SUFFIX="${VERSION_SUFFIX//\"/}"
 [ "$VERSION" != ".." ] || die "no version in $SOURCE_ROOT/CMakeLists.txt"
 
 MACHINE="$(uname -m)"
@@ -177,6 +182,7 @@ deb_depends()
             libgcc_s.so.1)  package="libgcc-s1 | libgcc1" ;;
             libdbus-1.so.3) package="libdbus-1-3" ;;
             libpam.so.0)    package="libpam0g" ;;
+            libsystemd.so.0) package="libsystemd0" ;;
             libm.so.6|librt.so.1|libpthread.so.0|libdl.so.2|libutil.so.1|ld-linux-*) continue ;;
             *) die "no Debian package known for $soname, add it to deb_depends" ;;
         esac
@@ -324,7 +330,12 @@ for component in "${COMPONENTS[@]}"; do
 
     # The version of the binary is what the package claims to hold, so a build left over from an
     # earlier version is not packaged under the current one.
-    built="$(grep -ao "$VERSION\.[0-9][0-9]*" "$binary" | head -1 || true)"
+    built="$(grep -aoE "${VERSION//./\\.}\.[0-9]+${VERSION_SUFFIX}" "$binary" | head -1 || true)"
+
+    if [ -z "$built" ]; then
+        built="$(grep -aoF "${VERSION}${VERSION_SUFFIX}" "$binary" | head -1 || true)"
+    fi
+
     [ -n "$built" ] || die "$binary does not carry version $VERSION"
 
     echo "$component $built"
