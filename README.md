@@ -2,34 +2,33 @@ Aspia
 =====
 Remote desktop, file transfer and system information tool.
 
-This fork
---------
+Этот форк
+---------
 
-This is a fork of Aspia 3.1.1 with two features and a set of changes to the build. The
-base is the tag v3.1.1 of the upstream, and everything below is what the branch
-`router-2fa` adds to it.
+Это форк Aspia 3.1.1 с двумя возможностями и набором изменений в сборке. Базой является
+тег v3.1.1 апстрима, и всё, что описано ниже, — то, что ветка `router-2fa` добавляет к
+нему.
 
-**Connect to a host by its ID.** The client can be given the ID of a host and connect to
-it, without the host having to be in the address book of the client first: the router
-keeps the records of the hosts it knows, and the client asks the router for the one it
-wants. The name of the user and the password can be given on the command line as well,
-which is what a script that connects without a person at the keyboard needs.
+**Подключение к хосту по его ID.** Клиенту можно дать ID хоста и подключиться к нему,
+хотя бы этого хоста ещё нет в адресной книге клиента: роутер хранит записи тех хостов,
+которых знает, и клиент просит у него нужную. Имя пользователя и пароль можно передать
+и в командной строке — это то, что нужно скрипту, который подключается без человека за
+клавиатурой.
 
-**The second factor per role.** The router can let a role in with its password alone,
-and the three roles are switched separately - an administrator reaches every host and
-every setting, while an operator reaches a host and nothing else. All three are on by
-default, and every login that went through without a code is written to the log.
+**Второй фактор по ролям.** Роутер может впустить роль только по паролю, и три роли
+переключаются по отдельности: администратор достаёт до всех хостов и всех настроек, а
+оператор — только до одного хоста и больше ни до чего. По умолчанию включены все три, и
+каждый вход, прошедший без кода, пишется в лог.
 
-**The router without a window.** The router is a daemon and draws nothing, so the build
-can leave out QtGui, the widgets, the SVG, the codecs of the picture and the sound and
-the X11 and Wayland libraries. On a machine that builds the dependencies from source,
-that is the difference between an hour and a day.
+**Роутер без окна.** Роутер — это демон, и он ничего не рисует, поэтому сборка может
+оставить без QtGui, виджетов, SVG, кодеков картинки и звука, библиотек X11 и Wayland. На
+машине, которая собирает зависимости из исходников, это разница между часом и сутками.
 
-**The scripts of the build.** Debian 10 is from 2019 and needs a toolchain that did not
-exist then, and the ports of vcpkg stall on mirrors now and then. The scripts that build
-the router on Linux and on Windows are in the repository.
+**Скрипты сборки.** Debian 10 — 2019 года, и ему нужен тулчейн, которого тогда не было,
+а порты vcpkg время от времени зависают на зеркалах. Скрипты сборки роутера на Linux и
+на Windows лежат в репозитории.
 
-The whole of it is described in [MODIFICATIONS.md](MODIFICATIONS.md).
+Всё это описано подробно в [MODIFICATIONS.md](MODIFICATIONS.md).
 
 With Aspia, you can create your own NAT traversal infrastructure (using Router and Relay servers) with connection by ID or use direct connections. Aspia supports many features. Among them, detailed information about the system, terminal, audio, text chat.
 

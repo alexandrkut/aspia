@@ -1,10 +1,10 @@
-Modifications
-=============
+Модификации
+===========
 
-This is a fork of Aspia 3.1.1 with two features and a set of changes to the build. The
-base is the tag v3.1.1 of the upstream; everything below is what this branch adds to it.
+Это форк Aspia 3.1.1 с двумя возможностями и набором изменений в сборке. Базой является
+тег v3.1.1 апстрима, и всё, что описано ниже, — то, что эта ветка добавляет к нему.
 
-The two features are in one branch, `router-2fa`:
+Обе возможности лежат в одной ветке, `router-2fa`:
 
     fadf56d  Keep the scripts that build the router for Linux
     d9dcd4a  Fix what kept the service and the package from working
@@ -16,150 +16,145 @@ The two features are in one branch, `router-2fa`:
     bb66cc6  Connect by the ID of a host that lives only in a router
     7504b34  Ask the router for a host that was never fetched here
 
-The branch `router-only` holds the second feature without the first, for the case where
-the two should not travel together.
+Ветка `router-only` содержит вторую возможность без первой — на случай, если их не нужно
+тащить вместе.
 
 
-The features
-------------
+Возможности
+-----------
 
-### Connect to a host by its ID
+### Подключение к хосту по его ID
 
-The client can be given the ID of a host and connect to it, without the host having to
-be in the address book of the client first. The router keeps the records of the hosts it
-knows, and the client asks the router for the one it wants.
+Клиенту можно дать ID хоста и подключиться к нему, хотя бы этого хоста ещё нет в
+адресной книге клиента. Роутер хранит записи тех хостов, которых знает, и клиент
+просит у него нужную.
 
-    aspia_client --connect <record ID or host ID> [--session-type desktop|file|info|chat|terminal]
-                  [--username <name> --password <password>]
+    aspia_client --connect <ID записи или ID хоста> [--session-type desktop|file|info|chat|terminal]
+                  [--username <имя> --password <пароль>]
 
-The name of the user and the password can be given on the command line instead of the ones
-stored in the host, which is what a script that connects without a person at the keyboard
-needs. The password is only taken when the name is given with it.
+Имя пользователя и пароль можно передать в командной строке вместо тех, что сохранены
+в хосте, — это то, что нужно скрипту, который подключается без человека за клавиатурой.
+Пароль принимается только вместе с именем.
 
-The router side of this already exists upstream: the handler
-`source/router/handlers/host_id_handler.cc` answers the request of a client for a host it
-knows. What this branch adds is the client that asks, and the two ways of naming the
-host - the ID of the record in the address book, and the ID of the host itself.
+Роутерная часть этого уже есть в апстриме: обработчик
+`source/router/handlers/host_id_handler.cc` отвечает на запрос клиента о хосте, которого
+роутер знает. Эта ветка добавляет клиента, который спрашивает, и два способа назвать
+хост — ID записи в адресной книге и собственно ID хоста.
 
-The files are `source/client/connect_request.{h,cc}` and the parts of the client that
-take the new options: `source/client/main.cc`, `source/client/application.{h,cc}` and
+Файлы: `source/client/connect_request.{h,cc}` и части клиента, которые принимают новые
+ключи: `source/client/main.cc`, `source/client/application.{h,cc}` и
 `source/client/desktop/`.
 
-### The second factor per role
+### Второй фактор по ролям
 
-The router can let a role in with its password alone, and the three roles are switched
-separately:
+Роутер может впустить роль только по паролю, и три роли переключаются по отдельности:
 
     [router]
     two_factor_admin=1
     two_factor_manager=0
     two_factor_operator=0
 
-A role that is switched off is let in without a code, no secret is enrolled and no token
-is issued - a session that never had a second factor must not end up holding a device
-token that would look like one it did. Every such login is written to the log of the
-router, because an account that quietly stopped asking for a code cannot be told apart
-from one that was never asked to:
+Роль с выключенным переключателем входит без кода, секрет не заводится и токен не
+выдаётся: сессия, у которой второго фактора не было, не должна получить токен
+устройства, который выглядел бы так, будто он был. Каждый такой вход пишется в лог
+роутера, потому что счёт, который тихо перестал спрашивать код, не отличить от того,
+которому код не задавали:
 
     WARNING User "admin" ( 2 )logged in without the second factor: it is switched off
             for this role in the configuration of the router
 
-The three are separate because the roles are not equally exposed: an administrator
-reaches every host and every setting, while an operator reaches a host and nothing else.
-Turning the second factor off for the first is not a reason to turn it off for the third.
+Три переключателя раздельны потому, что роли не равнозначны по доступу: администратор
+достаёт до всех хостов и всех настроек, а оператор — только до одного хоста и больше ни
+до чего. Выключить второй фактор у первого — не повод выключать его у третьего.
 
-All three default to on. A configuration that never mentioned them - or a key that got
-lost on the way - keeps the accounts protected rather than silently opening them. A value
-that is neither a number nor a word keeps the second factor on as well, and a misspelt
-key is not a key at all: the default is the safe one.
+По умолчанию включены все три. Конфигурация, в которой их никогда не упоминали, — или
+ключ, который потерялся по дороге, — оставляет учётные записи защищёнными, а не
+открывает их молча. Значение, которое не является ни числом, ни словом, тоже оставляет
+второй фактор включённым, а опечатка в ключе — это вообще не ключ: по умолчанию
+берётся безопасное.
 
-The files are `source/router/settings.{h,cc}`, `source/router/handlers/two_factor_handler.{h,cc}`
-and the three clients of the router: `source/router/client_admin.{h,cc}`,
-`source/router/client_manager.{h,cc}` and `source/router/client_operator.{h,cc}`.
+Файлы: `source/router/settings.{h,cc}`, `source/router/handlers/two_factor_handler.{h,cc}`
+и три клиента роутера: `source/router/client_admin.{h,cc}`,
+`source/router/client_manager.{h,cc}` и `source/router/client_operator.{h,cc}`.
 
 
-The build
----------
+Сборка
+------
 
-### The router without a window
+### Роутер без окна
 
-The router is a daemon. It opens sockets, keeps a database and speaks the protocol, and
-nothing in it draws anything - yet the build brought in QtGui, the widgets, the SVG, the
-printing support, the codecs of the picture and the sound, the tools that make the
-translation files and the X11 and Wayland libraries. On a machine that has to build all
-of that from source, that is the difference between an hour and a day.
+Роутер — это демон. Он открывает сокеты, держит базу и говорит по протоколу, и ничего
+в нём не рисуется — а сборка приносила с собой QtGui, виджеты, SVG, поддержку печати,
+кодеки картинки и звука, инструменты переводов и библиотеки X11 и Wayland. На машине,
+которая собирает всё это из исходников, разница между часом и сутками.
 
-The lists of the libraries are now split into the ones every part needs and the ones only
-the parts with a window need, and the option `ASPIA_ROUTER_ONLY` builds the router alone:
+Списки библиотек разделены на те, что нужны всем частям, и те, что нужны только
+частям с окном, а опция `ASPIA_ROUTER_ONLY` собирает один роутер:
 
     cmake --preset local-linux-x64-router
     cmake --build --preset local-linux-x64-router --config Release --target aspia_router
 
-The manifest of the packages the router needs lives in `router-manifest/` and names a
-qtbase without the gui, the widgets, the sql and the test library. The dependencies of
-the full build and of the router alone do not fight over one tree, because the preset
-gives each of them an installed directory of its own.
+Манифест пакетов, нужных роутеру, лежит в `router-manifest/` и называет qtbase без
+gui, без виджетов, без sql и без библиотеки тестов. Зависимости полной сборки и
+сборки одного роутера не дерутся за одно дерево: пресет даёт каждой свой каталог
+установленных пакетов.
 
-The port of qtbase lives in another repository, and a change to a port of it cannot be
-committed there from here. The patch that lets the gui feature be switched off is kept in
-`patches/` instead, and `installer/linux/build/build-patches.sh` puts it on the port.
+Порт qtbase живёт в другом репозитории, и изменение порта нельзя закоммитить туда
+отсюда. Патч, который позволяет выключить возможность gui, хранится в `patches/`, а
+`installer/linux/build/build-patches.sh` накладывает его на порт.
 
-### The scripts of the build
+### Скрипты сборки
 
-`installer/linux/build/` holds the scripts that build the router on Debian 10 and on
-anything close to it. The distribution is from 2019, and the project needs things that did
-not exist then: a compiler with C++20 for Qt 6.11, a CMake that understands the presets
-of the project, a ninja that CMake can talk to, an Autoconf that gperf accepts and a
-Python that systemd accepts. The scripts build them from source, against the headers of
-the system, so that what comes out still speaks the glibc of that system.
+`installer/linux/build/` — скрипты сборки роутера на Debian 10 и на близком к нему.
+Дистрибутив 2019 года, а проекту нужно то, чего тогда не было: компилятор с C++20 для
+Qt 6.11, CMake, понимающий пресеты проекта, ninja, с которым CMake умеет говорить,
+Autoconf, который принимает gperf, и Python, который принимает systemd. Скрипты собирают
+их из исходников, против заголовков системы, — так что на выходе всё ещё говорит на
+glibc этой системы.
 
-The README beside them tells the order and the reason of each piece.
+README рядом с ними описывает порядок и причину каждой части.
 
-### The scripts of the build on Windows
+### Скрипты сборки на Windows
 
-`installer/windows/build/` holds the scripts that build Aspia on Windows the way the CI
-does, and that fetch what the build needs before it starts. They are the counterpart of
-the scripts for Linux, and they were written for this fork: vcpkg downloads the sources
-of its ports one at a time, and the mirrors it uses stall now and then - a connection is
-accepted and the body never comes, and vcpkg waits instead of failing over.
+`installer/windows/build/` — скрипты, которые собирают Aspia на Windows так, как это
+делает CI, и которые докачивают нужное перед началом сборки. Это counterparts скриптов
+для Linux, написанные для этого форка: vcpkg качает исходники своих портов по одному,
+и зеркала, которые он использует, время от времени зависают — соединение принимается,
+а тело не приходит, и vcpkg ждёт вместо того, чтобы перейти к другому.
 
-`fetch-sources.ps1` fetches the sources with several threads at once and checks them
-against the hashes the ports declare, which is what makes the three hundred megabytes of
-the Qt sources take minutes instead of an hour. `build-supervisor.ps1` watches a build
-that is already running and deals with such a stall when it sees one, and
-`build-status.ps1` is a snapshot of the build.
+`fetch-sources.ps1` качает исходники несколькими потоками сразу и сверяет их с хешами,
+которые объявляют порты, — благодаря этому триста мегабайт исходников Qt скачиваются
+за минуты, а не за час. `build-supervisor.ps1` следит за уже идущей сборкой и расправляется
+с таким зависанием, когда видит его, а `build-status.ps1` — это снимок состояния сборки.
 
 
-The fixes
----------
+Исправления
+-----------
 
-### The service and the signals
+### Служба и сигналы
 
-The signal handlers for SIGKILL and SIGSTOP were installed anyway. The kernel does not
-let a process catch those two, so the call failed every time the service started and
-stopped, and the two lines in the log looked like a failure of the service. The other
-five are caught as before.
+Обработчики сигналов SIGKILL и SIGSTOP ставились всё равно. Ядро не даёт процессу поймать
+эти два, поэтому вызов всегда падал — при каждом старте и остановке службы, и две строки
+в логе выглядели как поломка службы. Остальные пять ловятся как прежде.
 
-### The headers of DRM
+### Заголовки DRM
 
-The headers of DRM are in a directory of their own, and the name of that directory is not
-the same everywhere: some distributions put them in `drm/`, others in `libdrm/`. The file
-that reads what is known about the display of the machine now asks for both, and a
-machine that has neither gets no information about the driver of the card, which is the
-one thing read through those headers.
+Заголовки DRM лежат в отдельном каталоге, и имя этого каталога не везде одинаково: в
+одних дистрибутивах они в `drm/`, в других — в `libdrm/`. Файл, который читает сведения
+о дисплее машины, теперь спрашивает оба, и машина, у которой нет ни того, ни другого,
+не получит сведений о драйвере карты — единственное, что читается через эти заголовки.
 
-### The package
+### Пакет
 
-The router links against libsystemd, and the SONAME of it was not in the list of the
-packages the dependencies are named after, so the build of the package stopped with "no
-Debian package known for libsystemd.so.0".
+Роутер линкуется с libsystemd, а его SONAME не было в списке пакетов, по именам которых
+перечисляются зависимости, — и сборка пакета останавливалась с «no Debian package known
+for libsystemd.so.0».
 
-The version of the binary is also read differently now. The version of a build that is
-not the released one carries a suffix, and the file of the sources may have the carriage
-returns of a checkout on Windows in it, and both made the check for the version fail on a
-binary that was right.
+Версия бинаря теперь читается иначе. Версия сборки, которая не является релизной,
+носит суффикс, а в файле исходников могут остаться возвраты каретки от чекаута на
+Windows, и из-за обоих проверка версии падала на правильном бинаре.
 
-### The presets
+### Пресеты
 
-`CMakePresets.json` had no build presets at all, so `cmake --build --preset` could not
-work for any of them.
+В `CMakePresets.json` вообще не было build-пресетов, так что `cmake --build --preset` не
+мог сработать ни для одного из них.
