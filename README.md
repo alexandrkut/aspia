@@ -17,7 +17,7 @@ Remote desktop, file transfer and system information tool.
    прошедший без кода, попадает в лог.
 
 Плюс переработана сборка: роутер собирается без частей, которые рисуют, и для Linux и
-Windows добавлены скрипты. Подробно — в [MODIFICATIONS.md](MODIFICATIONS.md).
+Windows добавлены скрипты.
 
 With Aspia, you can create your own NAT traversal infrastructure (using Router and Relay servers) with connection by ID or use direct connections. Aspia supports many features. Among them, detailed information about the system, terminal, audio, text chat.
 
