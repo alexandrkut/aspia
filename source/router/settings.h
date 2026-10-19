@@ -87,6 +87,31 @@ public:
     void setStunPort(quint16 port);
     quint16 stunPort() const;
 
+    // Whether a user has to answer the second factor on top of the password, per role. A role
+    // that is switched off is let in with its password alone, which is a deliberate weakening of
+    // the account and is written to the log of every such login.
+    //
+    // The three are separate because the roles are not equally exposed: an administrator reaches
+    // every host and every setting, while an operator reaches a host and nothing else. Turning
+    // the second factor off for the first is not a reason to turn it off for the third.
+    //
+    // All three default to true: the second factor is on until the file says otherwise, so a
+    // configuration that never mentioned them - or a key that got lost on the way - keeps the
+    // accounts protected rather than silently opening them.
+    void setTwoFactorForAdmin(bool enabled);
+    bool isTwoFactorForAdminEnabled() const;
+
+    void setTwoFactorForManager(bool enabled);
+    bool isTwoFactorForManagerEnabled() const;
+
+    void setTwoFactorForOperator(bool enabled);
+    bool isTwoFactorForOperatorEnabled() const;
+
+    // The value for one role, given as the proto::router::SessionType that carries it. A role
+    // this build does not know is answered as protected: refusing to check the second factor of
+    // a role nobody thought about is exactly the mistake these settings exist to prevent.
+    bool isTwoFactorEnabledFor(quint32 session_type) const;
+
 private:
     void setListenInterface(const QByteArray& section, const QString& iface);
     QString listenInterface(const QByteArray& section) const;

@@ -35,9 +35,27 @@ const char kOtpIssuer[] = "Aspia Router";
 std::unordered_map<qint64, TwoFactorHandler::UserState> TwoFactorHandler::user_states_;
 
 //--------------------------------------------------------------------------------------------------
-TwoFactorHandler::Result TwoFactorHandler::start(Database& database, const RequestCaller& caller, qint64 now)
+TwoFactorHandler::Result TwoFactorHandler::start(Database& database, const RequestCaller& caller,
+                                                qint64 now, bool required)
 {
     Result result;
+
+    if (!required)
+    {
+        // The role of this user is configured to be let in with its password alone. No code is
+        // asked for, no secret is enrolled and no token is issued - a session that never had a
+        // second factor must not end up holding a device token that would look like one it did.
+        //
+        // The login is written to the log on every such session. An account that quietly stopped
+        // asking for a code is indistinguishable from an account that was never asked to, and
+        // the log is the only place where the difference stays visible.
+        LOG(WARNING) << "User" << caller.name << "(" << caller.session_type
+                     << ")logged in without the second factor: it is switched off for this role "
+                        "in the configuration of the router";
+
+        result.action = Action::ACCEPT;
+        return result;
+    }
 
     RouterUser user;
     if (database.findUser(caller.user_id, &user) != proto::router::kErrorOk)

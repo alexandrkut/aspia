@@ -56,8 +56,10 @@ qint64 createClientId()
 } // namespace
 
 //--------------------------------------------------------------------------------------------------
-ClientOperator::ClientOperator(Database& database, TcpChannel* channel, QObject* parent)
+ClientOperator::ClientOperator(Database& database, TcpChannel* channel, QObject* parent,
+                               bool two_factor_required)
     : QObject(parent),
+    two_factor_required_(two_factor_required),
       database_(database),
       session_id_(createClientId()),
       tcp_channel_(channel)
@@ -251,7 +253,8 @@ void ClientOperator::onStarted()
 //--------------------------------------------------------------------------------------------------
 void ClientOperator::doTwoFactorChallenge()
 {
-    applyTwoFactorResult(two_factor_.start(database_, requestCaller(), secondsSinceEpoch()));
+    applyTwoFactorResult(two_factor_.start(database_, requestCaller(), secondsSinceEpoch(),
+                                           two_factor_required_));
 }
 
 //--------------------------------------------------------------------------------------------------

@@ -23,6 +23,7 @@
 #include "base/crypto/secure_byte_array.h"
 #include "base/files/base_paths.h"
 #include "base/net/net_utils.h"
+#include "proto/router.h"
 
 namespace {
 
@@ -108,6 +109,10 @@ void Settings::reset()
     setRelayWhiteList(WhiteList());
     setEnableStun(true);
     setStunPort(kDefaultStunPort);
+
+  setTwoFactorForAdmin(true);
+  setTwoFactorForManager(true);
+  setTwoFactorForOperator(true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -353,4 +358,64 @@ Settings::WhiteList Settings::whiteList(const QByteArray& section) const
     }
 
     return result;
+}
+
+//--------------------------------------------------------------------------------------------------
+void Settings::setTwoFactorForAdmin(bool enabled)
+{
+    ini_.setBooleanValue(kRouterSection, "two_factor_admin", enabled);
+}
+
+//--------------------------------------------------------------------------------------------------
+bool Settings::isTwoFactorForAdminEnabled() const
+{
+    return ini_.booleanValue(kRouterSection, "two_factor_admin", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+void Settings::setTwoFactorForManager(bool enabled)
+{
+    ini_.setBooleanValue(kRouterSection, "two_factor_manager", enabled);
+}
+
+//--------------------------------------------------------------------------------------------------
+bool Settings::isTwoFactorForManagerEnabled() const
+{
+    return ini_.booleanValue(kRouterSection, "two_factor_manager", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+void Settings::setTwoFactorForOperator(bool enabled)
+{
+    ini_.setBooleanValue(kRouterSection, "two_factor_operator", enabled);
+}
+
+//--------------------------------------------------------------------------------------------------
+bool Settings::isTwoFactorForOperatorEnabled() const
+{
+    return ini_.booleanValue(kRouterSection, "two_factor_operator", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+bool Settings::isTwoFactorEnabledFor(quint32 session_type) const
+{
+    switch (session_type)
+    {
+        case proto::router::SESSION_TYPE_ADMIN:
+            return isTwoFactorForAdminEnabled();
+
+        case proto::router::SESSION_TYPE_MANAGER:
+            return isTwoFactorForManagerEnabled();
+
+        case proto::router::SESSION_TYPE_OPERATOR:
+            return isTwoFactorForOperatorEnabled();
+
+        default:
+            // A role this build does not name keeps its second factor. The settings exist to let
+            // one role through without a code, and an unknown role is not one somebody meant to
+            // let through - it is a role that was added after these switches were written.
+            LOG(WARNING) << "Unknown role" << session_type
+                         << ". The second factor is required for it";
+            return true;
+    }
 }

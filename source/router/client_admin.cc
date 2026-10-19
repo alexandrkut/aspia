@@ -33,8 +33,9 @@
 #include "router/workers/relay_worker.h"
 
 //--------------------------------------------------------------------------------------------------
-ClientAdmin::ClientAdmin(Database& database, TcpChannel* channel, QObject* parent)
-    : ClientManager(database, channel, parent)
+ClientAdmin::ClientAdmin(Database& database, TcpChannel* channel, QObject* parent,
+                         bool two_factor_required)
+    : ClientManager(database, channel, parent, two_factor_required)
 {
     CLOG(INFO) << "Ctor";
 }

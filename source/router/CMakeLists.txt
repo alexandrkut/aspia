@@ -58,6 +58,7 @@ list(APPEND SOURCE_ROUTER_TESTS
     relay_unittest.cc
     router_test_base.h
     router_test_worker.h
+    settings_unittest.cc
     shared_state_unittest.cc
     tests_main.cc)
 
