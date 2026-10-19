@@ -213,3 +213,30 @@ TEST_F(SettingsTest, FreshConfigurationProtectsEveryRole)
     EXPECT_TRUE(reread.isTwoFactorForManagerEnabled());
     EXPECT_TRUE(reread.isTwoFactorForOperatorEnabled());
 }
+//--------------------------------------------------------------------------------------------------
+// The configuration a router writes on --create-config goes through reset(), so the three keys
+// have to come out of it as the protected values rather than be absent - an absent key and a key
+// that says false are different things to whoever reads the file afterwards.
+TEST_F(SettingsTest, ResetWritesTheThreeKeysIntoTheFile)
+{
+    {
+        Settings settings;
+        settings.reset();
+        ASSERT_TRUE(settings.sync());
+    }
+
+    QFile file(path_);
+    ASSERT_TRUE(file.open(QIODevice::ReadOnly));
+    const QString written = QString::fromUtf8(file.readAll());
+
+    EXPECT_TRUE(written.contains(QStringLiteral("two_factor_admin")));
+    EXPECT_TRUE(written.contains(QStringLiteral("two_factor_manager")));
+    EXPECT_TRUE(written.contains(QStringLiteral("two_factor_operator")));
+
+    // A key that says "1" or "0" is what the ini writer produces, and both are read back as the
+    // protected value, so a file written by the router is as safe as one that was never touched.
+    const Settings reread;
+    EXPECT_TRUE(reread.isTwoFactorForAdminEnabled());
+    EXPECT_TRUE(reread.isTwoFactorForManagerEnabled());
+    EXPECT_TRUE(reread.isTwoFactorForOperatorEnabled());
+}
