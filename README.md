@@ -2,6 +2,35 @@ Aspia
 =====
 Remote desktop, file transfer and system information tool.
 
+This fork
+--------
+
+This is a fork of Aspia 3.1.1 with two features and a set of changes to the build. The
+base is the tag v3.1.1 of the upstream, and everything below is what the branch
+`router-2fa` adds to it.
+
+**Connect to a host by its ID.** The client can be given the ID of a host and connect to
+it, without the host having to be in the address book of the client first: the router
+keeps the records of the hosts it knows, and the client asks the router for the one it
+wants. The name of the user and the password can be given on the command line as well,
+which is what a script that connects without a person at the keyboard needs.
+
+**The second factor per role.** The router can let a role in with its password alone,
+and the three roles are switched separately - an administrator reaches every host and
+every setting, while an operator reaches a host and nothing else. All three are on by
+default, and every login that went through without a code is written to the log.
+
+**The router without a window.** The router is a daemon and draws nothing, so the build
+can leave out QtGui, the widgets, the SVG, the codecs of the picture and the sound and
+the X11 and Wayland libraries. On a machine that builds the dependencies from source,
+that is the difference between an hour and a day.
+
+**The scripts of the build.** Debian 10 is from 2019 and needs a toolchain that did not
+exist then, and the ports of vcpkg stall on mirrors now and then. The scripts that build
+the router on Linux and on Windows are in the repository.
+
+The whole of it is described in [MODIFICATIONS.md](MODIFICATIONS.md).
+
 With Aspia, you can create your own NAT traversal infrastructure (using Router and Relay servers) with connection by ID or use direct connections. Aspia supports many features. Among them, detailed information about the system, terminal, audio, text chat.
 
 |Build Status|
