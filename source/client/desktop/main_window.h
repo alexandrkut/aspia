@@ -91,6 +91,15 @@ private:
     // for a host ID - in the local book first and in the books of the routers after it.
     bool resolveTarget(const QString& identifier, ConnectTarget* target) const;
 
+    // Asks the routers whether one of them has a host with the ID of the command line, and opens
+    // the session through the one that does. Used when nothing stored here knows the ID: the
+    // address book only holds the hosts of a router that were fetched into it at some point.
+    void connectToRouterHost(const QString& identifier, proto::peer::SessionType session_type,
+                             const QString& username, const SecureString& password);
+
+    // The message of a host that is nowhere to be found.
+    void reportUnknownHost();
+
     // Runs |action| once the router is online, or right away when it already is or when the host
     // needs no router at all. A request from the command line arrives before any router connection
     // exists, and a session opened then is only told the router is offline.

@@ -394,10 +394,12 @@ void MainWindow::connectToLocalHost(const QString& identifier, int session_type,
 
     if (!resolveTarget(identifier, &target))
     {
-        // The lookup has already said in the log that there is no such host; what follows is what
-        // produces the message the user sees, the same one a record that is not there gives.
-        if (ManagementTab* management_tab = managementTab())
-            management_tab->connectLocalHost(-1, static_cast<proto::peer::SessionType>(session_type));
+        // Nothing here knows the ID. It may still be a host of a router that was never asked for
+        // its list, so the routers themselves are asked before the request is given up on.
+        const QString id = identifier;
+
+        connectToRouterHost(id, static_cast<proto::peer::SessionType>(session_type), username,
+                            SecureString(password));
         return;
     }
 
@@ -508,6 +510,107 @@ bool MainWindow::resolveTarget(const QString& identifier, ConnectTarget* target)
     LOG(ERROR) << "No local record and no router host holds the ID" << identifier;
 
     return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+void MainWindow::connectToRouterHost(const QString& identifier, proto::peer::SessionType session_type,
+                                    const QString& username, const SecureString& password)
+{
+    // The address book only knows the hosts of a router that were once fetched here, so a host the
+    // router has and this side has never asked about is not in it. The routers are asked directly:
+    // each of them is asked whether it has a host with this ID, and the one that has opens the
+    // session the way a click on its host list does.
+    QList<RouterConfig> routers;
+
+    if (Database::instance().routerList(&routers) != Database::ReadResult::OK || routers.isEmpty())
+    {
+        LOG(ERROR) << "No router to ask for the host" << identifier;
+        reportUnknownHost();
+        return;
+    }
+
+    LOG(INFO) << "Nothing stored holds the ID" << identifier << ", asking"
+              << routers.size() << "router(s) for it";
+
+    auto pending = std::make_shared<int>(static_cast<int>(routers.size()));
+    auto answered = std::make_shared<bool>(false);
+
+    for (const RouterConfig& router : std::as_const(routers))
+    {
+        const qint64 router_id = router.routerId();
+
+        runWhenRouterOnline(router_id, [this, router_id, identifier, session_type, username, password,
+                                       pending, answered]
+        {
+            auto none_found = [this, identifier, pending, answered]
+            {
+                if (*answered)
+                    return;
+
+                // Every router has answered and none of them has the host: the request is over.
+                if (--(*pending) == 0)
+                {
+                    LOG(ERROR) << "No router has a host with the ID" << identifier;
+                    reportUnknownHost();
+                }
+            };
+
+            RouterSession* session = RouterController::session(router_id);
+
+            if (!session)
+            {
+                // The router was waited for and is online, yet there is no session to ask. It has
+                // gone in between; the request cannot be answered by it.
+                LOG(ERROR) << "Router" << router_id << "has no session to ask for the host";
+                none_found();
+                return;
+            }
+
+            session->searchHosts(identifier, 0, proto::router::kMaxHostPageSize,
+                { this, [this, router_id, identifier, session_type, username, password, answered,
+                         none_found](const RouterHostList& list)
+            {
+                if (*answered)
+                    return;
+
+                for (const RouterHost& entry : std::as_const(list.hosts))
+                {
+                    if (entry.host_id != stringToHostId(identifier))
+                        continue;
+
+                    *answered = true;
+                    LOG(INFO) << "Router" << router_id << "has the host" << identifier;
+
+                    HostConfig host = HostConfig::forRouterHost(
+                        router_id, entry.host_id,
+                        entry.display_name.isEmpty() ? entry.computer_name : entry.display_name);
+
+                    if (!username.isEmpty())
+                    {
+                        host.setUsername(username);
+                        host.setPassword(password);
+                        host.setForcedCredentials(true);
+                    }
+
+                    if (ManagementTab* management_tab = managementTab())
+                        management_tab->connectRouterHost(host, session_type);
+                    return;
+                }
+
+                LOG(INFO) << "Router" << router_id << "has no host with the ID" << identifier;
+                none_found();
+            } });
+        });
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void MainWindow::reportUnknownHost()
+{
+    // The record read that follows is what produces the message the user sees, the same one a
+    // record that is not there gives.
+    if (ManagementTab* management_tab = managementTab())
+        management_tab->connectLocalHost(-1, proto::peer::SESSION_TYPE_DESKTOP);
 }
 
 //--------------------------------------------------------------------------------------------------
