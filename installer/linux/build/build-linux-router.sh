@@ -198,23 +198,6 @@ install_packages()
 }
 
 # ---------------------------------------------------------------------------------------------
-# The patches of the ports of vcpkg.
-# ---------------------------------------------------------------------------------------------
-
-apply_patches()
-{
-    local script="${SCRIPT_DIR}/build-patches.sh"
-
-    if [[ ! -f "${script}" ]]; then
-        return
-    fi
-
-    # The ports of vcpkg live in another repository, and a change to one of them cannot be
-    # committed there from here. The patches are kept next to the sources instead.
-    bash "${script}"
-}
-
-# ---------------------------------------------------------------------------------------------
 # vcpkg
 # ---------------------------------------------------------------------------------------------
 
@@ -304,7 +287,6 @@ report()
 main()
 {
     install_packages
-    apply_patches
     bootstrap_vcpkg
 
     configure

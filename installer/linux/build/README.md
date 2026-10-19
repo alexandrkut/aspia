@@ -34,13 +34,12 @@ They are built from source, against the headers of the system, so that what come
 still speaks the glibc of that system: a binary built this way on buster runs on buster,
 on Ubuntu 18.04 and on anything newer.
 
-The patches
------------
+The fork of vcpkg
+----------------
 
-The ports of vcpkg live in another repository, and a change to a port of it cannot be
-committed there from here. The patch that lets the gui feature of qtbase be switched off
-is kept in `patches/` of this repository instead, and `build-patches.sh` puts it on the
-port. A port that already carries the change is left alone.
+The fork of vcpkg that Aspia builds against is in `vcpkg4aspia/` in this repository, so a
+change to a port of it is an ordinary commit and the build needs nothing put on it by
+hand.
 
 The router without a window
 ----------------------------
