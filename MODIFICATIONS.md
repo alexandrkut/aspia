@@ -115,6 +115,20 @@ the system, so that what comes out still speaks the glibc of that system.
 
 The README beside them tells the order and the reason of each piece.
 
+### The scripts of the build on Windows
+
+`installer/windows/build/` holds the scripts that build Aspia on Windows the way the CI
+does, and that fetch what the build needs before it starts. They are the counterpart of
+the scripts for Linux, and they were written for this fork: vcpkg downloads the sources
+of its ports one at a time, and the mirrors it uses stall now and then - a connection is
+accepted and the body never comes, and vcpkg waits instead of failing over.
+
+`fetch-sources.ps1` fetches the sources with several threads at once and checks them
+against the hashes the ports declare, which is what makes the three hundred megabytes of
+the Qt sources take minutes instead of an hour. `build-supervisor.ps1` watches a build
+that is already running and deals with such a stall when it sees one, and
+`build-status.ps1` is a snapshot of the build.
+
 
 The fixes
 ---------
