@@ -23,8 +23,10 @@
 #include <QMainWindow>
 #include <QPointer>
 
+#include <functional>
 #include <memory>
 
+#include "base/peer/host_id.h"
 #include "client/desktop/tab.h"
 #include "client/mcp/mcp_controller.h"
 
@@ -43,6 +45,7 @@ class ManagementTab;
 class SearchDialog;
 class QLineEdit;
 class HostConfig;
+class LocalHostConfig;
 
 class MainWindow final
     : public QMainWindow,
@@ -74,9 +77,28 @@ signals:
     void sig_lockRequested();
 
 private:
-    // The address book record behind |identifier|: the record ID when the identifier is one, and
-    // otherwise the record whose address is that host ID. -1 when no record matches.
-    qint64 findEntryId(const QString& identifier) const;
+    // What an identifier of the command line was resolved to: a record of the local address book,
+    // or a host that lives only in the book of a router and has no record of its own here.
+    struct ConnectTarget
+    {
+        qint64 entry_id = 0;
+        qint64 router_id = 0;
+        HostId host_id = kInvalidHostId;
+        QString name;
+    };
+
+    // Finds what |identifier| names, looking first for a record ID of the address book and then
+    // for a host ID - in the local book first and in the books of the routers after it.
+    bool resolveTarget(const QString& identifier, ConnectTarget* target) const;
+
+    // Runs |action| once the router is online, or right away when it already is or when the host
+    // needs no router at all. A request from the command line arrives before any router connection
+    // exists, and a session opened then is only told the router is offline.
+    void runWhenRouterOnline(qint64 router_id, std::function<void()> action);
+
+    // How long a connection asked for on the command line waits for the router of the host before
+    // it is given up on.
+    static constexpr int kRouterWaitTimeout = 60000;
 
 protected:
     // QMainWindow implementation.

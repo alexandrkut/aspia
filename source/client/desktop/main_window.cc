@@ -385,27 +385,73 @@ void MainWindow::connectToLocalHost(const QString& identifier, int session_type,
 
     // A forwarded request carries the credentials it was given; a request of the first instance
     // does not, and empty ones mean "the ones of the record".
-    const bool with_credentials = !username.isEmpty() && !password.isEmpty();
-
-    if (with_credentials)
+    if (!username.isEmpty())
         LOG(INFO) << "Credentials given on the command line for the host";
 
     showAndActivate();
 
-    // Everything else (the router the host belongs to, the credentials it points at, the connect
-    // time) is resolved by the management tab, the same way it is for a connection started from
-    // the host list. The authorization dialog of the session only opens for a host that ends up
-    // with no login or no password at all.
-    if (ManagementTab* management_tab = managementTab())
+    ConnectTarget target;
+
+    if (!resolveTarget(identifier, &target))
     {
-        management_tab->connectLocalHost(findEntryId(identifier),
-                                         static_cast<proto::peer::SessionType>(session_type),
-                                         username, SecureString(password));
+        // The lookup has already said in the log that there is no such host; what follows is what
+        // produces the message the user sees, the same one a record that is not there gives.
+        if (ManagementTab* management_tab = managementTab())
+            management_tab->connectLocalHost(-1, static_cast<proto::peer::SessionType>(session_type));
+        return;
+    }
+
+    const proto::peer::SessionType type = static_cast<proto::peer::SessionType>(session_type);
+
+    if (target.entry_id > 0)
+    {
+        LocalHostConfig entry;
+
+        if (Database::instance().findLocalHost(target.entry_id, &entry) == Database::FindResult::FOUND)
+        {
+            const SecureString forced_password(password);
+            const qint64 router_id = entry.routerId();
+
+            runWhenRouterOnline(router_id, [this, entry_id = entry.id(), type, username, forced_password]
+            {
+                if (ManagementTab* management_tab = managementTab())
+                    management_tab->connectLocalHost(entry_id, type, username, forced_password);
+            });
+            return;
+        }
+    }
+    else
+    {
+        // A host that lives only in the book of a router: it has no record of its own here, and
+        // the session is opened through the router the host belongs to. The login and the password
+        // of such a host are the ones stored with it, and are picked up the same way a click on
+        // the host list of that router picks them up.
+        const qint64 router_id = target.router_id;
+        const HostId host_id = target.host_id;
+        const QString name = target.name;
+        const bool with_credentials = !username.isEmpty();
+        const SecureString forced_password(password);
+
+        runWhenRouterOnline(router_id, [this, router_id, host_id, name, type, username,
+                                       forced_password, with_credentials]
+        {
+            HostConfig host = HostConfig::forRouterHost(router_id, host_id, name);
+
+            if (with_credentials)
+            {
+                host.setUsername(username);
+                host.setPassword(forced_password);
+                host.setForcedCredentials(true);
+            }
+
+            if (ManagementTab* management_tab = managementTab())
+                management_tab->connectRouterHost(host, type);
+        });
     }
 }
 
 //--------------------------------------------------------------------------------------------------
-qint64 MainWindow::findEntryId(const QString& identifier) const
+bool MainWindow::resolveTarget(const QString& identifier, ConnectTarget* target) const
 {
     Database& db = Database::instance();
 
@@ -414,33 +460,97 @@ qint64 MainWindow::findEntryId(const QString& identifier) const
     LocalHostConfig entry;
 
     if (db.findLocalHost(identifier.toLongLong(), &entry) == Database::FindResult::FOUND)
-        return entry.id();
-
-    // And then as the ID of a host, which is the number a connection to it is made with. The
-    // record that carries it is the one that holds that ID in its address, which is what the
-    // "Address / ID" column of the host list shows.
-    QList<LocalHostConfig> hosts;
-
-    if (db.allLocalHosts(&hosts) != Database::ReadResult::OK)
     {
-        LOG(ERROR) << "Unable to read the address book";
-        return -1;
+        *target = ConnectTarget();
+        target->entry_id = entry.id();
+        return true;
     }
 
-    for (const LocalHostConfig& host : std::as_const(hosts))
+    // And then as the ID of a host, which is the number a connection to it is made with and the
+    // one the "Address / ID" column shows. Two places hold it: the address of a record of the
+    // local book, and the key of a host in the book of a router.
+    QList<LocalHostConfig> local_hosts;
+
+    if (db.allLocalHosts(&local_hosts) == Database::ReadResult::OK)
     {
-        if (host.address().compare(identifier, Qt::CaseInsensitive) == 0)
+        for (const LocalHostConfig& host : std::as_const(local_hosts))
         {
-            LOG(INFO) << "Host ID" << identifier << "belongs to the address book record"
-                      << host.id() << "(" << host.name() << ")";
-            return host.id();
+            if (host.address().compare(identifier, Qt::CaseInsensitive) == 0)
+            {
+                LOG(INFO) << "Host ID" << identifier << "belongs to the address book record"
+                          << host.id() << "(" << host.name() << ")";
+                *target = ConnectTarget();
+                target->entry_id = host.id();
+                return true;
+            }
         }
     }
 
-    LOG(ERROR) << "No record of the address book holds the ID" << identifier;
+    QList<RouterHostConfig> router_hosts;
 
-    // Nothing found: the management tab reports it the way it reports any record that is not there.
-    return -1;
+    if (db.allRouterHosts(&router_hosts) == Database::ReadResult::OK)
+    {
+        for (const RouterHostConfig& host : std::as_const(router_hosts))
+        {
+            if (hostIdToString(host.hostId()) != identifier)
+                continue;
+
+            LOG(INFO) << "Host ID" << identifier << "belongs to the book of router"
+                      << host.routerId();
+
+            *target = ConnectTarget();
+            target->router_id = host.routerId();
+            target->host_id = host.hostId();
+            return true;
+        }
+    }
+
+    LOG(ERROR) << "No local record and no router host holds the ID" << identifier;
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+void MainWindow::runWhenRouterOnline(qint64 router_id, std::function<void()> action)
+{
+    // A host of no router is reached directly and needs nothing but itself.
+    if (router_id <= 0 || RouterController::status(router_id) == RouterStatus::ONLINE)
+    {
+        action();
+        return;
+    }
+
+    // Started from the command line, the request arrives while the client is still starting: the
+    // router connection has not been made yet, and a session opened now would only be told that
+    // the router is offline. A click on the host list never meets this, because by then the
+    // application has been running for a while. So the request waits for the router to come online.
+    LOG(INFO) << "Router" << router_id << "of the host is not online yet, waiting for it";
+
+    // One action and one wait per router: a status of another router says nothing about this one.
+    auto done = std::make_shared<bool>(false);
+
+    // The wait gives up on its own: a router that never comes online leaves the host as it was
+    // rather than a request hanging with nothing to report.
+    QTimer::singleShot(kRouterWaitTimeout, this, [router_id, done]()
+    {
+        if (*done)
+            return;
+
+        LOG(ERROR) << "Router" << router_id << "did not come online, the host is left unconnected";
+        *done = true;
+    });
+
+    QObject::connect(&RouterController::instance(), &RouterController::sig_statusChanged, this,
+                     [router_id, action, done](qint64 changed_router_id, RouterStatus status)
+    {
+        if (*done || changed_router_id != router_id || status != RouterStatus::ONLINE)
+            return;
+
+        *done = true;
+        LOG(INFO) << "Router" << router_id << "is online, connecting to the host";
+
+        action();
+    });
 }
 
 //--------------------------------------------------------------------------------------------------
