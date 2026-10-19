@@ -15,7 +15,7 @@
 Windows добавлены скрипты.
 
 Базой взят тег `v3.1.1` апстрима, всё описанное ниже — то, что эта ветка к нему
-добавляет. Обе возможности собраны в одной ветке, `router-2fa`:
+добавляет. Обе возможности собраны в одной ветке, `master`:
 
     fadf56d  Keep the scripts that build the router for Linux
     d9dcd4a  Fix what kept the service and the package from working

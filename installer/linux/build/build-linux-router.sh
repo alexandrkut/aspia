@@ -73,7 +73,7 @@ if [[ ! -f "${SRC_DIR}/CMakePresets.json" ]]; then
     echo "The sources are not at ${SRC_DIR}." >&2
     echo "Set WORK_DIR to the directory that holds the aspia checkout, or clone it there:" >&2
     echo "    sudo mkdir -p ${WORK_DIR} && sudo chown \$USER ${WORK_DIR}" >&2
-    echo "    git clone -b router-2fa https://github.com/alexandrkut/aspia.git ${SRC_DIR}" >&2
+    echo "    git clone https://github.com/alexandrkut/aspia.git ${SRC_DIR}" >&2
     exit 1
 fi
 
