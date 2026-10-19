@@ -269,6 +269,7 @@ else()
 
         if (NOT ASPIA_HOST_ONLY)
             add_subdirectory(relay)
+            add_subdirectory(router)
         endif()
     endif()
 
