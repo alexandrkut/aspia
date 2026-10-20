@@ -4972,7 +4972,7 @@ Credenciais importadas: %5</translation>
     </message>
     <message>
         <location filename="../client/desktop/main_window.ui" line="20"/>
-        <location filename="../client/desktop/main_window.cc" line="925"/>
+        <location filename="../client/desktop/main_window.cc" line="926"/>
         <source>Aspia Client</source>
         <translation>Aspia Client</translation>
     </message>
@@ -5092,22 +5092,27 @@ Credenciais importadas: %5</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1022"/>
+        <location filename="../client/desktop/main_window.cc" line="923"/>
+        <source>The icon of the screen of all the monitors at once</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/main_window.cc" line="1023"/>
         <source>Connection by ID is specified in the properties of the host, but the router is not configured. Check the parameters of the router in the properties of the host.</source>
         <translation>A ligação por ID está especificada nas propriedades do anfitrião, mas o router não está configurado. Verifique os parâmetros do router nas propriedades do anfitrião.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1289"/>
+        <location filename="../client/desktop/main_window.cc" line="1290"/>
         <source>Unknown application</source>
         <translation>Aplicação desconhecida</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1292"/>
+        <location filename="../client/desktop/main_window.cc" line="1293"/>
         <source>MCP Connector. Connected: %1</source>
         <translation>Conector MCP. Aplicações ligadas: %1</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1293"/>
+        <location filename="../client/desktop/main_window.cc" line="1294"/>
         <source>%1 - AI is connected</source>
         <translation>%1 - IA ligada</translation>
     </message>

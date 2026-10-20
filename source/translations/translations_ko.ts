@@ -4916,7 +4916,7 @@ Credentials imported: %5</source>
     <name>MainWindow</name>
     <message>
         <location filename="../client/desktop/main_window.ui" line="20"/>
-        <location filename="../client/desktop/main_window.cc" line="925"/>
+        <location filename="../client/desktop/main_window.cc" line="926"/>
         <source>Aspia Client</source>
         <translation>Aspia 클라이언트</translation>
     </message>
@@ -5067,22 +5067,27 @@ Credentials imported: %5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1022"/>
+        <location filename="../client/desktop/main_window.cc" line="923"/>
+        <source>The icon of the screen of all the monitors at once</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/main_window.cc" line="1023"/>
         <source>Connection by ID is specified in the properties of the host, but the router is not configured. Check the parameters of the router in the properties of the host.</source>
         <translation>호스트 속성에 ID로 연결하도록 지정되어 있지만 라우터가 구성되지 않았습니다. 호스트 속성에서 라우터 설정을 확인하십시오.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1289"/>
+        <location filename="../client/desktop/main_window.cc" line="1290"/>
         <source>Unknown application</source>
         <translation>알 수 없는 응용 프로그램</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1292"/>
+        <location filename="../client/desktop/main_window.cc" line="1293"/>
         <source>MCP Connector. Connected: %1</source>
         <translation>MCP 커넥터. 연결됨: %1</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1293"/>
+        <location filename="../client/desktop/main_window.cc" line="1294"/>
         <source>%1 - AI is connected</source>
         <translation>%1 - AI 연결됨</translation>
     </message>

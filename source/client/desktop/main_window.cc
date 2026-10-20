@@ -919,7 +919,8 @@ void MainWindow::onAbout()
     // host are of no use to the person who uses the client.
     const QStringList modifications =
     {
-        tr("Connect to a host by its ID from the command line")
+        tr("Connect to a host by its ID from the command line"),
+        tr("The icon of the screen of all the monitors at once")
     };
 
     AutoQPointer<AboutDialog> dialog(new AboutDialog(tr("Aspia Client"), modifications, this));

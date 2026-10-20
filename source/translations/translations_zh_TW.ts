@@ -4942,7 +4942,7 @@ Credentials imported: %5</source>
     </message>
     <message>
         <location filename="../client/desktop/main_window.ui" line="20"/>
-        <location filename="../client/desktop/main_window.cc" line="925"/>
+        <location filename="../client/desktop/main_window.cc" line="926"/>
         <source>Aspia Client</source>
         <translation>Aspia Client</translation>
     </message>
@@ -5067,22 +5067,27 @@ Credentials imported: %5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1022"/>
+        <location filename="../client/desktop/main_window.cc" line="923"/>
+        <source>The icon of the screen of all the monitors at once</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/main_window.cc" line="1023"/>
         <source>Connection by ID is specified in the properties of the host, but the router is not configured. Check the parameters of the router in the properties of the host.</source>
         <translation>主機的內容中指定了以 ID 連線，但尚未設定路由器。請檢查主機內容中的路由器參數。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1289"/>
+        <location filename="../client/desktop/main_window.cc" line="1290"/>
         <source>Unknown application</source>
         <translation>未知應用程式</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1292"/>
+        <location filename="../client/desktop/main_window.cc" line="1293"/>
         <source>MCP Connector. Connected: %1</source>
         <translation>MCP 連接器。已連線：%1</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1293"/>
+        <location filename="../client/desktop/main_window.cc" line="1294"/>
         <source>%1 - AI is connected</source>
         <translation>%1 - AI 已連線</translation>
     </message>

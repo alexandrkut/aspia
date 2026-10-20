@@ -76,7 +76,13 @@ done
 #--------------------------------------------------------------------------------------------------
 version_part() { sed -n "s/^set(ASPIA_VERSION_$1 \([^)]*\))/\1/p" "$SOURCE_ROOT/CMakeLists.txt" | tr -d '\r'; }
 
-VERSION="$(version_part MAJOR).$(version_part MINOR).$(version_part PATCH)"
+# The version of the package is the version of the program: the three numbers of the sources
+# and the number of the commits behind them, which is the fourth number of the version the
+# program shows in the window "About". The package of the same version replaces the old one,
+# so the number grows with the commits and nobody has to raise it by hand.
+COMMIT_COUNT="$(git -C "$SOURCE_ROOT" rev-list --count HEAD 2> /dev/null || echo 0)"
+
+VERSION="$(version_part MAJOR).$(version_part MINOR).$(version_part PATCH).${COMMIT_COUNT}"
 
 # The version the binary carries also has the suffix of a build that is not the released
 # one, and the package version cannot have it: a hyphen starts the revision there.
