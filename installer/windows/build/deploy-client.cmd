@@ -21,6 +21,15 @@ if not exist "%package%" (
     exit /b 1
 )
 
+rem The installation writes to Program Files and takes the previous version away, so it needs
+rem the rights of an administrator. A silent installation cannot ask for them: the window of
+rem the request is not shown in the quiet mode.
+net session > nul 2>&1
+if errorlevel 1 (
+    echo The rights of an administrator are needed. Run it from a command prompt as an administrator.
+    exit /b 1
+)
+
 echo Installing %package%...
 msiexec /i "%package%" /qn /norestart
 
