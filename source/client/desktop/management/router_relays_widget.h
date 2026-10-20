@@ -29,13 +29,9 @@ namespace Ui {
 class RouterRelaysWidget;
 } // namespace Ui
 
-class QLabel;
-class QStatusBar;
-
 namespace proto::router {
 class PeerResult;
 class RelayList;
-class RelayResult;
 } // namespace proto::router
 
 class RouterRelaysWidget final : public ContentWidget
@@ -48,8 +44,7 @@ public:
 
     void showRouter(qint64 router_id);
     qint64 routerId() const { return router_id_; }
-    bool hasSelectedRelay() const;
-    int relayCount() const;
+    int selectedRelayCount() const;
 
     void copyCurrentRelayRow();
     void copyCurrentRelayColumn(int column);
@@ -61,12 +56,9 @@ public:
     void reload() final;
     bool canSave() const final { return true; }
     void save() final;
-    void activate(QStatusBar* statusbar) final;
-    void deactivate(QStatusBar* statusbar) final;
 
 public slots:
     void onDisconnectRelay();
-    void onDisconnectAllRelays();
 
 signals:
     void sig_currentChanged();
@@ -78,23 +70,21 @@ private slots:
     void onPeerContextMenu(const QPoint& pos);
     void onHeaderContextMenu(const QPoint& pos);
     void onRelayListReceived(const proto::router::RelayList& relays);
-    void onRelayResultReceived(const proto::router::RelayResult& result);
     void onPeerResultReceived(const proto::router::PeerResult& result);
 
 private:
     void fetchRelays();
     void updateRelayStatistics();
-    void updateStatusLabel();
 
     // The relay and the pair of peers of the rows the user is on, or null when the lists are empty.
     const proto::router::RelayInfo* currentRelay() const;
     const proto::router::Peer* currentPeer() const;
+    QList<proto::router::RelayInfo> selectedRelays() const;
 
     std::unique_ptr<Ui::RouterRelaysWidget> ui;
     RelayListModel* relay_model_ = nullptr;
     PeerListModel* peer_model_ = nullptr;
     qint64 router_id_ = 0;
-    QLabel* status_relays_label_ = nullptr;
 
     Q_DISABLE_COPY_MOVE(RouterRelaysWidget)
 };

@@ -74,6 +74,24 @@ bool isHostFilterValid(const proto::router::HostFilter& filter)
             return false;
     }
 
+    const std::string_view texts[] =
+        { filter.address(), filter.os_name(), filter.version(), filter.cpu_arch(), filter.display_name() };
+
+    for (std::string_view text : texts)
+    {
+        if (text.size() > proto::router::kMaxHostQueryLength)
+            return false;
+    }
+
+    if (filter.host_id().size() > proto::router::kMaxHostIdLength)
+        return false;
+
+    for (char symbol : filter.host_id())
+    {
+        if (symbol < '0' || symbol > '9')
+            return false;
+    }
+
     return true;
 }
 
@@ -117,15 +135,19 @@ std::string hostFilterClause(const proto::router::HostFilter& filter)
     std::vector<std::string> conditions;
 
     if (filter.workspace_id_size() > 0)
-        conditions.push_back(strCat({"workspace_id IN (", placeholders(filter.workspace_id_size()), ")"}));
+        conditions.emplace_back(strCat({"workspace_id IN (", placeholders(filter.workspace_id_size()), ")"}));
     if (!filter.address().empty())
-        conditions.push_back("address LIKE ? ESCAPE '\\'");
+        conditions.emplace_back("address LIKE ? ESCAPE '\\'");
     if (!filter.os_name().empty())
-        conditions.push_back("os_name LIKE ? ESCAPE '\\'");
+        conditions.emplace_back("os_name LIKE ? ESCAPE '\\'");
     if (!filter.version().empty())
-        conditions.push_back("version LIKE ? ESCAPE '\\'");
+        conditions.emplace_back("version LIKE ? ESCAPE '\\'");
     if (!filter.cpu_arch().empty())
-        conditions.push_back("cpu_arch LIKE ? ESCAPE '\\'");
+        conditions.emplace_back("cpu_arch LIKE ? ESCAPE '\\'");
+    if (!filter.display_name().empty())
+        conditions.emplace_back("casefold(display_name) LIKE casefold(?) ESCAPE '\\'");
+    if (!filter.host_id().empty())
+        conditions.emplace_back("CAST(id AS TEXT) LIKE ? ESCAPE '\\'");
 
     if (conditions.empty())
         return std::string();
@@ -149,6 +171,10 @@ void bindHostFilter(const proto::router::HostFilter& filter, SqlQuery* query)
         query->addText(substringPattern(filter.version()));
     if (!filter.cpu_arch().empty())
         query->addText(substringPattern(filter.cpu_arch()));
+    if (!filter.display_name().empty())
+        query->addText(substringPattern(filter.display_name()));
+    if (!filter.host_id().empty())
+        query->addText(substringPattern(filter.host_id()));
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2041,6 +2067,13 @@ void Database::searchHosts(std::string_view query_text, const std::set<qint64>& 
         return;
     }
 
+    if (query_text.size() > proto::router::kMaxHostQueryLength)
+    {
+        LOG(ERROR) << "Host search query is too long:" << query_text.size();
+        out->set_error_code(proto::router::kErrorInvalidRequest);
+        return;
+    }
+
     if (workspace_ids.empty() || query_text.empty())
     {
         out->set_total_count(0);
@@ -2072,6 +2105,7 @@ void Database::searchHosts(std::string_view query_text, const std::set<qint64>& 
     const std::string where =
         " FROM hosts WHERE workspace_id IN (" + placeholders + ") "
         "AND (casefold(display_name) LIKE casefold(?) ESCAPE '\\' "
+        "OR casefold(comment) LIKE casefold(?) ESCAPE '\\' "
         "OR CAST(id AS TEXT) LIKE ? ESCAPE '\\')";
 
     // A zero count from a failed query would make the client truncate its pagination while the
@@ -2087,6 +2121,7 @@ void Database::searchHosts(std::string_view query_text, const std::set<qint64>& 
 
     for (qint64 workspace_id : workspace_ids)
         count_query.addInt64(workspace_id);
+    count_query.addText(pattern);
     count_query.addText(pattern);
     count_query.addText(pattern);
 
@@ -2116,6 +2151,7 @@ void Database::searchHosts(std::string_view query_text, const std::set<qint64>& 
 
     for (qint64 workspace_id : workspace_ids)
         query.addInt64(workspace_id);
+    query.addText(pattern);
     query.addText(pattern);
     query.addText(pattern);
     query.addInt64(count);

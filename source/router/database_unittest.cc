@@ -474,6 +474,14 @@ TEST_F(RouterDatabaseTest, HostsRefusesAnInvalidFilter)
     for (int i = 0; i < proto::router::kMaxHostFilterWorkspaces; ++i)
         at_limit.add_workspace_id(i);
 
+    const std::string text_at_limit(proto::router::kMaxHostQueryLength, 'a');
+    at_limit.set_address(text_at_limit);
+    at_limit.set_os_name(text_at_limit);
+    at_limit.set_version(text_at_limit);
+    at_limit.set_cpu_arch(text_at_limit);
+    at_limit.set_display_name(text_at_limit);
+    at_limit.set_host_id(std::string(proto::router::kMaxHostIdLength, '9'));
+
     proto::router::HostList accepted;
     db_.hosts(at_limit, 0, proto::router::kMaxHostPageSize, &accepted);
     EXPECT_EQ(accepted.error_code(), proto::router::kErrorOk);
@@ -484,7 +492,32 @@ TEST_F(RouterDatabaseTest, HostsRefusesAnInvalidFilter)
     proto::router::HostFilter negative_workspace;
     negative_workspace.add_workspace_id(-1);
 
-    for (const proto::router::HostFilter& filter : { over_limit, negative_workspace })
+    const std::string long_text(proto::router::kMaxHostQueryLength + 1, 'a');
+
+    proto::router::HostFilter long_address;
+    long_address.set_address(long_text);
+
+    proto::router::HostFilter long_os_name;
+    long_os_name.set_os_name(long_text);
+
+    proto::router::HostFilter long_version;
+    long_version.set_version(long_text);
+
+    proto::router::HostFilter long_cpu_arch;
+    long_cpu_arch.set_cpu_arch(long_text);
+
+    proto::router::HostFilter long_display_name;
+    long_display_name.set_display_name(long_text);
+
+    proto::router::HostFilter long_host_id;
+    long_host_id.set_host_id(std::string(proto::router::kMaxHostIdLength + 1, '1'));
+
+    proto::router::HostFilter non_digit_host_id;
+    non_digit_host_id.set_host_id("12a");
+
+    for (const proto::router::HostFilter& filter : { over_limit, negative_workspace, long_address, long_os_name,
+                                                     long_version, long_cpu_arch, long_display_name, long_host_id,
+                                                     non_digit_host_id })
     {
         proto::router::HostList list;
         db_.hosts(filter, 0, proto::router::kMaxHostPageSize, &list);
@@ -538,6 +571,86 @@ TEST_F(RouterDatabaseTest, HostFilterMatchesTheAddressLiterally)
             const HostId expected = std::string_view(test_case.address).starts_with("192") ? plain : special;
             EXPECT_EQ(list.host(0).host_id(), expected) << test_case.address;
         }
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+// The display name is typed by the user in any letter case, the Cyrillic one included.
+TEST_F(RouterDatabaseTest, HostFilterMatchesTheDisplayNameInAnyCase)
+{
+    const HostId latin = addHost("hash-1");
+    const HostId cyrillic = addHost("hash-2");
+    ASSERT_NE(latin, kInvalidHostId);
+    ASSERT_NE(cyrillic, kInvalidHostId);
+
+    // A capitalized Cyrillic name and a lowercase part of it.
+    const char kCyrillicName[] = "\xd0\xa1\xd0\xb5\xd1\x80\xd0\xb2\xd0\xb5\xd1\x80 1";
+    const char kCyrillicPart[] = "\xd1\x81\xd0\xb5\xd1\x80\xd0\xb2";
+
+    ASSERT_EQ(db_.modifyHost(latin, findHost(latin).revision(), 0, 0, "Office PC", std::string_view()),
+              proto::router::kErrorOk);
+    ASSERT_EQ(db_.modifyHost(cyrillic, findHost(cyrillic).revision(), 0, 0, kCyrillicName, std::string_view()),
+              proto::router::kErrorOk);
+
+    const struct { const char* name; HostId host_id; } kCases[] = {
+        { "OFFICE", latin },
+        { "ce p", latin },
+        { kCyrillicPart, cyrillic }
+    };
+
+    for (const auto& test_case : kCases)
+    {
+        proto::router::HostFilter filter;
+        filter.set_display_name(test_case.name);
+
+        qint64 count = 0;
+        ASSERT_EQ(db_.hostCount(filter, &count), proto::router::kErrorOk) << test_case.name;
+        EXPECT_EQ(count, 1) << test_case.name;
+
+        proto::router::HostList list;
+        db_.hosts(filter, 0, proto::router::kMaxHostPageSize, &list);
+        ASSERT_EQ(list.error_code(), proto::router::kErrorOk) << test_case.name;
+        ASSERT_EQ(list.host_size(), 1) << test_case.name;
+        EXPECT_EQ(list.host(0).host_id(), test_case.host_id) << test_case.name;
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+// The ID is matched as a part of its decimal form, like the host search does it.
+TEST_F(RouterDatabaseTest, HostFilterMatchesAPartOfTheId)
+{
+    QList<HostId> host_ids;
+    for (int i = 0; i < 12; ++i)
+    {
+        const HostId host_id = addHost("hash-" + std::to_string(i));
+        ASSERT_NE(host_id, kInvalidHostId);
+        host_ids.append(host_id);
+    }
+
+    for (const std::string& text : { std::to_string(host_ids.first()), std::to_string(host_ids.last()) })
+    {
+        QList<HostId> matches;
+        for (HostId host_id : std::as_const(host_ids))
+        {
+            if (std::to_string(host_id).find(text) != std::string::npos)
+                matches.append(host_id);
+        }
+
+        proto::router::HostFilter filter;
+        filter.set_host_id(text);
+
+        qint64 count = 0;
+        ASSERT_EQ(db_.hostCount(filter, &count), proto::router::kErrorOk) << text;
+        EXPECT_EQ(count, matches.size()) << text;
+
+        proto::router::HostList list;
+        db_.hosts(filter, 0, proto::router::kMaxHostPageSize, &list);
+        ASSERT_EQ(list.error_code(), proto::router::kErrorOk) << text;
+
+        QList<HostId> found;
+        for (const proto::router::Host& host : list.host())
+            found.append(host.host_id());
+        EXPECT_EQ(found, matches) << text;
     }
 }
 

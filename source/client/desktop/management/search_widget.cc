@@ -33,7 +33,6 @@
 #include <QMenu>
 #include <QPainter>
 #include <QSignalBlocker>
-#include <QStatusBar>
 #include <QStyledItemDelegate>
 #include <QTextDocument>
 #include <QTextOption>
@@ -228,8 +227,7 @@ private:
 
 //--------------------------------------------------------------------------------------------------
 SearchWidget::SearchWidget(QWidget* parent)
-    : ContentWidget(Type::SEARCH, parent),
-      status_results_label_(new QLabel(this))
+    : ContentWidget(Type::SEARCH, parent)
 {
     LOG(INFO) << "Ctor";
 
@@ -306,15 +304,19 @@ SearchWidget::SearchWidget(QWidget* parent)
     button_next_->setIcon(QIcon(":/img/arrow-right.svg"));
     button_next_->setIconOnRight(true);
 
+    label_count_ = new QLabel(this);
+
     connect(button_prev_, &QToolButton::clicked, this, &SearchWidget::onPrevClicked);
     connect(button_next_, &QToolButton::clicked, this, &SearchWidget::onNextClicked);
     connect(combo_page_, &QComboBox::currentIndexChanged, this, &SearchWidget::onPageChanged);
 
     QHBoxLayout* pagination_layout = new QHBoxLayout();
+    pagination_layout->setContentsMargins(0, 0, 6, 6);
     pagination_layout->addWidget(button_prev_);
     pagination_layout->addWidget(combo_page_);
     pagination_layout->addWidget(button_next_);
     pagination_layout->addStretch();
+    pagination_layout->addWidget(label_count_);
 
     layout->addWidget(tree_host_);
     layout->addLayout(pagination_layout);
@@ -346,7 +348,7 @@ void SearchWidget::search(const QString& query)
     {
         router_search_timer_->stop();
         updatePagination();
-        updateStatusLabels();
+        updateCountLabel();
         return;
     }
 
@@ -594,7 +596,7 @@ void SearchWidget::showCurrentPage()
 
     model_->setRows(rows);
 
-    updateStatusLabels();
+    updateCountLabel();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -660,7 +662,7 @@ void SearchWidget::clear()
     local_groups_.clear();
 
     updatePagination();
-    updateStatusLabels();
+    updateCountLabel();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -724,7 +726,7 @@ void SearchWidget::removeItem(qint64 entry_id)
         tree_host_->setFocus();
     }
 
-    updateStatusLabels();
+    updateCountLabel();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -756,28 +758,6 @@ void SearchWidget::restoreState(const QByteArray& state)
 }
 
 //--------------------------------------------------------------------------------------------------
-void SearchWidget::activate(QStatusBar* statusbar)
-{
-    if (!statusbar)
-        return;
-
-    updateStatusLabels();
-
-    statusbar->addWidget(status_results_label_);
-    status_results_label_->show();
-}
-
-//--------------------------------------------------------------------------------------------------
-void SearchWidget::deactivate(QStatusBar* statusbar)
-{
-    if (!statusbar)
-        return;
-
-    statusbar->removeWidget(status_results_label_);
-    status_results_label_->setParent(this);
-}
-
-//--------------------------------------------------------------------------------------------------
 void SearchWidget::onHeaderContextMenu(const QPoint& pos)
 {
     QPointer<QHeaderView> header = tree_host_->header();
@@ -800,10 +780,9 @@ void SearchWidget::onHeaderContextMenu(const QPoint& pos)
 }
 
 //--------------------------------------------------------------------------------------------------
-void SearchWidget::updateStatusLabels()
+void SearchWidget::updateCountLabel()
 {
     // The count is of the whole result and not of the page: the page is what the user can
     // see, the count is what they can reach.
-    status_results_label_->setText(
-        tr("%n result(s)", "", static_cast<int>(page_model_.totalCount())));
+    label_count_->setText(tr("%n result(s)", "", static_cast<int>(page_model_.totalCount())));
 }

@@ -61,24 +61,24 @@ McpController::McpController(MainWindow* main_window, QObject* parent)
     CHECK(!g_instance);
     g_instance = this;
 
-    tools_.push_back(std::make_unique<FindLocalHostsTool>());
-    tools_.push_back(std::make_unique<ListLocalGroupsTool>());
-    tools_.push_back(std::make_unique<CheckLocalHostsTool>());
-    tools_.push_back(std::make_unique<ConnectLocalHostTool>());
-    tools_.push_back(std::make_unique<ListRoutersTool>());
-    tools_.push_back(std::make_unique<FindRouterHostsTool>());
-    tools_.push_back(std::make_unique<ListRouterGroupsTool>());
-    tools_.push_back(std::make_unique<CheckRouterHostsTool>());
-    tools_.push_back(std::make_unique<ListQuickSupportHostsTool>());
-    tools_.push_back(std::make_unique<ConnectRouterHostTool>());
-    tools_.push_back(std::make_unique<ListClientsTool>());
-    tools_.push_back(std::make_unique<ShowClientTool>());
-    tools_.push_back(std::make_unique<CloseClientTool>());
-    tools_.push_back(std::make_unique<DesktopClientTool>());
-    tools_.push_back(std::make_unique<FileTransferClientTool>());
-    tools_.push_back(std::make_unique<TerminalClientTool>());
-    tools_.push_back(std::make_unique<SystemInfoClientTool>());
-    tools_.push_back(std::make_unique<ChatClientTool>());
+    tools_.emplace_back(std::make_unique<FindLocalHostsTool>());
+    tools_.emplace_back(std::make_unique<ListLocalGroupsTool>());
+    tools_.emplace_back(std::make_unique<CheckLocalHostsTool>());
+    tools_.emplace_back(std::make_unique<ConnectLocalHostTool>());
+    tools_.emplace_back(std::make_unique<ListRoutersTool>());
+    tools_.emplace_back(std::make_unique<FindRouterHostsTool>());
+    tools_.emplace_back(std::make_unique<ListRouterGroupsTool>());
+    tools_.emplace_back(std::make_unique<CheckRouterHostsTool>());
+    tools_.emplace_back(std::make_unique<ListQuickSupportHostsTool>());
+    tools_.emplace_back(std::make_unique<ConnectRouterHostTool>());
+    tools_.emplace_back(std::make_unique<ListClientsTool>());
+    tools_.emplace_back(std::make_unique<ShowClientTool>());
+    tools_.emplace_back(std::make_unique<CloseClientTool>());
+    tools_.emplace_back(std::make_unique<DesktopClientTool>());
+    tools_.emplace_back(std::make_unique<FileTransferClientTool>());
+    tools_.emplace_back(std::make_unique<TerminalClientTool>());
+    tools_.emplace_back(std::make_unique<SystemInfoClientTool>());
+    tools_.emplace_back(std::make_unique<ChatClientTool>());
 
     mcp_worker_ = GuiApplication::findWorker<McpWorker>();
     if (!mcp_worker_)
@@ -134,61 +134,61 @@ void McpController::setEnabled(bool enable)
 //--------------------------------------------------------------------------------------------------
 QList<McpController::ClientInfo> McpController::clients() const
 {
-    return main_window_->clients();
+    return main_window_->mcpClients();
 }
 
 //--------------------------------------------------------------------------------------------------
 McpController::DesktopWindow* McpController::desktopWindow(qint64 client_id) const
 {
-    return main_window_->desktopWindow(client_id);
+    return main_window_->mcpDesktopWindow(client_id);
 }
 
 //--------------------------------------------------------------------------------------------------
 McpController::FileTransferWindow* McpController::fileTransferWindow(qint64 client_id) const
 {
-    return main_window_->fileTransferWindow(client_id);
+    return main_window_->mcpFileTransferWindow(client_id);
 }
 
 //--------------------------------------------------------------------------------------------------
 McpController::TerminalWindow* McpController::terminalWindow(qint64 client_id) const
 {
-    return main_window_->terminalWindow(client_id);
+    return main_window_->mcpTerminalWindow(client_id);
 }
 
 //--------------------------------------------------------------------------------------------------
 McpController::SystemInfoWindow* McpController::systemInfoWindow(qint64 client_id) const
 {
-    return main_window_->systemInfoWindow(client_id);
+    return main_window_->mcpSystemInfoWindow(client_id);
 }
 
 //--------------------------------------------------------------------------------------------------
 McpController::ChatWindow* McpController::chatWindow(qint64 client_id) const
 {
-    return main_window_->chatWindow(client_id);
+    return main_window_->mcpChatWindow(client_id);
 }
 
 //--------------------------------------------------------------------------------------------------
 QString McpController::clientDialog(qint64 client_id) const
 {
-    return main_window_->clientDialog(client_id);
+    return main_window_->mcpClientDialog(client_id);
 }
 
 //--------------------------------------------------------------------------------------------------
 void McpController::closeClient(qint64 client_id)
 {
-    main_window_->closeClient(client_id);
+    main_window_->mcpCloseClient(client_id);
 }
 
 //--------------------------------------------------------------------------------------------------
 bool McpController::showClient(qint64 client_id)
 {
-    return main_window_->showClient(client_id);
+    return main_window_->mcpShowClient(client_id);
 }
 
 //--------------------------------------------------------------------------------------------------
 bool McpController::asksCredentials() const
 {
-    return main_window_->asksCredentials();
+    return main_window_->mcpAsksCredentials();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -196,7 +196,7 @@ void McpController::connectLocalHost(qint64 entry_id, proto::peer::SessionType s
 {
     QMetaObject::invokeMethod(this, [this, entry_id, session_type]()
     {
-        main_window_->connectLocalHost(entry_id, session_type);
+        main_window_->mcpConnectLocalHost(entry_id, session_type);
     }, Qt::QueuedConnection);
 }
 
@@ -205,7 +205,7 @@ void McpController::connectRouterHost(const HostConfig& host, proto::peer::Sessi
 {
     QMetaObject::invokeMethod(this, [this, host, session_type]()
     {
-        main_window_->connectRouterHost(host, session_type);
+        main_window_->mcpConnectRouterHost(host, session_type);
     }, Qt::QueuedConnection);
 }
 

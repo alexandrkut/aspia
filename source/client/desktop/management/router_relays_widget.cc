@@ -29,14 +29,13 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QLabel>
 #include <QMenu>
 #include <QSaveFile>
 #include <QSplitter>
-#include <QStatusBar>
 
 #include "base/auto_qpointer.h"
 #include "base/logging.h"
+#include "base/shared_pointer.h"
 #include "client/router_controller.h"
 #include "client/desktop/file_dialog.h"
 #include "client/desktop/management/ui_router_relays_widget.h"
@@ -49,8 +48,7 @@
 //--------------------------------------------------------------------------------------------------
 RouterRelaysWidget::RouterRelaysWidget(QWidget* parent)
     : ContentWidget(Type::ROUTER_RELAYS, parent),
-      ui(std::make_unique<Ui::RouterRelaysWidget>()),
-      status_relays_label_(new QLabel(this))
+      ui(std::make_unique<Ui::RouterRelaysWidget>())
 {
     LOG(INFO) << "Ctor";
     ui->setupUi(this);
@@ -58,6 +56,7 @@ RouterRelaysWidget::RouterRelaysWidget(QWidget* parent)
     relay_model_ = new RelayListModel(this);
     peer_model_ = new PeerListModel(this);
 
+    ui->tree_relays->setSelectionMode(QAbstractItemView::ExtendedSelection);
     ui->tree_relays->setModel(relay_model_);
     ui->tree_peers->setModel(peer_model_);
 
@@ -99,7 +98,6 @@ RouterRelaysWidget::RouterRelaysWidget(QWidget* parent)
         {
             relay_model_->clear();
             peer_model_->clear();
-            updateStatusLabel();
         }
     });
 }
@@ -117,20 +115,13 @@ void RouterRelaysWidget::showRouter(qint64 router_id)
 
     relay_model_->clear();
     peer_model_->clear();
-    updateStatusLabel();
     fetchRelays();
 }
 
 //--------------------------------------------------------------------------------------------------
-bool RouterRelaysWidget::hasSelectedRelay() const
+int RouterRelaysWidget::selectedRelayCount() const
 {
-    return currentRelay() != nullptr;
-}
-
-//--------------------------------------------------------------------------------------------------
-int RouterRelaysWidget::relayCount() const
-{
-    return relay_model_->rowCount();
+    return static_cast<int>(ui->tree_relays->selectionModel()->selectedRows().size());
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -323,43 +314,31 @@ void RouterRelaysWidget::save()
 }
 
 //--------------------------------------------------------------------------------------------------
-void RouterRelaysWidget::activate(QStatusBar* statusbar)
-{
-    if (!statusbar)
-        return;
-
-    updateStatusLabel();
-
-    statusbar->addWidget(status_relays_label_);
-    status_relays_label_->show();
-}
-
-//--------------------------------------------------------------------------------------------------
-void RouterRelaysWidget::deactivate(QStatusBar* statusbar)
-{
-    if (!statusbar)
-        return;
-
-    statusbar->removeWidget(status_relays_label_);
-    status_relays_label_->setParent(this);
-}
-
-//--------------------------------------------------------------------------------------------------
 void RouterRelaysWidget::onDisconnectRelay()
 {
-    const proto::router::RelayInfo* relay = currentRelay();
-    if (!relay)
+    const QList<proto::router::RelayInfo> relays = selectedRelays();
+    if (relays.isEmpty())
     {
         LOG(INFO) << "No selected relay";
         return;
     }
 
-    const qint64 entry_id = relay->entry_id();
+    const int total = static_cast<int>(relays.size());
 
-    if (MsgBox::question(this, tr("Are you sure you want to disconnect relay \"%1\"?")
-        .arg(QString::fromStdString(relay->ip_address()))) != MsgBox::Yes)
+    QString message;
+    if (total == 1)
     {
-        LOG(INFO) << "[ACTION] Disconnect relay rejected by user";
+        message = tr("Are you sure you want to disconnect relay \"%1\"?")
+            .arg(QString::fromStdString(relays.front().ip_address()));
+    }
+    else
+    {
+        message = tr("Are you sure you want to disconnect %n relays?", "", total);
+    }
+
+    if (MsgBox::question(this, message) != MsgBox::Yes)
+    {
+        LOG(INFO) << "[ACTION] Disconnect relays rejected by user";
         return;
     }
 
@@ -367,32 +346,46 @@ void RouterRelaysWidget::onDisconnectRelay()
     if (!session)
         return;
 
-    LOG(INFO) << "[ACTION] Disconnect relay accepted by user";
-    session->disconnectRelay(entry_id, { this, &RouterRelaysWidget::onRelayResultReceived });
-}
+    LOG(INFO) << "[ACTION] Disconnect relays accepted by user:" << total;
 
-//--------------------------------------------------------------------------------------------------
-void RouterRelaysWidget::onDisconnectAllRelays()
-{
-    if (relay_model_->rowCount() <= 0)
+    struct Batch
     {
-        LOG(INFO) << "Relay list is empty";
-        return;
-    }
+        int pending = 0;
+        int failed = 0;
+        std::string error_code;
+    };
 
-    if (MsgBox::question(this,
-            tr("Are you sure you want to disconnect all relays?")) != MsgBox::Yes)
+    SharedPointer<Batch> batch(new Batch());
+    batch->pending = total;
+
+    for (const proto::router::RelayInfo& relay : relays)
     {
-        LOG(INFO) << "[ACTION] Disconnect all relays rejected by user";
-        return;
+        const qint64 entry_id = relay.entry_id();
+
+        session->disconnectRelay(entry_id, { this,
+            [this, batch, total, entry_id](const proto::router::RelayResult& result)
+        {
+            if (result.error_code() != proto::router::kErrorOk)
+            {
+                LOG(ERROR) << "Relay" << entry_id << "was not disconnected:" << result.error_code();
+                ++batch->failed;
+                batch->error_code = result.error_code();
+            }
+
+            if (--batch->pending > 0)
+                return;
+
+            if (batch->failed > 0)
+            {
+                if (total == 1)
+                    MsgBox::warning(this, routerErrorText(batch->error_code));
+                else
+                    MsgBox::warning(this, tr("Failed to disconnect %n of the selected relays.", "", batch->failed));
+            }
+
+            fetchRelays();
+        }});
     }
-
-    RouterSession* session = RouterController::session(router_id_);
-    if (!session)
-        return;
-
-    LOG(INFO) << "[ACTION] Disconnect all relays accepted by user";
-    session->disconnectRelay(-1, { this, &RouterRelaysWidget::onRelayResultReceived });
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -406,7 +399,7 @@ void RouterRelaysWidget::onCurrentRelayChanged()
 void RouterRelaysWidget::onRelayContextMenu(const QPoint& pos)
 {
     const QModelIndex index = ui->tree_relays->indexAt(pos);
-    if (index.isValid())
+    if (index.isValid() && !ui->tree_relays->selectionModel()->isRowSelected(index.row()))
         ui->tree_relays->setCurrentIndex(index);
 
     const int column = index.column();
@@ -515,31 +508,31 @@ void RouterRelaysWidget::onHeaderContextMenu(const QPoint& pos)
 //--------------------------------------------------------------------------------------------------
 void RouterRelaysWidget::onRelayListReceived(const proto::router::RelayList& relays)
 {
-    const proto::router::RelayInfo* selected = currentRelay();
-    const qint64 selected_entry_id = selected ? selected->entry_id() : 0;
+    const QList<proto::router::RelayInfo> selected = selectedRelays();
+    const proto::router::RelayInfo* current = currentRelay();
+    const qint64 current_entry_id = current ? current->entry_id() : 0;
 
     relay_model_->setRelays(relays);
 
-    // The list is replaced whole, so the row the user was on has to be found again by the relay it
-    // was showing.
-    const int selected_row = relay_model_->rowOf(selected_entry_id);
-    if (selected_row >= 0)
-        ui->tree_relays->setCurrentIndex(relay_model_->index(selected_row, 0));
-
-    updateRelayStatistics();
-    updateStatusLabel();
-}
-
-//--------------------------------------------------------------------------------------------------
-void RouterRelaysWidget::onRelayResultReceived(const proto::router::RelayResult& result)
-{
-    const std::string& error_code = result.error_code();
-    if (error_code != proto::router::kErrorOk)
+    // The list is replaced whole, so the rows the user was on have to be found again by the relays
+    // they were showing.
+    QItemSelection selection;
+    for (const proto::router::RelayInfo& relay : selected)
     {
-        MsgBox::warning(this, routerErrorText(error_code));
+        const int row = relay_model_->rowOf(relay.entry_id());
+        if (row >= 0)
+            selection.select(relay_model_->index(row, 0), relay_model_->index(row, 0));
     }
 
-    fetchRelays();
+    QItemSelectionModel* selection_model = ui->tree_relays->selectionModel();
+
+    const int current_row = relay_model_->rowOf(current_entry_id);
+    if (current_row >= 0)
+        selection_model->setCurrentIndex(relay_model_->index(current_row, 0), QItemSelectionModel::NoUpdate);
+
+    selection_model->select(selection, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+
+    updateRelayStatistics();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -597,12 +590,6 @@ void RouterRelaysWidget::updateRelayStatistics()
 }
 
 //--------------------------------------------------------------------------------------------------
-void RouterRelaysWidget::updateStatusLabel()
-{
-    status_relays_label_->setText(tr("%n relay(s)", "", relay_model_->rowCount()));
-}
-
-//--------------------------------------------------------------------------------------------------
 const proto::router::RelayInfo* RouterRelaysWidget::currentRelay() const
 {
     return relay_model_->relayAt(ui->tree_relays->currentIndex().row());
@@ -612,4 +599,19 @@ const proto::router::RelayInfo* RouterRelaysWidget::currentRelay() const
 const proto::router::Peer* RouterRelaysWidget::currentPeer() const
 {
     return peer_model_->peerAt(ui->tree_peers->currentIndex().row());
+}
+
+//--------------------------------------------------------------------------------------------------
+QList<proto::router::RelayInfo> RouterRelaysWidget::selectedRelays() const
+{
+    const QModelIndexList rows = ui->tree_relays->selectionModel()->selectedRows();
+
+    QList<proto::router::RelayInfo> relays;
+    for (const QModelIndex& index : rows)
+    {
+        if (const proto::router::RelayInfo* relay = relay_model_->relayAt(index.row()))
+            relays.append(*relay);
+    }
+
+    return relays;
 }

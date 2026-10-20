@@ -29,127 +29,117 @@
         <translation>關閉</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="127"/>
+        <location filename="../common/desktop/about_dialog.cc" line="104"/>
         <source>Version: %1 (%2)</source>
         <translation>版本：%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="132"/>
+        <location filename="../common/desktop/about_dialog.cc" line="109"/>
         <source>Aspia is free software released under GNU General Public License 3.</source>
         <translation>Aspia 是依 GNU General Public License 3 發布的自由軟體。</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="133"/>
+        <location filename="../common/desktop/about_dialog.cc" line="110"/>
         <source>You can get a copy of license here:</source>
         <translation>您可以在這裡取得授權副本：</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="138"/>
+        <location filename="../common/desktop/about_dialog.cc" line="115"/>
         <source>You can also get a translation of GNU GPL license here:</source>
         <translation>您也可以在這裡取得 GNU GPL 授權的翻譯：</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="142"/>
+        <location filename="../common/desktop/about_dialog.cc" line="119"/>
         <source>Links</source>
         <translation>連結</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="143"/>
+        <location filename="../common/desktop/about_dialog.cc" line="120"/>
         <source>Home page:</source>
         <translation>首頁：</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="144"/>
+        <location filename="../common/desktop/about_dialog.cc" line="121"/>
         <source>GitHub page:</source>
         <translation>GitHub 頁面：</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="153"/>
-        <source>Modifications</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../common/desktop/about_dialog.cc" line="155"/>
-        <source>The changes and the sources:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../common/desktop/about_dialog.cc" line="159"/>
+        <location filename="../common/desktop/about_dialog.cc" line="124"/>
         <source>Developers</source>
         <translation>開發人員</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="161"/>
+        <location filename="../common/desktop/about_dialog.cc" line="126"/>
         <source>Translators</source>
         <translation>翻譯人員</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="163"/>
+        <location filename="../common/desktop/about_dialog.cc" line="128"/>
         <source>Third-party components</source>
         <translation>第三方元件</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="165"/>
+        <location filename="../common/desktop/about_dialog.cc" line="130"/>
         <source>Graphics and images</source>
         <translation>圖形與影像</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="166"/>
+        <location filename="../common/desktop/about_dialog.cc" line="131"/>
         <source>Icons by %1</source>
         <translation>圖示由 %1 提供</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="197"/>
+        <location filename="../common/desktop/about_dialog.cc" line="158"/>
         <source>Application</source>
         <translation>應用程式</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="198"/>
+        <location filename="../common/desktop/about_dialog.cc" line="159"/>
         <source>Path: %1</source>
         <translation>路徑：%1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="199"/>
+        <location filename="../common/desktop/about_dialog.cc" line="160"/>
         <source>Logging directory: %1</source>
         <translation>記錄資料夾：%1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="201"/>
+        <location filename="../common/desktop/about_dialog.cc" line="162"/>
         <source>Logging file: %1</source>
         <translation>記錄檔：%1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="206"/>
+        <location filename="../common/desktop/about_dialog.cc" line="167"/>
         <source>Build Information</source>
         <translation>組建資訊</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="207"/>
+        <location filename="../common/desktop/about_dialog.cc" line="168"/>
         <source>Git branch: %1</source>
         <translation>Git 分支：%1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="209"/>
+        <location filename="../common/desktop/about_dialog.cc" line="170"/>
         <source>Git commit: %1</source>
         <translation>Git 提交：%1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="214"/>
+        <location filename="../common/desktop/about_dialog.cc" line="175"/>
         <source>Compilation</source>
         <translation>編譯</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="215"/>
+        <location filename="../common/desktop/about_dialog.cc" line="176"/>
         <source>Compilation date: %1</source>
         <translation>編譯日期：%1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="216"/>
+        <location filename="../common/desktop/about_dialog.cc" line="177"/>
         <source>Compilation time: %1</source>
         <translation>編譯時間：%1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="245"/>
+        <location filename="../common/desktop/about_dialog.cc" line="206"/>
         <source>Version Information</source>
         <translation>版本資訊</translation>
     </message>
@@ -935,86 +925,46 @@
 <context>
     <name>Client</name>
     <message>
-        <location filename="../client/main.cc" line="85"/>
+        <location filename="../client/main.cc" line="81"/>
         <source>Unable to create a backup. Some records of the database are damaged. Fix or delete them.</source>
         <translation>無法建立備份。資料庫中有部分記錄已損壞。請修復或刪除這些記錄。</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="239"/>
-        <source>Connect to the host of the address book with this record ID or host ID, using the login and the password stored in it.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/main.cc" line="242"/>
-        <source>id</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/main.cc" line="246"/>
-        <source>Kind of the session to open: desktop, file, info, chat or terminal (default: the one from the settings of the application).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/main.cc" line="249"/>
-        <source>type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/main.cc" line="253"/>
-        <source>Log in with this user name instead of the one stored in the host. Requires --password.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/main.cc" line="256"/>
-        <source>name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/main.cc" line="260"/>
-        <source>Log in with this password instead of the stored one. Requires --username. A password on a command line is visible to the other users of the machine.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/main.cc" line="263"/>
-        <source>password</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/main.cc" line="387"/>
+        <location filename="../client/main.cc" line="293"/>
         <source>Set Master Password</source>
         <translation>設定主密碼</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="389"/>
+        <location filename="../client/main.cc" line="295"/>
         <source>Set a master password required to unlock the application.</source>
         <translation>設定解除鎖定應用程式所需的主密碼。</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/main.cc" line="397"/>
+        <location filename="../client/main.cc" line="303"/>
         <source>The password can not be shorter than %n characters.</source>
         <translation>
             <numerusform>密碼長度不能少於 %n 個字元。</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="405"/>
+        <location filename="../client/main.cc" line="311"/>
         <source>Password you entered does not meet the security requirements!</source>
         <translation>輸入的密碼不符合安全性要求！</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/main.cc" line="407"/>
+        <location filename="../client/main.cc" line="313"/>
         <source>The password must contain lowercase and uppercase characters, numbers and should not be shorter than %n characters.</source>
         <translation>
             <numerusform>密碼必須包含大小寫字母和數字，且長度不能少於 %n 個字元。</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="411"/>
+        <location filename="../client/main.cc" line="317"/>
         <source>Do you want to enter a different password?</source>
         <translation>要輸入其他密碼嗎？</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="421"/>
+        <location filename="../client/main.cc" line="327"/>
         <source>Unable to set master password.</source>
         <translation>無法設定主密碼。</translation>
     </message>
@@ -1024,17 +974,17 @@
         <translation>解除鎖定</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="79"/>
+        <location filename="../client/main.cc" line="75"/>
         <source>Unable to create a backup in the directory &quot;%1&quot;.</source>
         <translation>無法在資料夾「%1」中建立備份。</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="91"/>
+        <location filename="../client/main.cc" line="87"/>
         <source>Unable to create a backup.</source>
         <translation>無法建立備份。</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="274"/>
+        <location filename="../client/main.cc" line="238"/>
         <source>An aspia:// link to connect to a host.</source>
         <translation>用於連線到主機的 aspia:// 連結。</translation>
     </message>
@@ -1054,59 +1004,9 @@
         <translation>主密碼無效。</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="266"/>
+        <location filename="../client/main.cc" line="234"/>
         <source>Aspia Client</source>
         <translation>Aspia Client</translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="127"/>
-        <source>&quot;%1&quot; is neither a host ID nor a record ID.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="129"/>
-        <source>The host ID of --connect is missing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="151"/>
-        <source>&quot;%1&quot; is not a valid session type. Use desktop, file, info, chat or terminal.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="154"/>
-        <source>The session type of --session-type is missing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="171"/>
-        <source>The user name of --username is missing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="187"/>
-        <source>The password of --password is missing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="217"/>
-        <source>&quot;%1&quot; is neither an aspia:// link nor a host ID.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="235"/>
-        <source>--username requires --password as well.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="237"/>
-        <source>--password requires --username as well.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="248"/>
-        <source>--username and --password need a host to connect to (--connect or an aspia:// link).</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1145,37 +1045,37 @@
 <context>
     <name>ClientWindow</name>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="280"/>
+        <location filename="../client/desktop/client_window.cc" line="278"/>
         <source>Session started.</source>
         <translation>工作階段已開始。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="599"/>
+        <location filename="../client/desktop/client_window.cc" line="592"/>
         <source>The specified router is unavailable.</source>
         <translation>指定的路由器無法使用。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="601"/>
+        <location filename="../client/desktop/client_window.cc" line="594"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>路由器的資料已損壞。請編輯路由器並重新輸入。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="603"/>
+        <location filename="../client/desktop/client_window.cc" line="596"/>
         <source>The specified router is offline.</source>
         <translation>指定的路由器不在線上。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="292"/>
+        <location filename="../client/desktop/client_window.cc" line="290"/>
         <source>Connecting to host %1...</source>
         <translation>正在連線到主機 %1...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="296"/>
+        <location filename="../client/desktop/client_window.cc" line="294"/>
         <source>Connecting to host %1:%2...</source>
         <translation>正在連線到主機 %1:%2...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="332"/>
+        <location filename="../client/desktop/client_window.cc" line="330"/>
         <source>Host is unavailable yet. Waiting to reconnect...</source>
         <translation>主機目前無法使用。正在等待重新連線...</translation>
     </message>
@@ -1185,22 +1085,22 @@
         <translation>等待重新連線到主機逾時。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="352"/>
+        <location filename="../client/desktop/client_window.cc" line="350"/>
         <source>The Host version is newer than the Client version (%1 &gt; %2). Please update the application.</source>
         <translation>主機版本比用戶端版本新（%1 &gt; %2）。請更新應用程式。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="610"/>
+        <location filename="../client/desktop/client_window.cc" line="603"/>
         <source>Requesting connection to the host...</source>
         <translation>正在要求連線到主機...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="618"/>
+        <location filename="../client/desktop/client_window.cc" line="611"/>
         <source>Connection offer received.</source>
         <translation>已收到連線請求。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="635"/>
+        <location filename="../client/desktop/client_window.cc" line="628"/>
         <source>Error requesting connection via router.</source>
         <translation>透過路由器要求連線時發生錯誤。</translation>
     </message>
@@ -2501,17 +2401,17 @@ Credentials replaced: %2</source>
         <translation>刪除認證</translation>
     </message>
     <message>
-        <location filename="../client/desktop/credentials_tab.cc" line="180"/>
+        <location filename="../client/desktop/credentials_tab.cc" line="174"/>
         <source>Are you sure you want to delete credentials &quot;%1&quot;?</source>
         <translation>確定要刪除認證「%1」嗎？</translation>
     </message>
     <message>
-        <location filename="../client/desktop/credentials_tab.cc" line="188"/>
+        <location filename="../client/desktop/credentials_tab.cc" line="182"/>
         <source>Unable to delete credentials.</source>
         <translation>無法刪除認證。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/credentials_tab.cc" line="233"/>
+        <location filename="../client/desktop/credentials_tab.cc" line="227"/>
         <source>Failed to read data. The list may be out of date.</source>
         <translation>無法讀取資料。清單可能已過時。</translation>
     </message>
@@ -2837,32 +2737,32 @@ Credentials replaced: %2</source>
 <context>
     <name>DesktopWindow</name>
     <message>
-        <location filename="../client/desktop/desktop/desktop_window.cc" line="1164"/>
+        <location filename="../client/desktop/desktop/desktop_window.cc" line="1150"/>
         <source>Save File</source>
         <translation>儲存檔案</translation>
     </message>
     <message>
-        <location filename="../client/desktop/desktop/desktop_window.cc" line="1165"/>
+        <location filename="../client/desktop/desktop/desktop_window.cc" line="1151"/>
         <source>PNG Image (*.png);;BMP Image (*.bmp)</source>
         <translation>PNG 影像 (*.png);;BMP 影像 (*.bmp)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/desktop/desktop_window.cc" line="1196"/>
+        <location filename="../client/desktop/desktop/desktop_window.cc" line="1182"/>
         <source>Could not save image</source>
         <translation>無法儲存影像</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="517"/>
+        <location filename="../client/android/desktop_window.cc" line="506"/>
         <source>Connecting...</source>
         <translation>正在連線...</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="541"/>
+        <location filename="../client/android/desktop_window.cc" line="530"/>
         <source>The specified router is unavailable.</source>
         <translation>指定的路由器無法使用。</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="568"/>
+        <location filename="../client/android/desktop_window.cc" line="557"/>
         <source>Requesting connection to the host...</source>
         <translation>正在要求連線到主機...</translation>
     </message>
@@ -2877,133 +2777,128 @@ Credentials replaced: %2</source>
         <translation>工作階段 %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="540"/>
+        <location filename="../client/android/desktop_window.cc" line="529"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>路由器的資料已損壞。請編輯路由器並重新輸入。</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="547"/>
+        <location filename="../client/android/desktop_window.cc" line="536"/>
         <source>Connecting to router...</source>
         <translation>正在連線到路由器...</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="776"/>
+        <location filename="../client/android/desktop_window.cc" line="765"/>
         <source>Connecting to host %1...</source>
         <translation>正在連線到主機 %1...</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="782"/>
+        <location filename="../client/android/desktop_window.cc" line="771"/>
         <source>Connection established.</source>
         <translation>連線已建立。</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="795"/>
+        <location filename="../client/android/desktop_window.cc" line="784"/>
         <source>The connection to the host has been lost.</source>
         <translation>與主機的連線已中斷。</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="808"/>
+        <location filename="../client/android/desktop_window.cc" line="797"/>
         <source>The host version is newer than the client. Please update the application.</source>
         <translation>主機版本比用戶端新。請更新應用程式。</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="174"/>
+        <location filename="../client/android/desktop_window.cc" line="164"/>
         <source>Monitor %1</source>
         <translation>螢幕 %1</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="170"/>
-        <source>All monitors</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/android/desktop_window.cc" line="183"/>
+        <location filename="../client/android/desktop_window.cc" line="172"/>
         <source>Power</source>
         <translation>電源</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="187"/>
+        <location filename="../client/android/desktop_window.cc" line="176"/>
         <source>Keyboard</source>
         <translation>鍵盤</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="193"/>
+        <location filename="../client/android/desktop_window.cc" line="182"/>
         <source>Ctrl+Alt+Del</source>
         <translation>Ctrl+Alt+Del</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="200"/>
+        <location filename="../client/android/desktop_window.cc" line="189"/>
         <source>Users</source>
         <translation>使用者</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="205"/>
+        <location filename="../client/android/desktop_window.cc" line="194"/>
         <source>Disconnect</source>
         <translation>中斷連線</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="663"/>
-        <location filename="../client/android/desktop_window.cc" line="720"/>
+        <location filename="../client/android/desktop_window.cc" line="652"/>
+        <location filename="../client/android/desktop_window.cc" line="709"/>
         <source>Back</source>
         <translation>返回</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="664"/>
+        <location filename="../client/android/desktop_window.cc" line="653"/>
         <source>Shutdown</source>
         <translation>關機</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="665"/>
+        <location filename="../client/android/desktop_window.cc" line="654"/>
         <source>Reboot</source>
         <translation>重新啟動</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="670"/>
+        <location filename="../client/android/desktop_window.cc" line="659"/>
         <source>Safe Mode</source>
         <translation>安全模式</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="671"/>
+        <location filename="../client/android/desktop_window.cc" line="660"/>
         <source>Logoff</source>
         <translation>登出</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="672"/>
+        <location filename="../client/android/desktop_window.cc" line="661"/>
         <source>Lock</source>
         <translation>鎖定</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="688"/>
+        <location filename="../client/android/desktop_window.cc" line="677"/>
         <source>Are you sure you want to shutdown the remote computer?</source>
         <translation>確定要關閉遠端電腦嗎？</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="692"/>
+        <location filename="../client/android/desktop_window.cc" line="681"/>
         <source>Are you sure you want to reboot the remote computer?</source>
         <translation>確定要重新啟動遠端電腦嗎？</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="696"/>
+        <location filename="../client/android/desktop_window.cc" line="685"/>
         <source>Are you sure you want to reboot the remote computer in Safe Mode?</source>
         <translation>確定要以安全模式重新啟動遠端電腦嗎？</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="700"/>
+        <location filename="../client/android/desktop_window.cc" line="689"/>
         <source>Are you sure you want to end the user session on the remote computer?</source>
         <translation>確定要結束遠端電腦上的使用者工作階段嗎？</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="704"/>
+        <location filename="../client/android/desktop_window.cc" line="693"/>
         <source>Are you sure you want to lock the user session on the remote computer?</source>
         <translation>確定要鎖定遠端電腦上的使用者工作階段嗎？</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="759"/>
+        <location filename="../client/android/desktop_window.cc" line="748"/>
         <source>Confirmation</source>
         <translation>確認</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="759"/>
+        <location filename="../client/android/desktop_window.cc" line="748"/>
         <source>Yes</source>
         <translation>是</translation>
     </message>
@@ -3915,8 +3810,8 @@ Credentials replaced: %2</source>
     </message>
     <message>
         <location filename="../client/desktop/management/host_list_model.cc" line="201"/>
-        <source>Workspace</source>
-        <translation>工作區</translation>
+        <source>Space</source>
+        <translation>空間</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/host_list_model.cc" line="204"/>
@@ -3935,8 +3830,8 @@ Credentials replaced: %2</source>
     </message>
     <message>
         <location filename="../client/desktop/management/host_list_model.cc" line="213"/>
-        <source>Last Online</source>
-        <translation>上次上線</translation>
+        <source>Last Connection</source>
+        <translation>上次連線</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/host_list_model.cc" line="216"/>
@@ -4024,9 +3919,9 @@ Credentials replaced: %2</source>
     <name>HostWindow</name>
     <message>
         <location filename="../host/ui/host_window.ui" line="26"/>
-        <location filename="../host/ui/host_window.cc" line="645"/>
-        <location filename="../host/ui/host_window.cc" line="898"/>
-        <location filename="../host/ui/host_window.cc" line="1176"/>
+        <location filename="../host/ui/host_window.cc" line="644"/>
+        <location filename="../host/ui/host_window.cc" line="889"/>
+        <location filename="../host/ui/host_window.cc" line="1167"/>
         <source>Aspia Host</source>
         <translation>Aspia Host</translation>
     </message>
@@ -4042,7 +3937,7 @@ Credentials replaced: %2</source>
     </message>
     <message>
         <location filename="../host/ui/host_window.ui" line="198"/>
-        <location filename="../host/ui/host_window.cc" line="1128"/>
+        <location filename="../host/ui/host_window.cc" line="1119"/>
         <source>Router is disabled</source>
         <translation>路由器已停用</translation>
     </message>
@@ -4113,7 +4008,7 @@ Credentials replaced: %2</source>
     </message>
     <message>
         <location filename="../host/ui/host_window.ui" line="335"/>
-        <location filename="../host/ui/host_window.cc" line="851"/>
+        <location filename="../host/ui/host_window.cc" line="850"/>
         <source>Hide</source>
         <translation>隱藏</translation>
     </message>
@@ -4153,80 +4048,75 @@ Credentials replaced: %2</source>
         <translation>顯示聊天</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="181"/>
-        <location filename="../host/ui/host_window.cc" line="645"/>
-        <location filename="../host/ui/host_window.cc" line="1176"/>
+        <location filename="../host/ui/host_window.cc" line="180"/>
+        <location filename="../host/ui/host_window.cc" line="644"/>
+        <location filename="../host/ui/host_window.cc" line="1167"/>
         <source>Aspia Quick Support</source>
         <translation>Aspia Quick Support</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="340"/>
-        <location filename="../host/ui/host_window.cc" line="846"/>
+        <location filename="../host/ui/host_window.cc" line="339"/>
+        <location filename="../host/ui/host_window.cc" line="845"/>
         <source>Show</source>
         <translation>顯示</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="634"/>
+        <location filename="../host/ui/host_window.cc" line="633"/>
         <source>Screen recording has started.</source>
         <translation>螢幕錄製已開始。</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="636"/>
+        <location filename="../host/ui/host_window.cc" line="635"/>
         <source>Screen recording stopped.</source>
         <translation>螢幕錄製已停止。</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="835"/>
+        <location filename="../host/ui/host_window.cc" line="834"/>
         <source>Settings storage is unavailable.</source>
         <translation>設定儲存空間無法使用。</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="895"/>
-        <source>The ability to show several monitors at once</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../host/ui/host_window.cc" line="909"/>
+        <location filename="../host/ui/host_window.cc" line="900"/>
         <source>Aspia Host will be removed from this computer. The settings of the host will be kept. Do you really want to uninstall the application?</source>
         <translation>Aspia Host 將從這台電腦中移除。主機的設定將會保留。確定要解除安裝應用程式嗎？</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="921"/>
+        <location filename="../host/ui/host_window.cc" line="912"/>
         <source>Unable to uninstall the application.</source>
         <translation>無法解除安裝應用程式。</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="948"/>
+        <location filename="../host/ui/host_window.cc" line="939"/>
         <source>If you exit from Aspia, it will not be possible to connect to this computer until you turn on the computer or Aspia again manually. Do you really want to exit the application?</source>
         <translation>如果離開 Aspia，在您再次手動開啟電腦或 Aspia 之前，將無法連線到這台電腦。確定要離開應用程式嗎？</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="1120"/>
+        <location filename="../host/ui/host_window.cc" line="1111"/>
         <source>Not connected to service</source>
         <translation>未連線到服務</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="1133"/>
+        <location filename="../host/ui/host_window.cc" line="1124"/>
         <source>Connecting to router...</source>
         <translation>正在連線到路由器...</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="1138"/>
+        <location filename="../host/ui/host_window.cc" line="1129"/>
         <source>Connected to router</source>
         <translation>已連線到路由器</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="1143"/>
+        <location filename="../host/ui/host_window.cc" line="1134"/>
         <source>Connection error</source>
         <translation>連線錯誤</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="1221"/>
+        <location filename="../host/ui/host_window.cc" line="1212"/>
         <source>IP addresses:</source>
         <translation>IP 位址：</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="1177"/>
+        <location filename="../host/ui/host_window.cc" line="1168"/>
         <source>ID: %1</source>
         <translation>ID：%1</translation>
     </message>
@@ -4385,28 +4275,9 @@ Credentials replaced: %2</source>
 <context>
     <name>LocalGroupWidget</name>
     <message>
-        <location filename="../client/desktop/management/local_group_widget.cc" line="49"/>
-        <source>Status update...</source>
-        <translation>正在更新狀態...</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/management/local_group_widget.cc" line="170"/>
+        <location filename="../client/desktop/management/local_group_widget.cc" line="161"/>
         <source>Failed to read data. The list may be out of date.</source>
         <translation>無法讀取資料。清單可能已過時。</translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../client/desktop/management/local_group_widget.cc" line="431"/>
-        <source>%n child group(s)</source>
-        <translation>
-            <numerusform>%n 個子群組</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../client/desktop/management/local_group_widget.cc" line="432"/>
-        <source>%n child host(s)</source>
-        <translation>
-            <numerusform>%n 個子主機</numerusform>
-        </translation>
     </message>
 </context>
 <context>
@@ -4915,8 +4786,8 @@ Credentials imported: %5</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="122"/>
-        <location filename="../client/desktop/main_window.ui" line="224"/>
+        <location filename="../client/desktop/main_window.ui" line="121"/>
+        <location filename="../client/desktop/main_window.ui" line="216"/>
         <source>Tool Bar</source>
         <translation>工具列</translation>
     </message>
@@ -4931,18 +4802,18 @@ Credentials imported: %5</source>
         <translation>檢視</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="216"/>
+        <location filename="../client/desktop/main_window.ui" line="208"/>
         <source>Exit</source>
         <translation>離開</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="150"/>
+        <location filename="../client/desktop/main_window.ui" line="142"/>
         <source>Online Help...</source>
         <translation>線上說明...</translation>
     </message>
     <message>
         <location filename="../client/desktop/main_window.ui" line="20"/>
-        <location filename="../client/desktop/main_window.cc" line="926"/>
+        <location filename="../client/desktop/main_window.cc" line="632"/>
         <source>Aspia Client</source>
         <translation>Aspia Client</translation>
     </message>
@@ -4957,163 +4828,148 @@ Credentials imported: %5</source>
         <translation>編輯</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="105"/>
+        <location filename="../client/desktop/main_window.ui" line="104"/>
         <source>Session Type</source>
         <translation>工作階段類型</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="168"/>
+        <location filename="../client/desktop/main_window.ui" line="160"/>
         <source>Quick Connect...</source>
         <translation>快速連線...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="177"/>
+        <location filename="../client/desktop/main_window.ui" line="169"/>
         <source>Credentials...</source>
         <translation>認證...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="198"/>
+        <location filename="../client/desktop/main_window.ui" line="190"/>
         <source>MCP Connector</source>
         <translation>MCP 連接器</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="207"/>
+        <location filename="../client/desktop/main_window.ui" line="199"/>
         <source>Lock</source>
         <translation>鎖定</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="232"/>
-        <source>Status Bar</source>
-        <translation>狀態列</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/main_window.ui" line="240"/>
+        <location filename="../client/desktop/main_window.ui" line="224"/>
         <source>Search Field</source>
         <translation>搜尋欄位</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="248"/>
+        <location filename="../client/desktop/main_window.ui" line="232"/>
         <source>Large icons</source>
         <translation>大圖示</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="256"/>
+        <location filename="../client/desktop/main_window.ui" line="240"/>
         <source>Open Sessions in Tabs</source>
         <translation>在索引標籤中開啟工作階段</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="264"/>
+        <location filename="../client/desktop/main_window.ui" line="248"/>
         <source>Always on Top</source>
         <translation>總在最上層</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="159"/>
+        <location filename="../client/desktop/main_window.ui" line="151"/>
         <source>About</source>
         <translation>關於</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="110"/>
+        <location filename="../client/desktop/main_window.ui" line="109"/>
         <source>Actions</source>
         <translation>動作</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="186"/>
+        <location filename="../client/desktop/main_window.ui" line="178"/>
         <source>Settings...</source>
         <translation>設定...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="129"/>
+        <location filename="../client/desktop/main_window.cc" line="127"/>
         <source>Search...</source>
         <translation>搜尋...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="219"/>
+        <location filename="../client/desktop/main_window.cc" line="214"/>
         <source>Unable to turn on the MCP connector.</source>
         <translation>無法啟用 MCP 連接器。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="237"/>
+        <location filename="../client/desktop/main_window.cc" line="232"/>
         <source>Management</source>
         <translation>管理</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="283"/>
+        <location filename="../client/desktop/main_window.cc" line="278"/>
         <source>Invalid link &quot;%1&quot;.</source>
         <translation>無效的連結「%1」。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="306"/>
+        <location filename="../client/desktop/main_window.cc" line="301"/>
         <source>The router referenced by the link is not among the saved routers.</source>
         <translation>在已儲存的路由器中找不到連結所指的路由器。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="355"/>
+        <location filename="../client/desktop/main_window.cc" line="350"/>
         <source>The host referenced by the link is not among the saved hosts.</source>
         <translation>在已儲存的主機中找不到連結所指的主機。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="893"/>
+        <location filename="../client/desktop/main_window.cc" line="608"/>
         <source>Close all sessions to lock the application.</source>
         <translation>請關閉所有工作階段以鎖定應用程式。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="899"/>
+        <location filename="../client/desktop/main_window.cc" line="614"/>
         <source>Close all dialogs to lock the application.</source>
         <translation>請關閉所有對話方塊以鎖定應用程式。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="922"/>
-        <source>Connect to a host by its ID from the command line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/main_window.cc" line="923"/>
-        <source>The icon of the screen of all the monitors at once</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/main_window.cc" line="1023"/>
+        <location filename="../client/desktop/main_window.cc" line="728"/>
         <source>Connection by ID is specified in the properties of the host, but the router is not configured. Check the parameters of the router in the properties of the host.</source>
         <translation>主機的內容中指定了以 ID 連線，但尚未設定路由器。請檢查主機內容中的路由器參數。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1290"/>
+        <location filename="../client/desktop/main_window.cc" line="995"/>
         <source>Unknown application</source>
         <translation>未知應用程式</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1293"/>
+        <location filename="../client/desktop/main_window.cc" line="998"/>
         <source>MCP Connector. Connected: %1</source>
         <translation>MCP 連接器。已連線：%1</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1294"/>
+        <location filename="../client/desktop/main_window.cc" line="999"/>
         <source>%1 - AI is connected</source>
         <translation>%1 - AI 已連線</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="367"/>
+        <location filename="../client/desktop/main_window.cc" line="362"/>
         <source>The router associated with this host has been deleted. Edit the host to select another router or switch to direct connection.</source>
         <translation>與此主機關聯的路由器已被刪除。請編輯主機以選擇其他路由器，或改用直接連線。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="314"/>
-        <location filename="../client/desktop/main_window.cc" line="366"/>
+        <location filename="../client/desktop/main_window.cc" line="309"/>
+        <location filename="../client/desktop/main_window.cc" line="361"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>路由器的資料已損壞。請編輯路由器並重新輸入。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="354"/>
+        <location filename="../client/desktop/main_window.cc" line="349"/>
         <source>The data of the host is damaged. Edit the host and enter it again.</source>
         <translation>主機的資料已損壞。請編輯主機並重新輸入。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="852"/>
+        <location filename="../client/desktop/main_window.cc" line="567"/>
         <source>Credentials</source>
         <translation>認證</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="883"/>
+        <location filename="../client/desktop/main_window.cc" line="598"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
@@ -5167,6 +5023,7 @@ Credentials imported: %5</source>
     </message>
     <message>
         <location filename="../client/desktop/management_tab.ui" line="137"/>
+        <location filename="../client/desktop/management_tab.cc" line="2001"/>
         <source>Delete Host</source>
         <translation>刪除主機</translation>
     </message>
@@ -5214,18 +5071,18 @@ Credentials imported: %5</source>
     </message>
     <message>
         <location filename="../client/desktop/management_tab.ui" line="275"/>
-        <source>Add Workspace</source>
-        <translation>新增工作區</translation>
+        <source>Add Space</source>
+        <translation>新增空間</translation>
     </message>
     <message>
         <location filename="../client/desktop/management_tab.ui" line="284"/>
-        <source>Edit Workspace</source>
-        <translation>編輯工作區</translation>
+        <source>Edit Space</source>
+        <translation>編輯空間</translation>
     </message>
     <message>
         <location filename="../client/desktop/management_tab.ui" line="293"/>
-        <source>Delete Workspace</source>
-        <translation>刪除工作區</translation>
+        <source>Delete Space</source>
+        <translation>刪除空間</translation>
     </message>
     <message>
         <location filename="../client/desktop/management_tab.ui" line="302"/>
@@ -5249,210 +5106,209 @@ Credentials imported: %5</source>
     </message>
     <message>
         <location filename="../client/desktop/management_tab.ui" line="338"/>
-        <source>Disconnect All</source>
-        <translation>中斷全部連線</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/management_tab.ui" line="347"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="356"/>
+        <location filename="../client/desktop/management_tab.ui" line="347"/>
         <source>Check for Updates</source>
         <translation>檢查更新</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="365"/>
+        <location filename="../client/desktop/management_tab.ui" line="356"/>
         <source>Telemetry</source>
         <translation>遙測</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="374"/>
+        <location filename="../client/desktop/management_tab.ui" line="365"/>
         <source>Approve</source>
         <translation>核准</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="383"/>
+        <location filename="../client/desktop/management_tab.ui" line="374"/>
         <source>Save...</source>
         <translation>儲存...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="386"/>
+        <location filename="../client/desktop/management_tab.ui" line="377"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="395"/>
+        <location filename="../client/desktop/management_tab.ui" line="386"/>
         <source>Reload</source>
         <translation>重新載入</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="398"/>
+        <location filename="../client/desktop/management_tab.ui" line="389"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="407"/>
+        <location filename="../client/desktop/management_tab.ui" line="398"/>
         <source>Create Backup...</source>
         <translation>建立備份...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="416"/>
+        <location filename="../client/desktop/management_tab.ui" line="407"/>
         <source>Restore from Backup...</source>
         <translation>從備份還原...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="424"/>
+        <location filename="../client/desktop/management_tab.ui" line="415"/>
         <source>Auto-refresh Status</source>
         <translation>自動重新整理狀態</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1133"/>
+        <location filename="../client/desktop/management_tab.cc" line="1113"/>
         <source>(copy)</source>
         <translation>（複製）</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1101"/>
-        <location filename="../client/desktop/management_tab.cc" line="1175"/>
-        <location filename="../client/desktop/management_tab.cc" line="2274"/>
+        <location filename="../client/desktop/management_tab.cc" line="1081"/>
+        <location filename="../client/desktop/management_tab.cc" line="1158"/>
+        <location filename="../client/desktop/management_tab.cc" line="2286"/>
         <source>Failed to retrieve host information from the local database.</source>
         <translation>無法從本機資料庫取得主機資訊。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="911"/>
+        <location filename="../client/desktop/management_tab.cc" line="887"/>
         <source>The &quot;%1&quot; session type is not available for Quick Support.</source>
         <translation>工作階段類型「%1」無法用於 Quick Support。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1138"/>
+        <location filename="../client/desktop/management_tab.cc" line="1118"/>
         <source>Failed to add the host to the local database.</source>
         <translation>無法將主機加入本機資料庫。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1179"/>
+        <location filename="../client/desktop/management_tab.cc" line="1176"/>
         <source>Are you sure you want to delete host &quot;%1&quot;?</source>
         <translation>確定要刪除主機「%1」嗎？</translation>
     </message>
+    <message numerus="yes">
+        <location filename="../client/desktop/management_tab.cc" line="1178"/>
+        <source>Are you sure you want to delete %n hosts?</source>
+        <translation>
+            <numerusform>確定要刪除 %n 個主機嗎？</numerusform>
+        </translation>
+    </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1189"/>
+        <location filename="../client/desktop/management_tab.cc" line="1204"/>
         <source>Unable to remove host</source>
         <translation>無法移除主機</translation>
     </message>
+    <message numerus="yes">
+        <location filename="../client/desktop/management_tab.cc" line="1206"/>
+        <source>Failed to delete %n of the selected hosts.</source>
+        <translation>
+            <numerusform>無法刪除所選主機中的 %n 個。</numerusform>
+        </translation>
+    </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1252"/>
-        <location filename="../client/desktop/management_tab.cc" line="1322"/>
-        <location filename="../client/desktop/management_tab.cc" line="1348"/>
+        <location filename="../client/desktop/management_tab.cc" line="1274"/>
+        <location filename="../client/desktop/management_tab.cc" line="1351"/>
+        <location filename="../client/desktop/management_tab.cc" line="1384"/>
         <source>Copy Row</source>
         <translation>複製列</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1253"/>
-        <location filename="../client/desktop/management_tab.cc" line="1323"/>
-        <location filename="../client/desktop/management_tab.cc" line="1349"/>
+        <location filename="../client/desktop/management_tab.cc" line="1275"/>
+        <location filename="../client/desktop/management_tab.cc" line="1352"/>
+        <location filename="../client/desktop/management_tab.cc" line="1385"/>
         <source>Copy Value</source>
         <translation>複製值</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1450"/>
-        <source>Are you sure you want to delete workspace &quot;%1&quot;?</source>
-        <translation>確定要刪除工作區「%1」嗎？</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/management_tab.cc" line="1470"/>
-        <source>Failed to delete the workspace.</source>
-        <translation>無法刪除工作區。</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/management_tab.cc" line="1572"/>
-        <source>Are you sure you want to delete the group &quot;%1&quot;? Hosts assigned to this group or its subgroups will be moved to the workspace root.</source>
-        <translation>確定要刪除群組「%1」嗎？指派給此群組或其子群組的主機將被移至工作區根目錄。</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/management_tab.cc" line="1590"/>
+        <location filename="../client/desktop/management_tab.cc" line="1626"/>
         <source>Failed to delete the group.</source>
         <translation>無法刪除群組。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1629"/>
-        <location filename="../client/desktop/management_tab.cc" line="1686"/>
+        <location filename="../client/desktop/management_tab.cc" line="1665"/>
+        <location filename="../client/desktop/management_tab.cc" line="1722"/>
         <source>The database is not available.</source>
         <translation>資料庫無法使用。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1635"/>
+        <location filename="../client/desktop/management_tab.cc" line="1671"/>
         <source>Create Backup</source>
         <translation>建立備份</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1652"/>
+        <location filename="../client/desktop/management_tab.cc" line="1688"/>
         <source>There is nothing to save.</source>
         <translation>沒有可儲存的內容。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2269"/>
+        <location filename="../client/desktop/management_tab.cc" line="2060"/>
+        <source>Delete Hosts</source>
+        <translation>刪除主機</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management_tab.cc" line="2281"/>
         <source>The data of the host is damaged. Edit the host and enter it again.</source>
         <translation>主機的資料已損壞。請編輯主機並重新輸入。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2290"/>
+        <location filename="../client/desktop/management_tab.cc" line="2302"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>路由器的資料已損壞。請編輯路由器並重新輸入。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1664"/>
+        <location filename="../client/desktop/management_tab.cc" line="1700"/>
         <source>Failed to create the backup.</source>
         <translation>無法建立備份。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1692"/>
-        <location filename="../client/desktop/management_tab.cc" line="1718"/>
+        <location filename="../client/desktop/management_tab.cc" line="1728"/>
+        <location filename="../client/desktop/management_tab.cc" line="1754"/>
         <source>Restore from Backup</source>
         <translation>從備份還原</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1701"/>
+        <location filename="../client/desktop/management_tab.cc" line="1737"/>
         <source>Everything stored now is deleted and replaced with what the backup holds. Continue?</source>
         <translation>目前儲存的所有內容都將被刪除，並以備份中的內容取代。要繼續嗎？</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1720"/>
+        <location filename="../client/desktop/management_tab.cc" line="1756"/>
         <source>The backup was made on another installation. Enter the master password used there.</source>
         <translation>此備份是在另一個安裝上建立的。請輸入該處使用的主密碼。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1745"/>
+        <location filename="../client/desktop/management_tab.cc" line="1781"/>
         <source>The backup carries no data, so nothing was changed.</source>
         <translation>備份中沒有資料，因此未做任何變更。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1753"/>
+        <location filename="../client/desktop/management_tab.cc" line="1789"/>
         <source>The file is not a valid backup.</source>
         <translation>此檔案不是有效的備份。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1757"/>
+        <location filename="../client/desktop/management_tab.cc" line="1793"/>
         <source>Failed to restore from the backup.</source>
         <translation>無法從備份還原。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1636"/>
-        <location filename="../client/desktop/management_tab.cc" line="1693"/>
+        <location filename="../client/desktop/management_tab.cc" line="1672"/>
+        <location filename="../client/desktop/management_tab.cc" line="1729"/>
         <source>Aspia Backup (*.aspia-backup);;All files (*)</source>
         <translation>Aspia 備份 (*.aspia-backup);;所有檔案 (*)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1656"/>
+        <location filename="../client/desktop/management_tab.cc" line="1692"/>
         <source>Unable to write the file.</source>
         <translation>無法寫入檔案。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1749"/>
+        <location filename="../client/desktop/management_tab.cc" line="1785"/>
         <source>Unable to read the file.</source>
         <translation>無法讀取檔案。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1669"/>
+        <location filename="../client/desktop/management_tab.cc" line="1705"/>
         <source>Export completed successfully.
 Routers exported: %1
 Groups exported: %2
@@ -5467,22 +5323,37 @@ Credentials exported: %5</source>
 已匯出認證：%5</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1660"/>
+        <location filename="../client/desktop/management_tab.cc" line="1486"/>
+        <source>Are you sure you want to delete space &quot;%1&quot;?</source>
+        <translation>確定要刪除空間「%1」嗎？</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management_tab.cc" line="1506"/>
+        <source>Failed to delete the space.</source>
+        <translation>無法刪除空間。</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management_tab.cc" line="1608"/>
+        <source>Are you sure you want to delete the group &quot;%1&quot;? Hosts assigned to this group or its subgroups will be moved to the space root.</source>
+        <translation>確定要刪除群組「%1」嗎？指派給此群組或其子群組的主機將被移至空間根目錄。</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management_tab.cc" line="1696"/>
         <source>Some records of the database are damaged. Fix or delete them and try again.</source>
         <translation>資料庫中有部分記錄已損壞。請修復或刪除這些記錄後再試一次。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1737"/>
+        <location filename="../client/desktop/management_tab.cc" line="1773"/>
         <source>Unable to decrypt the file with the specified password.</source>
         <translation>無法使用指定的密碼解密檔案。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1741"/>
+        <location filename="../client/desktop/management_tab.cc" line="1777"/>
         <source>Unsupported file format version.</source>
         <translation>不支援的檔案格式版本。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1762"/>
+        <location filename="../client/desktop/management_tab.cc" line="1798"/>
         <source>Import completed successfully.
 Routers imported: %1
 Groups imported: %2
@@ -5497,29 +5368,29 @@ Credentials imported: %5</source>
 已匯入認證：%5</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2197"/>
-        <location filename="../client/desktop/management_tab.cc" line="2228"/>
+        <location filename="../client/desktop/management_tab.cc" line="2209"/>
+        <location filename="../client/desktop/management_tab.cc" line="2240"/>
         <source>Copy Link</source>
         <translation>複製連結</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2216"/>
-        <location filename="../client/desktop/management_tab.cc" line="2250"/>
+        <location filename="../client/desktop/management_tab.cc" line="2228"/>
+        <location filename="../client/desktop/management_tab.cc" line="2262"/>
         <source>Unable to create a link for this host.</source>
         <translation>無法為此主機建立連結。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2291"/>
+        <location filename="../client/desktop/management_tab.cc" line="2303"/>
         <source>The router associated with this host has been deleted. Edit the host to select another router or switch to direct connection.</source>
         <translation>與此主機關聯的路由器已被刪除。請編輯主機以選擇其他路由器，或改用直接連線。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2298"/>
+        <location filename="../client/desktop/management_tab.cc" line="2310"/>
         <source>The host has an invalid host ID.</source>
         <translation>主機的 ID 無效。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2307"/>
+        <location filename="../client/desktop/management_tab.cc" line="2319"/>
         <source>The host has an incorrect address.</source>
         <translation>主機的位址不正確。</translation>
     </message>
@@ -6394,64 +6265,73 @@ Credentials imported: %5</source>
 <context>
     <name>RouterClientsWidget</name>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="231"/>
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="225"/>
         <source>Save File</source>
         <translation>儲存檔案</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="231"/>
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="225"/>
         <source>JSON files (*.json)</source>
         <translation>JSON 檔案 (*.json)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="242"/>
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="236"/>
         <source>Could not open file for writing.</source>
         <translation>無法開啟檔案進行寫入。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="277"/>
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="271"/>
         <source>Unable to write file.</source>
         <translation>無法寫入檔案。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="316"/>
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="291"/>
         <source>Are you sure you want to disconnect client &quot;%1&quot;?</source>
         <translation>確定要中斷用戶端「%1」的連線嗎？</translation>
     </message>
-    <message>
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="341"/>
-        <source>Are you sure you want to disconnect all clients?</source>
-        <translation>確定要中斷所有用戶端的連線嗎？</translation>
+    <message numerus="yes">
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="296"/>
+        <source>Are you sure you want to disconnect %n clients?</source>
+        <translation>
+            <numerusform>確定要中斷 %n 個用戶端的連線嗎？</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="502"/>
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="343"/>
+        <source>Failed to disconnect %n of the selected clients.</source>
+        <translation>
+            <numerusform>無法中斷所選用戶端中 %n 個的連線。</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="499"/>
         <source>%n client(s)</source>
         <translation>
             <numerusform>%n 個用戶端</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.ui" line="53"/>
+        <location filename="../client/desktop/management/router_clients_widget.ui" line="59"/>
         <source>Previous page</source>
         <translation>上一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.ui" line="56"/>
+        <location filename="../client/desktop/management/router_clients_widget.ui" line="62"/>
         <source>Previous</source>
         <translation>上一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.ui" line="74"/>
+        <location filename="../client/desktop/management/router_clients_widget.ui" line="80"/>
         <source>Next page</source>
         <translation>下一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.ui" line="77"/>
+        <location filename="../client/desktop/management/router_clients_widget.ui" line="83"/>
         <source>Next</source>
         <translation>下一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.ui" line="88"/>
+        <location filename="../client/desktop/management/router_clients_widget.ui" line="94"/>
         <source>Items per page:</source>
         <translation>每頁項目數：</translation>
     </message>
@@ -6812,34 +6692,34 @@ Credentials imported: %5</source>
 <context>
     <name>RouterGroupWidget</name>
     <message numerus="yes">
-        <location filename="../client/desktop/management/router_group_widget.cc" line="452"/>
+        <location filename="../client/desktop/management/router_group_widget.cc" line="428"/>
         <source>%n host(s)</source>
         <translation>
             <numerusform>%n 個主機</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_group_widget.ui" line="47"/>
+        <location filename="../client/desktop/management/router_group_widget.ui" line="53"/>
         <source>Previous page</source>
         <translation>上一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_group_widget.ui" line="50"/>
+        <location filename="../client/desktop/management/router_group_widget.ui" line="56"/>
         <source>Previous</source>
         <translation>上一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_group_widget.ui" line="68"/>
+        <location filename="../client/desktop/management/router_group_widget.ui" line="74"/>
         <source>Next page</source>
         <translation>下一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_group_widget.ui" line="71"/>
+        <location filename="../client/desktop/management/router_group_widget.ui" line="77"/>
         <source>Next</source>
         <translation>下一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_group_widget.ui" line="82"/>
+        <location filename="../client/desktop/management/router_group_widget.ui" line="88"/>
         <source>Items per page:</source>
         <translation>每頁項目數：</translation>
     </message>
@@ -6850,11 +6730,6 @@ Credentials imported: %5</source>
         <location filename="../client/desktop/management/router_host_dialog.ui" line="14"/>
         <source>Host Properties</source>
         <translation>主機內容</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/management/router_host_dialog.ui" line="25"/>
-        <source>Workspace:</source>
-        <translation>工作區：</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_host_dialog.ui" line="39"/>
@@ -6882,6 +6757,11 @@ Credentials imported: %5</source>
         <translation>密碼：</translation>
     </message>
     <message>
+        <location filename="../client/desktop/management/router_host_dialog.ui" line="25"/>
+        <source>Space:</source>
+        <translation>空間：</translation>
+    </message>
+    <message>
         <location filename="../client/desktop/management/router_host_dialog.ui" line="63"/>
         <source>Use saved credentials</source>
         <translation>使用已儲存的認證</translation>
@@ -6898,8 +6778,8 @@ Credentials imported: %5</source>
     </message>
     <message>
         <location filename="../client/desktop/management/router_host_dialog.cc" line="135"/>
-        <source>Failed to get list of workspaces.</source>
-        <translation>無法取得工作區清單。</translation>
+        <source>Failed to get list of spaces.</source>
+        <translation>無法取得空間清單。</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_host_dialog.cc" line="143"/>
@@ -6999,103 +6879,143 @@ Credentials imported: %5</source>
     <name>RouterHostsWidget</name>
     <message>
         <location filename="../client/desktop/management/router_hosts_widget.ui" line="56"/>
+        <source>Host ID</source>
+        <translation>主機 ID</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="72"/>
+        <source>Display Name</source>
+        <translation>顯示名稱</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="88"/>
         <source>Address</source>
         <translation>位址</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.ui" line="72"/>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="104"/>
         <source>Operating System</source>
         <translation>作業系統</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.ui" line="88"/>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="120"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.ui" line="104"/>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="136"/>
         <source>Architecture</source>
         <translation>架構</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.ui" line="120"/>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="152"/>
         <source>Reset filter</source>
         <translation>重設篩選</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.ui" line="157"/>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="195"/>
         <source>Previous page</source>
         <translation>上一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.ui" line="160"/>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="198"/>
         <source>Previous</source>
         <translation>上一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.ui" line="178"/>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="216"/>
         <source>Next page</source>
         <translation>下一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.ui" line="181"/>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="219"/>
         <source>Next</source>
         <translation>下一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.ui" line="192"/>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="230"/>
         <source>Items per page:</source>
         <translation>每頁項目數：</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_hosts_widget.cc" line="147"/>
-        <source>All workspaces</source>
-        <translation>所有工作區</translation>
+        <source>All spaces</source>
+        <translation>所有空間</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_hosts_widget.cc" line="148"/>
-        <source>Without workspace</source>
-        <translation>無工作區</translation>
+        <source>Not in any space</source>
+        <translation>不屬於任何空間</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.cc" line="392"/>
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="366"/>
         <source>Are you sure you want to disconnect host &quot;%1&quot;?</source>
         <translation>確定要中斷主機「%1」的連線嗎？</translation>
     </message>
-    <message>
-        <location filename="../client/desktop/management/router_hosts_widget.cc" line="417"/>
-        <source>Are you sure you want to disconnect all hosts?</source>
-        <translation>確定要中斷所有主機的連線嗎？</translation>
+    <message numerus="yes">
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="368"/>
+        <source>Are you sure you want to disconnect %n hosts?</source>
+        <translation>
+            <numerusform>確定要中斷 %n 個主機的連線嗎？</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="379"/>
+        <source>Failed to disconnect %n of the selected hosts.</source>
+        <translation>
+            <numerusform>無法中斷所選主機中 %n 個的連線。</numerusform>
+        </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.cc" line="445"/>
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="395"/>
         <source>Deleting a host will result in all its configuration for connecting to the router being deleted, and the application will be uninstalled on the host. This operation is irreversible. Are you sure you want to do this?</source>
         <translation>刪除主機將會刪除其連線到路由器的所有設定，且主機上的應用程式將被解除安裝。此操作無法復原。確定要繼續嗎？</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/management/router_hosts_widget.cc" line="821"/>
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="400"/>
+        <source>%n hosts will be deleted.</source>
+        <translation>
+            <numerusform>將刪除 %n 個主機。</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="411"/>
+        <source>Failed to remove %n of the selected hosts.</source>
+        <translation>
+            <numerusform>無法刪除所選主機中的 %n 個。</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="428"/>
+        <source>Failed to check for updates on %n of the selected hosts.</source>
+        <translation>
+            <numerusform>無法為所選主機中的 %n 個檢查更新。</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="761"/>
         <source>%n host(s)</source>
         <translation>
             <numerusform>%n 個主機</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.cc" line="877"/>
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="825"/>
         <source>Save File</source>
         <translation>儲存檔案</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.cc" line="877"/>
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="825"/>
         <source>JSON files (*.json)</source>
         <translation>JSON 檔案 (*.json)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.cc" line="888"/>
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="836"/>
         <source>Could not open file for writing.</source>
         <translation>無法開啟檔案進行寫入。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.cc" line="935"/>
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="883"/>
         <source>Unable to write file.</source>
         <translation>無法寫入檔案。</translation>
     </message>
@@ -7103,61 +7023,63 @@ Credentials imported: %5</source>
 <context>
     <name>RouterRelaysWidget</name>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="247"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="238"/>
         <source>Save File</source>
         <translation>儲存檔案</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="247"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="238"/>
         <source>JSON files (*.json)</source>
         <translation>JSON 檔案 (*.json)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="258"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="249"/>
         <source>Could not open file for writing.</source>
         <translation>無法開啟檔案進行寫入。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="320"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="311"/>
         <source>Unable to write file.</source>
         <translation>無法寫入檔案。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="359"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="331"/>
         <source>Are you sure you want to disconnect relay &quot;%1&quot;?</source>
         <translation>確定要中斷中繼伺服器「%1」的連線嗎？</translation>
     </message>
-    <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="384"/>
-        <source>Are you sure you want to disconnect all relays?</source>
-        <translation>確定要中斷所有中繼伺服器的連線嗎？</translation>
+    <message numerus="yes">
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="336"/>
+        <source>Are you sure you want to disconnect %n relays?</source>
+        <translation>
+            <numerusform>確定要中斷 %n 個中繼伺服器的連線嗎？</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="383"/>
+        <source>Failed to disconnect %n of the selected relays.</source>
+        <translation>
+            <numerusform>無法中斷所選中繼伺服器中 %n 個的連線。</numerusform>
+        </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="450"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="443"/>
         <source>Disconnect</source>
         <translation>中斷連線</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="452"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="445"/>
         <source>Copy Row</source>
         <translation>複製列</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="453"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="446"/>
         <source>Copy Value</source>
         <translation>複製值</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="462"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="455"/>
         <source>Are you sure you want to disconnect peer &quot;%1&quot;?</source>
         <translation>確定要中斷節點「%1」的連線嗎？</translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="602"/>
-        <source>%n relay(s)</source>
-        <translation>
-            <numerusform>%n 個中繼伺服器</numerusform>
-        </translation>
     </message>
 </context>
 <context>
@@ -7172,13 +7094,13 @@ Credentials imported: %5</source>
     <name>RouterStatusWidget</name>
     <message>
         <location filename="../client/desktop/management/router_status_widget.ui" line="42"/>
-        <location filename="../client/desktop/management/router_status_widget.cc" line="230"/>
+        <location filename="../client/desktop/management/router_status_widget.cc" line="198"/>
         <source>The router is waiting for a two-factor code.</source>
         <translation>路由器正在等待雙重驗證代碼。</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_status_widget.ui" line="65"/>
-        <location filename="../client/desktop/management/router_status_widget.cc" line="231"/>
+        <location filename="../client/desktop/management/router_status_widget.cc" line="199"/>
         <source>Enter Code</source>
         <translation>輸入代碼</translation>
     </message>
@@ -7192,25 +7114,18 @@ Credentials imported: %5</source>
         <source>Event</source>
         <translation>事件</translation>
     </message>
-    <message numerus="yes">
-        <location filename="../client/desktop/management/router_status_widget.cc" line="200"/>
-        <source>%n event(s)</source>
-        <translation>
-            <numerusform>%n 個事件</numerusform>
-        </translation>
-    </message>
     <message>
-        <location filename="../client/desktop/management/router_status_widget.cc" line="218"/>
+        <location filename="../client/desktop/management/router_status_widget.cc" line="186"/>
         <source>Two-factor authentication is blocked after too many failed attempts.</source>
         <translation>由於失敗次數過多，雙重驗證已被封鎖。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_status_widget.cc" line="235"/>
+        <location filename="../client/desktop/management/router_status_widget.cc" line="203"/>
         <source>Two-factor authentication has to be set up for this router.</source>
         <translation>必須為此路由器設定雙重驗證。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_status_widget.cc" line="236"/>
+        <location filename="../client/desktop/management/router_status_widget.cc" line="204"/>
         <source>Set Up</source>
         <translation>設定</translation>
     </message>
@@ -7238,29 +7153,29 @@ Credentials imported: %5</source>
         <translation>下一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="94"/>
+        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="95"/>
         <source>Items per page:</source>
         <translation>每頁項目數：</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="220"/>
+        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="221"/>
         <source>Approving a host will give it permanent access to the router. Are you sure you want to approve host &quot;%1&quot;?</source>
         <translation>核准主機將授予其永久存取路由器的權限。確定要核准主機「%1」嗎？</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="227"/>
+        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="228"/>
         <source>Approving hosts will give them permanent access to the router. Are you sure you want to approve %n hosts?</source>
         <translation>
             <numerusform>核准主機將授予其永久存取路由器的權限。確定要核准 %n 個主機嗎？</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="267"/>
+        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="268"/>
         <source>Failed to approve the host.</source>
         <translation>無法核准主機。</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="269"/>
+        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="270"/>
         <source>Failed to approve %n of the selected hosts.</source>
         <translation>
             <numerusform>無法核准所選主機中的 %n 個。</numerusform>
@@ -7464,60 +7379,55 @@ Credentials imported: %5</source>
 <context>
     <name>RouterUsersWidget</name>
     <message>
-        <location filename="../client/desktop/management/router_users_widget.cc" line="229"/>
+        <location filename="../client/desktop/management/router_users_widget.cc" line="205"/>
         <source>You cannot delete a built-in user.</source>
         <translation>無法刪除內建使用者。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_users_widget.cc" line="234"/>
+        <location filename="../client/desktop/management/router_users_widget.cc" line="210"/>
         <source>Are you sure you want to delete user &quot;%1&quot;?</source>
         <translation>確定要刪除使用者「%1」嗎？</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_users_widget.cc" line="292"/>
+        <location filename="../client/desktop/management/router_users_widget.cc" line="268"/>
         <source>Failed to get list of users.</source>
         <translation>無法取得使用者清單。</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/management/router_users_widget.cc" line="435"/>
+        <location filename="../client/desktop/management/router_users_widget.cc" line="411"/>
         <source>%n user(s)</source>
         <translation>
             <numerusform>%n 位使用者</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_users_widget.ui" line="56"/>
+        <location filename="../client/desktop/management/router_users_widget.ui" line="62"/>
         <source>Previous page</source>
         <translation>上一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_users_widget.ui" line="59"/>
+        <location filename="../client/desktop/management/router_users_widget.ui" line="65"/>
         <source>Previous</source>
         <translation>上一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_users_widget.ui" line="77"/>
+        <location filename="../client/desktop/management/router_users_widget.ui" line="83"/>
         <source>Next page</source>
         <translation>下一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_users_widget.ui" line="80"/>
+        <location filename="../client/desktop/management/router_users_widget.ui" line="86"/>
         <source>Next</source>
         <translation>下一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_users_widget.ui" line="91"/>
+        <location filename="../client/desktop/management/router_users_widget.ui" line="97"/>
         <source>Items per page:</source>
         <translation>每頁項目數：</translation>
     </message>
 </context>
 <context>
     <name>RouterWorkspaceDialog</name>
-    <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="14"/>
-        <source>Workspace Properties</source>
-        <translation>工作區內容</translation>
-    </message>
     <message>
         <location filename="../client/desktop/management/router_workspace_dialog.ui" line="27"/>
         <source>General</source>
@@ -7539,17 +7449,32 @@ Credentials imported: %5</source>
         <translation>存取</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="182"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="194"/>
         <source>Users with access</source>
         <translation>具有存取權的使用者</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="145"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="300"/>
+        <source>Move the selected host into the space</source>
+        <translation>將所選主機移入空間</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="313"/>
+        <source>Remove the selected host from the space</source>
+        <translation>從空間移除所選主機</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="343"/>
+        <source>Hosts in space</source>
+        <translation>空間中的主機</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="151"/>
         <source>Grant access to the selected user</source>
         <translation>授予所選使用者存取權</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="158"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="164"/>
         <source>Revoke access from the selected user</source>
         <translation>撤銷所選使用者的存取權</translation>
     </message>
@@ -7559,53 +7484,43 @@ Credentials imported: %5</source>
         <translation>可用的使用者</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="88"/>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="225"/>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="341"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="14"/>
+        <source>Space Properties</source>
+        <translation>空間內容</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="84"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="233"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="361"/>
         <source>Previous page</source>
         <translation>上一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="112"/>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="249"/>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="365"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="108"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="257"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="385"/>
         <source>Next page</source>
         <translation>下一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="195"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="207"/>
         <source>Hosts</source>
         <translation>主機</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="319"/>
-        <source>Hosts in workspace</source>
-        <translation>工作區中的主機</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="282"/>
-        <source>Move the selected host into the workspace</source>
-        <translation>將所選主機移入工作區</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="295"/>
-        <source>Remove the selected host from the workspace</source>
-        <translation>從工作區移除所選主機</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="203"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="215"/>
         <source>Unassigned hosts</source>
         <translation>未指派的主機</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_workspace_dialog.cc" line="238"/>
-        <source>Failed to get list of workspaces.</source>
-        <translation>無法取得工作區清單。</translation>
+        <source>Failed to get list of spaces.</source>
+        <translation>無法取得空間清單。</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_workspace_dialog.cc" line="265"/>
-        <source>The workspace was deleted from another console.</source>
-        <translation>此工作區已從另一個主控台刪除。</translation>
+        <source>The space was deleted from another console.</source>
+        <translation>此空間已從另一個主控台刪除。</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_workspace_dialog.cc" line="306"/>
@@ -7614,23 +7529,23 @@ Credentials imported: %5</source>
     </message>
     <message>
         <location filename="../client/desktop/management/router_workspace_dialog.cc" line="428"/>
-        <source>The workspace was changed from another console. The lists are being refreshed - check the changes and save again.</source>
-        <translation>此工作區已在另一個主控台中變更。正在重新整理清單，請檢查變更後再次儲存。</translation>
+        <source>The space was changed from another console. The lists are being refreshed - check the changes and save again.</source>
+        <translation>此空間已在另一個主控台中變更。正在重新整理清單，請檢查變更後再次儲存。</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_workspace_dialog.cc" line="534"/>
-        <source>Are you sure you want to remove the host from the workspace?</source>
-        <translation>確定要從工作區移除主機嗎？</translation>
+        <source>Are you sure you want to remove the host from the space?</source>
+        <translation>確定要從空間移除主機嗎？</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_workspace_dialog.cc" line="917"/>
-        <source>Workspace name cannot be empty.</source>
-        <translation>工作區名稱不能為空。</translation>
+        <source>Space name cannot be empty.</source>
+        <translation>空間名稱不能為空。</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_workspace_dialog.cc" line="928"/>
-        <source>A workspace with the specified name already exists.</source>
-        <translation>已存在使用指定名稱的工作區。</translation>
+        <source>A space with the specified name already exists.</source>
+        <translation>已存在使用指定名稱的空間。</translation>
     </message>
 </context>
 <context>
@@ -7649,14 +7564,6 @@ Credentials imported: %5</source>
         <location filename="../client/android/routers_widget.cc" line="243"/>
         <source>Edit Router</source>
         <translation>編輯路由器</translation>
-    </message>
-</context>
-<context>
-    <name>ScreenWorker</name>
-    <message>
-        <location filename="../host/workers/screen_worker.cc" line="1245"/>
-        <source>All monitors</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7698,27 +7605,27 @@ Credentials imported: %5</source>
 <context>
     <name>SearchWidget</name>
     <message>
-        <location filename="../client/desktop/management/search_widget.cc" line="296"/>
+        <location filename="../client/desktop/management/search_widget.cc" line="294"/>
         <source>Previous</source>
         <translation>上一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/search_widget.cc" line="297"/>
+        <location filename="../client/desktop/management/search_widget.cc" line="295"/>
         <source>Previous page</source>
         <translation>上一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/search_widget.cc" line="304"/>
+        <location filename="../client/desktop/management/search_widget.cc" line="302"/>
         <source>Next</source>
         <translation>下一頁</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/search_widget.cc" line="305"/>
+        <location filename="../client/desktop/management/search_widget.cc" line="303"/>
         <source>Next page</source>
         <translation>下一頁</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/management/search_widget.cc" line="808"/>
+        <location filename="../client/desktop/management/search_widget.cc" line="787"/>
         <source>%n result(s)</source>
         <translation>
             <numerusform>%n 個結果</numerusform>
@@ -7786,17 +7693,12 @@ Credentials imported: %5</source>
 <context>
     <name>SelectScreenAction</name>
     <message>
-        <location filename="../client/desktop/desktop/select_screen_action.h" line="42"/>
-        <source>All monitors</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/desktop/select_screen_action.h" line="48"/>
+        <location filename="../client/desktop/desktop/select_screen_action.h" line="38"/>
         <source>Monitor %1 (primary)</source>
         <translation>螢幕 %1（主要）</translation>
     </message>
     <message>
-        <location filename="../client/desktop/desktop/select_screen_action.h" line="50"/>
+        <location filename="../client/desktop/desktop/select_screen_action.h" line="40"/>
         <source>Monitor %1</source>
         <translation>螢幕 %1</translation>
     </message>
@@ -8147,7 +8049,7 @@ Credentials imported: %5</source>
     </message>
     <message>
         <location filename="../client/desktop/settings_tab.ui" line="814"/>
-        <location filename="../client/desktop/settings_tab.cc" line="144"/>
+        <location filename="../client/desktop/settings_tab.cc" line="145"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
@@ -8182,197 +8084,197 @@ Credentials imported: %5</source>
         <translation>檢查更新</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="141"/>
+        <location filename="../client/desktop/settings_tab.cc" line="142"/>
         <source>General</source>
         <translation>一般</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="142"/>
+        <location filename="../client/desktop/settings_tab.cc" line="143"/>
         <source>Desktop</source>
         <translation>桌面</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="197"/>
+        <location filename="../client/desktop/settings_tab.cc" line="198"/>
         <source>1 week</source>
         <translation>1 週</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="198"/>
+        <location filename="../client/desktop/settings_tab.cc" line="199"/>
         <source>2 weeks</source>
         <translation>2 週</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="199"/>
+        <location filename="../client/desktop/settings_tab.cc" line="200"/>
         <source>1 month</source>
         <translation>1 個月</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="200"/>
+        <location filename="../client/desktop/settings_tab.cc" line="201"/>
         <source>6 months</source>
         <translation>6 個月</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="201"/>
+        <location filename="../client/desktop/settings_tab.cc" line="202"/>
         <source>1 year</source>
         <translation>1 年</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="205"/>
+        <location filename="../client/desktop/settings_tab.cc" line="206"/>
         <source>Do not lock</source>
         <translation>不鎖定</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="206"/>
+        <location filename="../client/desktop/settings_tab.cc" line="207"/>
         <source>1 minute</source>
         <translation>1 分鐘</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="207"/>
+        <location filename="../client/desktop/settings_tab.cc" line="208"/>
         <source>5 minutes</source>
         <translation>5 分鐘</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="208"/>
+        <location filename="../client/desktop/settings_tab.cc" line="209"/>
         <source>10 minutes</source>
         <translation>10 分鐘</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="209"/>
+        <location filename="../client/desktop/settings_tab.cc" line="210"/>
         <source>30 minutes</source>
         <translation>30 分鐘</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="210"/>
+        <location filename="../client/desktop/settings_tab.cc" line="211"/>
         <source>1 hour</source>
         <translation>1 小時</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="225"/>
+        <location filename="../client/desktop/settings_tab.cc" line="226"/>
         <source>No proxy</source>
         <translation>不使用 Proxy 伺服器</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="264"/>
+        <location filename="../client/desktop/settings_tab.cc" line="265"/>
         <source>None</source>
         <translation>無</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="319"/>
+        <location filename="../client/desktop/settings_tab.cc" line="320"/>
         <source>Stable</source>
         <translation>穩定版</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="320"/>
+        <location filename="../client/desktop/settings_tab.cc" line="321"/>
         <source>Beta</source>
         <translation>測試版</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="321"/>
+        <location filename="../client/desktop/settings_tab.cc" line="322"/>
         <source>Alpha</source>
         <translation>早期測試版</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="457"/>
+        <location filename="../client/desktop/settings_tab.cc" line="452"/>
         <source>The new language will be applied after the application is restarted.</source>
         <translation>新語言將在應用程式重新啟動後套用。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="506"/>
-        <location filename="../client/desktop/settings_tab.cc" line="631"/>
+        <location filename="../client/desktop/settings_tab.cc" line="501"/>
+        <location filename="../client/desktop/settings_tab.cc" line="626"/>
         <source>Choose path</source>
         <translation>選擇路徑</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="659"/>
-        <source>MCP will work after the application is restarted.</source>
-        <translation>MCP 將在應用程式重新啟動後生效。</translation>
+        <location filename="../client/desktop/settings_tab.cc" line="654"/>
+        <source>The settings will be applied after the application is restarted.</source>
+        <translation>設定將在應用程式重新啟動後套用。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="706"/>
+        <location filename="../client/desktop/settings_tab.cc" line="701"/>
         <source>Change Master Password</source>
         <translation>變更主密碼</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="708"/>
+        <location filename="../client/desktop/settings_tab.cc" line="703"/>
         <source>Enter your current password and choose a new one.</source>
         <translation>輸入您目前的密碼並選擇新密碼。</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/settings_tab.cc" line="716"/>
+        <location filename="../client/desktop/settings_tab.cc" line="711"/>
         <source>The password can not be shorter than %n characters.</source>
         <translation>
             <numerusform>密碼長度不能少於 %n 個字元。</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="723"/>
+        <location filename="../client/desktop/settings_tab.cc" line="718"/>
         <source>Password you entered does not meet the security requirements!</source>
         <translation>輸入的密碼不符合安全性要求！</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/settings_tab.cc" line="724"/>
+        <location filename="../client/desktop/settings_tab.cc" line="719"/>
         <source>The password must contain lowercase and uppercase characters, numbers and should not be shorter than %n characters.</source>
         <translation>
             <numerusform>密碼必須包含大小寫字母和數字，且長度不能少於 %n 個字元。</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="727"/>
+        <location filename="../client/desktop/settings_tab.cc" line="722"/>
         <source>Do you want to enter a different password?</source>
         <translation>要輸入其他密碼嗎？</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="740"/>
+        <location filename="../client/desktop/settings_tab.cc" line="735"/>
         <source>Invalid current password.</source>
         <translation>目前密碼無效。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="744"/>
+        <location filename="../client/desktop/settings_tab.cc" line="739"/>
         <source>Some records of the database are damaged. Fix or delete them and try again.</source>
         <translation>資料庫中有部分記錄已損壞。請修復或刪除這些記錄後再試一次。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="748"/>
+        <location filename="../client/desktop/settings_tab.cc" line="743"/>
         <source>Unable to change the password.</source>
         <translation>無法變更密碼。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="781"/>
+        <location filename="../client/desktop/settings_tab.cc" line="776"/>
         <source>Unable to read the proxy settings.</source>
         <translation>無法讀取 Proxy 伺服器設定。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="895"/>
+        <location filename="../client/desktop/settings_tab.cc" line="890"/>
         <source>The key of the database will be stored on this computer. Any program running under your account will be able to read it, even when the application is not running.</source>
         <translation>資料庫的金鑰將儲存在此電腦上。在您的帳戶下執行的任何程式都能讀取它，即使應用程式未在執行中也一樣。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="898"/>
+        <location filename="../client/desktop/settings_tab.cc" line="893"/>
         <source>Do you want to continue?</source>
         <translation>要繼續嗎？</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="909"/>
+        <location filename="../client/desktop/settings_tab.cc" line="904"/>
         <source>Unlock Automatically</source>
         <translation>自動解除鎖定</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="911"/>
+        <location filename="../client/desktop/settings_tab.cc" line="906"/>
         <source>Enter the master password to unlock the application automatically on startup.</source>
         <translation>輸入主密碼以在啟動時自動解除鎖定應用程式。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="921"/>
+        <location filename="../client/desktop/settings_tab.cc" line="916"/>
         <source>Invalid master password.</source>
         <translation>主密碼無效。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="925"/>
+        <location filename="../client/desktop/settings_tab.cc" line="920"/>
         <source>Unable to unlock the database.</source>
         <translation>無法解除鎖定資料庫。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="939"/>
+        <location filename="../client/desktop/settings_tab.cc" line="934"/>
         <source>Unable to turn on the automatic unlock.</source>
         <translation>無法啟用自動解除鎖定。</translation>
     </message>
@@ -8744,7 +8646,7 @@ Credentials imported: %5</source>
 <context>
     <name>Sidebar</name>
     <message>
-        <location filename="../client/desktop/management/search_widget.cc" line="116"/>
+        <location filename="../client/desktop/management/search_widget.cc" line="115"/>
         <location filename="../client/desktop/management/sidebar.cc" line="154"/>
         <source>Local</source>
         <translation>本機</translation>
@@ -12859,7 +12761,12 @@ Credentials imported: %5</source>
         <translation>Proxy 伺服器拒絕了連線或傳送了無效的回應。</translation>
     </message>
     <message>
-        <location filename="../base/net/tcp_channel.cc" line="167"/>
+        <location filename="../base/net/tcp_channel.cc" line="161"/>
+        <source>Proxy server could not connect to the destination host.</source>
+        <translation>Proxy 伺服器無法連線到目的地主機。</translation>
+    </message>
+    <message>
+        <location filename="../base/net/tcp_channel.cc" line="171"/>
         <source>An unknown error occurred.</source>
         <translation>發生未知的錯誤。</translation>
     </message>

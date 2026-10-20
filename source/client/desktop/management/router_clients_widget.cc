@@ -33,11 +33,11 @@
 #include <QMenu>
 #include <QSaveFile>
 #include <QSignalBlocker>
-#include <QStatusBar>
 #include <QToolButton>
 
 #include "base/auto_qpointer.h"
 #include "base/logging.h"
+#include "base/shared_pointer.h"
 #include "client/router_controller.h"
 #include "client/desktop/file_dialog.h"
 #include "client/desktop/management/ui_router_clients_widget.h"
@@ -56,13 +56,13 @@ const qint64 kMaxClientCount = 500000;
 //--------------------------------------------------------------------------------------------------
 RouterClientsWidget::RouterClientsWidget(QWidget* parent)
     : ContentWidget(Type::ROUTER_CLIENTS, parent),
-      ui(std::make_unique<Ui::RouterClientsWidget>()),
-      status_clients_label_(new QLabel(this))
+      ui(std::make_unique<Ui::RouterClientsWidget>())
 {
     LOG(INFO) << "Ctor";
     ui->setupUi(this);
 
     model_ = new ClientListModel(this);
+    ui->tree_clients->setSelectionMode(QAbstractItemView::ExtendedSelection);
     ui->tree_clients->setModel(model_);
 
     // Turned on again after the model is set: the view wires the header up to the sort of whatever
@@ -111,7 +111,7 @@ RouterClientsWidget::RouterClientsWidget(QWidget* parent)
         if (router_id == router_id_ && status != RouterStatus::ONLINE)
         {
             model_->clear();
-            updateStatusLabel();
+            updateCountLabel();
         }
     });
 }
@@ -129,20 +129,14 @@ void RouterClientsWidget::showRouter(qint64 router_id)
     page_.clear();
 
     model_->clear();
-    updateStatusLabel();
+    updateCountLabel();
     fetchClients();
 }
 
 //--------------------------------------------------------------------------------------------------
-bool RouterClientsWidget::hasSelectedClient() const
+int RouterClientsWidget::selectedClientCount() const
 {
-    return currentClient() != nullptr;
-}
-
-//--------------------------------------------------------------------------------------------------
-int RouterClientsWidget::clientCount() const
-{
-    return model_->rowCount();
+    return static_cast<int>(ui->tree_clients->selectionModel()->selectedRows().size());
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -280,43 +274,31 @@ void RouterClientsWidget::save()
 }
 
 //--------------------------------------------------------------------------------------------------
-void RouterClientsWidget::activate(QStatusBar* statusbar)
-{
-    if (!statusbar)
-        return;
-
-    updateStatusLabel();
-
-    statusbar->addWidget(status_clients_label_);
-    status_clients_label_->show();
-}
-
-//--------------------------------------------------------------------------------------------------
-void RouterClientsWidget::deactivate(QStatusBar* statusbar)
-{
-    if (!statusbar)
-        return;
-
-    statusbar->removeWidget(status_clients_label_);
-    status_clients_label_->setParent(this);
-}
-
-//--------------------------------------------------------------------------------------------------
 void RouterClientsWidget::onDisconnectClient()
 {
-    const proto::router::ClientInfo* client = currentClient();
-    if (!client)
+    const QList<proto::router::ClientInfo> clients = selectedClients();
+    if (clients.isEmpty())
     {
         LOG(INFO) << "No selected client";
         return;
     }
 
-    const qint64 entry_id = client->entry_id();
+    const int total = static_cast<int>(clients.size());
 
-    if (MsgBox::question(this, tr("Are you sure you want to disconnect client \"%1\"?")
-        .arg(QString::fromStdString(client->computer_name()))) != MsgBox::Yes)
+    QString message;
+    if (total == 1)
     {
-        LOG(INFO) << "[ACTION] Disconnect client rejected by user";
+        message = tr("Are you sure you want to disconnect client \"%1\"?")
+            .arg(QString::fromStdString(clients.front().computer_name()));
+    }
+    else
+    {
+        message = tr("Are you sure you want to disconnect %n clients?", "", total);
+    }
+
+    if (MsgBox::question(this, message) != MsgBox::Yes)
+    {
+        LOG(INFO) << "[ACTION] Disconnect clients rejected by user";
         return;
     }
 
@@ -324,32 +306,46 @@ void RouterClientsWidget::onDisconnectClient()
     if (!session)
         return;
 
-    LOG(INFO) << "[ACTION] Disconnect client accepted by user";
-    session->disconnectClient(entry_id, { this, &RouterClientsWidget::onClientResultReceived });
-}
+    LOG(INFO) << "[ACTION] Disconnect clients accepted by user:" << total;
 
-//--------------------------------------------------------------------------------------------------
-void RouterClientsWidget::onDisconnectAllClients()
-{
-    if (model_->rowCount() <= 0)
+    struct Batch
     {
-        LOG(INFO) << "Client list is empty";
-        return;
-    }
+        int pending = 0;
+        int failed = 0;
+        std::string error_code;
+    };
 
-    if (MsgBox::question(this,
-            tr("Are you sure you want to disconnect all clients?")) != MsgBox::Yes)
+    SharedPointer<Batch> batch(new Batch());
+    batch->pending = total;
+
+    for (const proto::router::ClientInfo& client : clients)
     {
-        LOG(INFO) << "[ACTION] Disconnect all clients rejected by user";
-        return;
+        const qint64 entry_id = client.entry_id();
+
+        session->disconnectClient(entry_id, { this,
+            [this, batch, total, entry_id](const proto::router::ClientResult& result)
+        {
+            if (result.error_code() != proto::router::kErrorOk)
+            {
+                LOG(ERROR) << "Client" << entry_id << "was not disconnected:" << result.error_code();
+                ++batch->failed;
+                batch->error_code = result.error_code();
+            }
+
+            if (--batch->pending > 0)
+                return;
+
+            if (batch->failed > 0)
+            {
+                if (total == 1)
+                    MsgBox::warning(this, routerErrorText(batch->error_code));
+                else
+                    MsgBox::warning(this, tr("Failed to disconnect %n of the selected clients.", "", batch->failed));
+            }
+
+            fetchClients();
+        }});
     }
-
-    RouterSession* session = RouterController::session(router_id_);
-    if (!session)
-        return;
-
-    LOG(INFO) << "[ACTION] Disconnect all clients accepted by user";
-    session->disconnectClient(-1, { this, &RouterClientsWidget::onClientResultReceived });
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -361,16 +357,29 @@ void RouterClientsWidget::onClientListReceived(const proto::router::ClientList& 
         return;
     }
 
-    const proto::router::ClientInfo* selected = currentClient();
-    const qint64 selected_entry_id = selected ? selected->entry_id() : 0;
+    const QList<proto::router::ClientInfo> selected = selectedClients();
+    const proto::router::ClientInfo* current = currentClient();
+    const qint64 current_entry_id = current ? current->entry_id() : 0;
 
     model_->setClients(clients);
 
-    // The page is replaced whole, so the row the user was on has to be found again by the client
-    // it was showing.
-    const int selected_row = model_->rowOf(selected_entry_id);
-    if (selected_row >= 0)
-        ui->tree_clients->setCurrentIndex(model_->index(selected_row, 0));
+    // The page is replaced whole, so the rows the user was on have to be found again by the clients
+    // they were showing.
+    QItemSelection selection;
+    for (const proto::router::ClientInfo& client : selected)
+    {
+        const int row = model_->rowOf(client.entry_id());
+        if (row >= 0)
+            selection.select(model_->index(row, 0), model_->index(row, 0));
+    }
+
+    QItemSelectionModel* selection_model = ui->tree_clients->selectionModel();
+
+    const int current_row = model_->rowOf(current_entry_id);
+    if (current_row >= 0)
+        selection_model->setCurrentIndex(model_->index(current_row, 0), QItemSelectionModel::NoUpdate);
+
+    selection_model->select(selection, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
 
     const bool page_moved = page_.setTotalCount(qMin<qint64>(clients.total_count(), kMaxClientCount));
     updatePagination();
@@ -379,26 +388,14 @@ void RouterClientsWidget::onClientListReceived(const proto::router::ClientList& 
         fetchClients();
 
     emit sig_currentChanged();
-    updateStatusLabel();
-}
-
-//--------------------------------------------------------------------------------------------------
-void RouterClientsWidget::onClientResultReceived(const proto::router::ClientResult& result)
-{
-    const std::string& error_code = result.error_code();
-    if (error_code != proto::router::kErrorOk)
-    {
-        MsgBox::warning(this, routerErrorText(error_code));
-    }
-
-    fetchClients();
+    updateCountLabel();
 }
 
 //--------------------------------------------------------------------------------------------------
 void RouterClientsWidget::onClientContextMenu(const QPoint& pos)
 {
     const QModelIndex index = ui->tree_clients->indexAt(pos);
-    if (index.isValid())
+    if (index.isValid() && !ui->tree_clients->selectionModel()->isRowSelected(index.row()))
         ui->tree_clients->setCurrentIndex(index);
 
     const int column = index.column();
@@ -497,13 +494,28 @@ void RouterClientsWidget::updatePagination()
 }
 
 //--------------------------------------------------------------------------------------------------
-void RouterClientsWidget::updateStatusLabel()
+void RouterClientsWidget::updateCountLabel()
 {
-    status_clients_label_->setText(tr("%n client(s)", "", model_->rowCount()));
+    ui->label_clients_count->setText(tr("%n client(s)", "", model_->rowCount()));
 }
 
 //--------------------------------------------------------------------------------------------------
 const proto::router::ClientInfo* RouterClientsWidget::currentClient() const
 {
     return model_->clientAt(ui->tree_clients->currentIndex().row());
+}
+
+//--------------------------------------------------------------------------------------------------
+QList<proto::router::ClientInfo> RouterClientsWidget::selectedClients() const
+{
+    const QModelIndexList rows = ui->tree_clients->selectionModel()->selectedRows();
+
+    QList<proto::router::ClientInfo> clients;
+    for (const QModelIndex& index : rows)
+    {
+        if (const proto::router::ClientInfo* client = model_->clientAt(index.row()))
+            clients.append(*client);
+    }
+
+    return clients;
 }

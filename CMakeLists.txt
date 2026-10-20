@@ -32,7 +32,14 @@ endif()
 
 set(ASPIA_VERSION_MAJOR 3)
 set(ASPIA_VERSION_MINOR 1)
-set(ASPIA_VERSION_PATCH 1)
+set(ASPIA_VERSION_PATCH 2)
+
+# The fourth number of the version: the number of the build of this line of the versions. It
+# starts at one with every new line (3.1.1.1 ... 3.1.1.37, then 3.1.2.1 ...) and is raised by
+# hand with every release. Unlike the number of the commits it does not depend on the depth of
+# the clone, so the packages built from the same sources carry the same number on every
+# machine.
+set(ASPIA_VERSION_BUILD 1)
 
 # A mark of a build that is not the released one: the version on the screen reads "3.1.1-mod" so
 # that this executable is never mistaken for the stock binary. It is only a suffix of the printed
@@ -54,7 +61,8 @@ message(STATUS "VCPKG_HOST_TRIPLET: ${VCPKG_HOST_TRIPLET}")
 
 add_definitions(-DASPIA_VERSION_MAJOR=${ASPIA_VERSION_MAJOR}
                 -DASPIA_VERSION_MINOR=${ASPIA_VERSION_MINOR}
-                -DASPIA_VERSION_PATCH=${ASPIA_VERSION_PATCH})
+                -DASPIA_VERSION_PATCH=${ASPIA_VERSION_PATCH}
+                -DASPIA_VERSION_BUILD=${ASPIA_VERSION_BUILD})
 
 # The suffix is a string, so the quotes are part of the definition: without them the compiler would
 # read "-mod" as the difference of two names. An empty suffix disappears from the printed version.

@@ -33,19 +33,18 @@ $build  = Join-Path $root 'aspia\builds\local-win-x64\Release'
 $stage  = Join-Path $root "aspia\builds\msi-$Product-$Architecture"
 
 # The version of the package is the version of the program: the three numbers of the sources
-# and the number of the commits behind them, which is the fourth number of the version the
-# program shows in the window "About". The installer replaces a package of the same version,
-# so the number grows with the commits and nobody has to raise it by hand.
+# and the number of the build of this line of the versions, which is the fourth number of the
+# version the program shows in the window "About". The installer replaces a package of the
+# same version, so the number is raised by hand with every release.
 if (-not $Version)
 {
     $cmake = Get-Content (Join-Path $root 'aspia\CMakeLists.txt') -Raw
 
-    $parts = @('MAJOR', 'MINOR', 'PATCH') | ForEach-Object {
+    $parts = @('MAJOR', 'MINOR', 'PATCH', 'BUILD') | ForEach-Object {
         if ($cmake -match "set\(ASPIA_VERSION_$_ (\d+)\)") { $Matches[1] } else { throw "the version is not in the sources" }
     }
 
-    $commits = (git -C (Join-Path $root 'aspia') rev-list --count HEAD).Trim()
-    $Version = ($parts + $commits) -join '.'
+    $Version = $parts -join '.'
 
     Write-Host "the version of the package is $Version"
 }

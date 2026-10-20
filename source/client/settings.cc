@@ -39,7 +39,6 @@ const QString kWindowGeometryParam = "window_geometry";
 const QString kWindowStateParam = "window_state";
 const QString kLargeIconsParam = "large_icons";
 const QString kToolbarParam = "toolbar";
-const QString kStatusbarParam = "statusbar";
 const QString kSearchFieldParam = "search_field";
 const QString kOnlineCheckParam = "online_check";
 const QString kAlwaysOnTopParam = "always_on_top";
@@ -58,13 +57,13 @@ QString scopedKey(const QString& prefix, qint64 router_id, qint64 entry_id)
 }
 
 //--------------------------------------------------------------------------------------------------
-void writeExpanded(QSettings& settings, const QString& key, bool expanded)
+void writeExpanded(QSettings& settings, const QString& key, bool expanded, bool default_expanded)
 {
-    // Default is true: store only the deviation from the default to keep the file small.
-    if (expanded)
+    // Store only the deviation from the default to keep the file small.
+    if (expanded == default_expanded)
         settings.remove(key);
     else
-        settings.setValue(key, false);
+        settings.setValue(key, expanded);
 }
 
 } // namespace
@@ -204,18 +203,6 @@ void Settings::setToolBarEnabled(bool enable)
 }
 
 //--------------------------------------------------------------------------------------------------
-bool Settings::isStatusBarEnabled() const
-{
-    return settings_.value(kStatusbarParam, true).toBool();
-}
-
-//--------------------------------------------------------------------------------------------------
-void Settings::setStatusBarEnabled(bool enable)
-{
-    settings_.setValue(kStatusbarParam, enable);
-}
-
-//--------------------------------------------------------------------------------------------------
 bool Settings::isSearchFieldEnabled() const
 {
     return settings_.value(kSearchFieldParam, true).toBool();
@@ -326,13 +313,13 @@ void Settings::removeLocalGroupExpanded(qint64 group_id)
 //--------------------------------------------------------------------------------------------------
 bool Settings::isWorkspaceExpanded(qint64 router_id, qint64 workspace_id) const
 {
-    return settings_.value(scopedKey(kWorkspaceExpandedParam, router_id, workspace_id), true).toBool();
+    return settings_.value(scopedKey(kWorkspaceExpandedParam, router_id, workspace_id), false).toBool();
 }
 
 //--------------------------------------------------------------------------------------------------
 void Settings::setWorkspaceExpanded(qint64 router_id, qint64 workspace_id, bool expanded)
 {
-    writeExpanded(settings_, scopedKey(kWorkspaceExpandedParam, router_id, workspace_id), expanded);
+    writeExpanded(settings_, scopedKey(kWorkspaceExpandedParam, router_id, workspace_id), expanded, false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -344,7 +331,7 @@ bool Settings::isRouterGroupExpanded(qint64 router_id, qint64 group_id) const
 //--------------------------------------------------------------------------------------------------
 void Settings::setRouterGroupExpanded(qint64 router_id, qint64 group_id, bool expanded)
 {
-    writeExpanded(settings_, scopedKey(kRouterGroupExpandedParam, router_id, group_id), expanded);
+    writeExpanded(settings_, scopedKey(kRouterGroupExpandedParam, router_id, group_id), expanded, true);
 }
 
 //--------------------------------------------------------------------------------------------------

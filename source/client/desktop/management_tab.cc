@@ -26,7 +26,6 @@
 #include <QIODevice>
 #include <QMenu>
 #include <QPointer>
-#include <QStatusBar>
 #include <QTimer>
 
 #include "base/auto_qpointer.h"
@@ -272,7 +271,6 @@ ManagementTab::ManagementTab(QWidget* parent)
     connect(ui->action_export_book, &QAction::triggered, this, &ManagementTab::onExportBookAction);
     connect(ui->action_import_book, &QAction::triggered, this, &ManagementTab::onImportBookAction);
     connect(ui->action_disconnect, &QAction::triggered, this, &ManagementTab::onDisconnectAction);
-    connect(ui->action_disconnect_all, &QAction::triggered, this, &ManagementTab::onDisconnectAllAction);
     connect(ui->action_host_remove, &QAction::triggered, this, &ManagementTab::onRemoveHostAction);
     connect(ui->action_host_approve, &QAction::triggered, this, &ManagementTab::onApproveHostAction);
     connect(ui->action_host_check_updates, &QAction::triggered, this, &ManagementTab::onCheckHostUpdatesAction);
@@ -306,7 +304,7 @@ ManagementTab::ManagementTab(QWidget* parent)
     {
         ui->action_add_host, ui->action_edit_host, ui->action_copy_host, ui->action_delete_host,
         ui->action_host_check_updates, ui->action_host_telemetry, ui->action_host_approve,
-        ui->action_host_remove, ui->action_disconnect, ui->action_disconnect_all
+        ui->action_host_remove, ui->action_disconnect
     });
     addActions(ActionRole::ACTION,
     {
@@ -445,19 +443,15 @@ void ManagementTab::restoreState(const QByteArray& state)
 }
 
 //--------------------------------------------------------------------------------------------------
-void ManagementTab::activate(QStatusBar* statusbar)
+void ManagementTab::activate()
 {
-    statusbar_ = statusbar;
-    if (current_content_ && statusbar_)
-        current_content_->activate(statusbar_);
+    // Nothing
 }
 
 //--------------------------------------------------------------------------------------------------
-void ManagementTab::deactivate(QStatusBar* /* statusbar */)
+void ManagementTab::deactivate()
 {
-    if (current_content_ && statusbar_)
-        current_content_->deactivate(statusbar_);
-    statusbar_ = nullptr;
+    // Nothing
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -944,7 +938,11 @@ void ManagementTab::onLocalHostContextMenu(qint64 entry_id, const QPoint& pos)
 {
     AutoQPointer<QMenu> menu(new QMenu(this));
 
-    if (entry_id)
+    if (entry_id && local_group_widget_->selectedHosts().size() > 1)
+    {
+        menu->addAction(ui->action_delete_host);
+    }
+    else if (entry_id)
     {
         auto addProxy = [&menu](QAction* action)
         {
@@ -1161,22 +1159,41 @@ void ManagementTab::onRemoveHost()
 {
     LOG(INFO) << "[ACTION] Delete host";
 
-    qint64 entry_id = currentHostEntryId();
-    if (entry_id <= 0)
+    QList<LocalHostConfig> hosts;
+    if (current_content_ == local_group_widget_)
     {
-        LOG(INFO) << "No current host";
+        hosts = local_group_widget_->selectedHosts();
+    }
+    else
+    {
+        const qint64 entry_id = currentHostEntryId();
+        if (entry_id > 0)
+        {
+            LocalHostConfig host;
+            const Database::FindResult host_found = Database::instance().findLocalHost(entry_id, &host);
+            if (host_found == Database::FindResult::NOT_FOUND || host_found == Database::FindResult::FAILED)
+            {
+                MsgBox::warning(this, tr("Failed to retrieve host information from the local database."));
+                return;
+            }
+
+            hosts.append(host);
+        }
+    }
+
+    if (hosts.isEmpty())
+    {
+        LOG(INFO) << "No selected host";
         return;
     }
 
-    LocalHostConfig host;
-    const Database::FindResult host_found = Database::instance().findLocalHost(entry_id, &host);
-    if (host_found == Database::FindResult::NOT_FOUND || host_found == Database::FindResult::FAILED)
-    {
-        MsgBox::warning(this, tr("Failed to retrieve host information from the local database."));
-        return;
-    }
+    const int total = static_cast<int>(hosts.size());
 
-    QString message = tr("Are you sure you want to delete host \"%1\"?").arg(host.name());
+    QString message;
+    if (total == 1)
+        message = tr("Are you sure you want to delete host \"%1\"?").arg(hosts.front().name());
+    else
+        message = tr("Are you sure you want to delete %n hosts?", "", total);
 
     if (MsgBox::question(this, message) == MsgBox::No)
     {
@@ -1184,14 +1201,27 @@ void ManagementTab::onRemoveHost()
         return;
     }
 
-    if (!Database::instance().removeLocalHost(entry_id))
+    int failed = 0;
+    for (const LocalHostConfig& host : std::as_const(hosts))
     {
-        MsgBox::warning(this, tr("Unable to remove host"));
-        LOG(INFO) << "Unable to remove host with id" << entry_id;
-        return;
+        if (Database::instance().removeLocalHost(host.id()))
+        {
+            removeItem(host.id());
+        }
+        else
+        {
+            LOG(INFO) << "Unable to remove host with id" << host.id();
+            ++failed;
+        }
     }
 
-    removeItem(entry_id);
+    if (failed == 0)
+        return;
+
+    if (total == 1)
+        MsgBox::warning(this, tr("Unable to remove host"));
+    else
+        MsgBox::warning(this, tr("Failed to delete %n of the selected hosts.", "", failed));
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1213,10 +1243,12 @@ void ManagementTab::onUserContextMenu(const QPoint& pos)
 //--------------------------------------------------------------------------------------------------
 void ManagementTab::onHostContextMenu(const QPoint& pos, int column)
 {
-    if (!router_hosts_widget_->hasSelectedHost())
+    const qsizetype count = router_hosts_widget_->selectedHosts().size();
+    if (count == 0)
         return;
 
-    bool is_online = router_hosts_widget_->isSelectedHostOnline();
+    const bool is_single = count == 1;
+    const bool has_online = !router_hosts_widget_->selectedOnlineHosts().isEmpty();
 
     AutoQPointer<QMenu> menu(new QMenu(this));
     auto addProxy = [&menu](QAction* action)
@@ -1224,18 +1256,26 @@ void ManagementTab::onHostContextMenu(const QPoint& pos, int column)
         menu->addAction(action->icon(), action->text(), action, &QAction::triggered);
     };
 
-    menu->addAction(ui->action_edit_host);
+    if (is_single)
+        menu->addAction(ui->action_edit_host);
 
-    if (is_online)
+    if (has_online)
     {
         menu->addAction(ui->action_host_check_updates);
         menu->addAction(ui->action_disconnect);
     }
 
-    menu->addAction(ui->action_host_telemetry);
+    if (is_single)
+        menu->addAction(ui->action_host_telemetry);
     menu->addAction(ui->action_host_remove);
 
-    if (is_online)
+    if (!is_single)
+    {
+        menu->exec(pos);
+        return;
+    }
+
+    if (has_online)
     {
         menu->addSeparator();
         addProxy(ui->action_desktop_connect);
@@ -1310,12 +1350,19 @@ void ManagementTab::onTempHostContextMenu(const QPoint& pos)
 //--------------------------------------------------------------------------------------------------
 void ManagementTab::onClientContextMenu(const QPoint& pos, int column)
 {
-    if (!router_clients_widget_->hasSelectedClient())
+    const int count = router_clients_widget_->selectedClientCount();
+    if (count == 0)
         return;
 
     AutoQPointer<QMenu> menu(new QMenu(this));
     menu->addAction(ui->action_disconnect);
-    menu->addAction(ui->action_disconnect_all);
+
+    if (count != 1)
+    {
+        menu->exec(pos);
+        return;
+    }
+
     menu->addSeparator();
 
     const QIcon copy_icon(":/img/copy.svg");
@@ -1336,12 +1383,19 @@ void ManagementTab::onClientContextMenu(const QPoint& pos, int column)
 //--------------------------------------------------------------------------------------------------
 void ManagementTab::onRelayContextMenu(const QPoint& pos, int column)
 {
-    if (!router_relays_widget_->hasSelectedRelay())
+    const int count = router_relays_widget_->selectedRelayCount();
+    if (count == 0)
         return;
 
     AutoQPointer<QMenu> menu(new QMenu(this));
     menu->addAction(ui->action_disconnect);
-    menu->addAction(ui->action_disconnect_all);
+
+    if (count != 1)
+    {
+        menu->exec(pos);
+        return;
+    }
+
     menu->addSeparator();
 
     const QIcon copy_icon(":/img/copy.svg");
@@ -1447,7 +1501,7 @@ void ManagementTab::onDeleteWorkspaceAction()
     const qint64 router_id = workspace_item->routerId();
     const qint64 workspace_id = workspace_item->workspaceId();
 
-    if (MsgBox::question(this, tr("Are you sure you want to delete workspace \"%1\"?")
+    if (MsgBox::question(this, tr("Are you sure you want to delete space \"%1\"?")
             .arg(workspace_item->workspaceName())) != MsgBox::Yes)
     {
         LOG(INFO) << "[ACTION] Delete workspace rejected by user";
@@ -1467,7 +1521,7 @@ void ManagementTab::onDeleteWorkspaceAction()
             // The operator explicitly confirmed the delete - a silent no-op would read as a UI
             // bug, so the failure is reported like every other mutation.
             LOG(ERROR) << "Workspace delete failed:" << result.error_code();
-            MsgBox::warning(this, tr("Failed to delete the workspace."));
+            MsgBox::warning(this, tr("Failed to delete the space."));
         }
         ui->sidebar->onRefreshWorkspaces(router_id);
     } });
@@ -1571,7 +1625,7 @@ void ManagementTab::onDeleteGroupAction()
 
     const QString question = tr("Are you sure you want to delete the group \"%1\"? "
                                 "Hosts assigned to this group or its subgroups will be moved "
-                                "to the workspace root.").arg(group_item->text(0));
+                                "to the space root.").arg(group_item->text(0));
     if (MsgBox::question(this, question) == MsgBox::No)
         return;
 
@@ -1807,25 +1861,6 @@ void ManagementTab::onDisconnectAction()
 }
 
 //--------------------------------------------------------------------------------------------------
-void ManagementTab::onDisconnectAllAction()
-{
-    if (current_content_ == router_clients_widget_)
-    {
-        router_clients_widget_->onDisconnectAllClients();
-        return;
-    }
-
-    if (current_content_ == router_relays_widget_)
-    {
-        router_relays_widget_->onDisconnectAllRelays();
-        return;
-    }
-
-    if (current_content_ == router_hosts_widget_)
-        router_hosts_widget_->onDisconnectAllHosts();
-}
-
-//--------------------------------------------------------------------------------------------------
 void ManagementTab::onRemoveHostAction()
 {
     if (current_content_ == router_hosts_widget_)
@@ -1962,14 +1997,8 @@ void ManagementTab::switchContent(ContentWidget* new_widget)
     if (!new_widget || new_widget == current_content_)
         return;
 
-    if (current_content_ && statusbar_)
-        current_content_->deactivate(statusbar_);
-
     current_content_ = new_widget;
     ui->content_stack->setCurrentWidget(new_widget);
-
-    if (statusbar_)
-        current_content_->activate(statusbar_);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1987,6 +2016,7 @@ void ManagementTab::updateActionsState()
 
     ui->action_add_host->setVisible(false);
     ui->action_delete_host->setVisible(false);
+    ui->action_delete_host->setText(tr("Delete Host"));
     ui->action_edit_host->setVisible(false);
     ui->action_copy_host->setVisible(false);
 
@@ -2006,7 +2036,6 @@ void ManagementTab::updateActionsState()
     ui->action_reload->setVisible(false);
     ui->action_save->setVisible(false);
     ui->action_disconnect->setVisible(false);
-    ui->action_disconnect_all->setVisible(false);
     ui->action_host_remove->setVisible(false);
     ui->action_host_approve->setVisible(false);
     ui->action_host_check_updates->setVisible(false);
@@ -2040,10 +2069,13 @@ void ManagementTab::updateActionsState()
         ui->action_delete_group->setVisible(sidebar_item->groupId() != 0);
         ui->action_edit_group->setVisible(sidebar_item->groupId() != 0);
 
-        const bool has_host = local_group_widget_->selectedHosts().size() == 1;
+        const qsizetype count = local_group_widget_->selectedHosts().size();
+        const bool has_host = count == 1;
 
         ui->action_add_host->setVisible(true);
-        ui->action_delete_host->setVisible(has_host);
+        ui->action_delete_host->setVisible(count > 0);
+        if (count > 1)
+            ui->action_delete_host->setText(tr("Delete Hosts"));
         ui->action_edit_host->setVisible(has_host);
         ui->action_copy_host->setVisible(has_host);
     }
@@ -2084,25 +2116,23 @@ void ManagementTab::updateActionsState()
     }
     else if (sidebar_item && sidebar_item->itemType() == SidebarItem::ROUTER_CLIENTS)
     {
-        ui->action_disconnect->setVisible(router_clients_widget_->hasSelectedClient());
-        ui->action_disconnect_all->setVisible(router_clients_widget_->clientCount() > 0);
+        ui->action_disconnect->setVisible(router_clients_widget_->selectedClientCount() > 0);
     }
     else if (sidebar_item && sidebar_item->itemType() == SidebarItem::ROUTER_RELAYS)
     {
-        ui->action_disconnect->setVisible(router_relays_widget_->hasSelectedRelay());
-        ui->action_disconnect_all->setVisible(router_relays_widget_->relayCount() > 0);
+        ui->action_disconnect->setVisible(router_relays_widget_->selectedRelayCount() > 0);
     }
     else if (sidebar_item && sidebar_item->itemType() == SidebarItem::ROUTER_HOSTS)
     {
         const bool has_host = router_hosts_widget_->hasSelectedHost();
-        const bool can_connect = router_hosts_widget_->isSelectedHostOnline();
+        const bool has_hosts = !router_hosts_widget_->selectedHosts().isEmpty();
+        const bool has_online = !router_hosts_widget_->selectedOnlineHosts().isEmpty();
 
-        ui->action_disconnect->setVisible(can_connect);
-        ui->action_disconnect_all->setVisible(router_hosts_widget_->hostCount() > 0);
-        ui->action_host_remove->setVisible(has_host);
+        ui->action_disconnect->setVisible(has_online);
+        ui->action_host_remove->setVisible(has_hosts);
         ui->action_edit_host->setVisible(has_host);
 
-        ui->action_host_check_updates->setVisible(can_connect);
+        ui->action_host_check_updates->setVisible(has_online);
         ui->action_host_telemetry->setVisible(has_host);
     }
     else if (sidebar_item && sidebar_item->itemType() == SidebarItem::ROUTER_TEMP_HOSTS)

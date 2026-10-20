@@ -35,9 +35,9 @@
 #include <QMenu>
 #include <QMouseEvent>
 #include <QPushButton>
+#include <QRegularExpressionValidator>
 #include <QSaveFile>
 #include <QSignalBlocker>
-#include <QStatusBar>
 #include <QTimer>
 #include <QToolButton>
 
@@ -45,6 +45,7 @@
 
 #include "base/auto_qpointer.h"
 #include "base/logging.h"
+#include "base/shared_pointer.h"
 #include "base/time_types.h"
 #include "base/peer/host_id.h"
 #include "client/router_controller.h"
@@ -72,8 +73,7 @@ const qint64 kAllWorkspaces = -1;
 //--------------------------------------------------------------------------------------------------
 RouterHostsWidget::RouterHostsWidget(QWidget* parent)
     : ContentWidget(Type::ROUTER_HOSTS, parent),
-      ui(std::make_unique<Ui::RouterHostsWidget>()),
-      status_hosts_label_(new QLabel(this))
+      ui(std::make_unique<Ui::RouterHostsWidget>())
 {
     LOG(INFO) << "Ctor";
     ui->setupUi(this);
@@ -117,8 +117,8 @@ RouterHostsWidget::RouterHostsWidget(QWidget* parent)
     ui->tree_hosts->header()->resizeSection(model_->sectionOf(HostListModel::Column::OS), 140);
     ui->tree_hosts->header()->resizeSection(model_->sectionOf(HostListModel::Column::VERSION), 70);
     ui->tree_hosts->header()->resizeSection(model_->sectionOf(HostListModel::Column::ARCH), 90);
-    ui->tree_hosts->header()->resizeSection(model_->sectionOf(HostListModel::Column::LAST_CONNECT), 135);
-    ui->tree_hosts->header()->resizeSection(model_->sectionOf(HostListModel::Column::LAST_MODIFY), 135);
+    ui->tree_hosts->header()->resizeSection(model_->sectionOf(HostListModel::Column::LAST_CONNECT), 150);
+    ui->tree_hosts->header()->resizeSection(model_->sectionOf(HostListModel::Column::LAST_MODIFY), 150);
 
     connect(ui->tree_hosts->header(), &QHeaderView::customContextMenuRequested,
             this, &RouterHostsWidget::onHeaderContextMenu);
@@ -144,15 +144,24 @@ RouterHostsWidget::RouterHostsWidget(QWidget* parent)
 
     updateHostsPagination();
 
-    ui->combo_filter_workspace->addItem(tr("All workspaces"), QVariant::fromValue<qint64>(kAllWorkspaces));
-    ui->combo_filter_workspace->addItem(tr("Without workspace"), QVariant::fromValue<qint64>(0));
+    ui->combo_filter_workspace->addItem(tr("All spaces"), QVariant::fromValue<qint64>(kAllWorkspaces));
+    ui->combo_filter_workspace->addItem(tr("Not in any space"), QVariant::fromValue<qint64>(0));
 
     filter_timer_ = new QTimer(this);
     filter_timer_->setSingleShot(true);
     filter_timer_->setInterval(MilliSeconds(300));
     connect(filter_timer_, &QTimer::timeout, this, &RouterHostsWidget::onFilterChanged);
 
-    for (QLineEdit* edit : { ui->edit_filter_address, ui->edit_filter_os, ui->edit_filter_version, ui->edit_filter_arch })
+    ui->edit_filter_id->setMaxLength(static_cast<int>(proto::router::kMaxHostIdLength));
+    ui->edit_filter_id->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]*"), ui->edit_filter_id));
+
+    // Counts UTF-16 units, the bound counts UTF-8 bytes. A unit takes at most three bytes.
+    for (QLineEdit* edit : { ui->edit_filter_name, ui->edit_filter_address, ui->edit_filter_os,
+                             ui->edit_filter_version, ui->edit_filter_arch })
+        edit->setMaxLength(static_cast<int>(proto::router::kMaxHostQueryLength / 3));
+
+    for (QLineEdit* edit : { ui->edit_filter_id, ui->edit_filter_name, ui->edit_filter_address, ui->edit_filter_os,
+                             ui->edit_filter_version, ui->edit_filter_arch })
         connect(edit, &QLineEdit::textChanged, filter_timer_, qOverload<>(&QTimer::start));
 
     connect(ui->combo_filter_workspace, &QComboBox::currentIndexChanged,
@@ -177,7 +186,7 @@ RouterHostsWidget::RouterHostsWidget(QWidget* parent)
         {
             model_->setHosts({});
             workspace_names_.clear();
-            updateStatusLabel();
+            updateCountLabel();
         }
     });
 }
@@ -195,7 +204,7 @@ void RouterHostsWidget::showRouter(qint64 router_id)
     hosts_page_.clear();
 
     model_->setHosts({});
-    updateStatusLabel();
+    updateCountLabel();
 
     clearFilter();
     workspace_names_.clear();
@@ -219,13 +228,6 @@ bool RouterHostsWidget::hasSelectedHost() const
 }
 
 //--------------------------------------------------------------------------------------------------
-bool RouterHostsWidget::isSelectedHostOnline() const
-{
-    const QList<RouterHost> hosts = selectedHosts();
-    return hosts.size() == 1 && hosts.front().online;
-}
-
-//--------------------------------------------------------------------------------------------------
 HostId RouterHostsWidget::selectedHostId() const
 {
     const QList<RouterHost> hosts = selectedHosts();
@@ -246,12 +248,6 @@ HostConfig RouterHostsWidget::selectedHostConfig() const
         name = host.computer_name;
 
     return HostConfig::forRouterHost(router_id_, host.host_id, name);
-}
-
-//--------------------------------------------------------------------------------------------------
-int RouterHostsWidget::hostCount() const
-{
-    return model_->rowCount();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -337,28 +333,6 @@ void RouterHostsWidget::save()
 }
 
 //--------------------------------------------------------------------------------------------------
-void RouterHostsWidget::activate(QStatusBar* statusbar)
-{
-    if (!statusbar)
-        return;
-
-    updateStatusLabel();
-
-    statusbar->addWidget(status_hosts_label_);
-    status_hosts_label_->show();
-}
-
-//--------------------------------------------------------------------------------------------------
-void RouterHostsWidget::deactivate(QStatusBar* statusbar)
-{
-    if (!statusbar)
-        return;
-
-    statusbar->removeWidget(status_hosts_label_);
-    status_hosts_label_->setParent(this);
-}
-
-//--------------------------------------------------------------------------------------------------
 void RouterHostsWidget::onModifyHost()
 {
     const QList<RouterHost> hosts = selectedHosts();
@@ -378,107 +352,81 @@ void RouterHostsWidget::onModifyHost()
 //--------------------------------------------------------------------------------------------------
 void RouterHostsWidget::onDisconnectHost()
 {
-    const QList<RouterHost> hosts = selectedHosts();
-    if (hosts.size() != 1)
+    const QList<RouterHost> hosts = selectedOnlineHosts();
+    if (hosts.isEmpty())
     {
-        LOG(INFO) << "No single selected host";
+        LOG(INFO) << "No selected online host";
         return;
     }
 
-    const RouterHost& host = hosts.front();
+    const int total = static_cast<int>(hosts.size());
 
-    const HostId host_id = host.host_id;
+    QString message;
+    if (total == 1)
+        message = tr("Are you sure you want to disconnect host \"%1\"?").arg(hosts.front().computer_name);
+    else
+        message = tr("Are you sure you want to disconnect %n hosts?", "", total);
 
-    if (MsgBox::question(this, tr("Are you sure you want to disconnect host \"%1\"?")
-        .arg(host.computer_name)) != MsgBox::Yes)
+    if (MsgBox::question(this, message) != MsgBox::Yes)
     {
-        LOG(INFO) << "[ACTION] Disconnect host rejected by user";
+        LOG(INFO) << "[ACTION] Disconnect hosts rejected by user";
         return;
     }
 
-    RouterSession* session = RouterController::session(router_id_);
-    if (!session)
-        return;
-
-    LOG(INFO) << "[ACTION] Disconnect host accepted by user";
-    session->disconnectHost(host_id, { this, &RouterHostsWidget::onHostResultReceived });
-}
-
-//--------------------------------------------------------------------------------------------------
-void RouterHostsWidget::onDisconnectAllHosts()
-{
-    if (model_->rowCount() <= 0)
+    LOG(INFO) << "[ACTION] Disconnect hosts accepted by user:" << total;
+    sendHostRequests(hosts, &RouterSession::disconnectHost, [this](int failed)
     {
-        LOG(INFO) << "Host list is empty";
-        return;
-    }
-
-    if (MsgBox::question(this,
-            tr("Are you sure you want to disconnect all hosts?")) != MsgBox::Yes)
-    {
-        LOG(INFO) << "[ACTION] Disconnect all hosts rejected by user";
-        return;
-    }
-
-    RouterSession* session = RouterController::session(router_id_);
-    if (!session)
-        return;
-
-    LOG(INFO) << "[ACTION] Disconnect all hosts accepted by user";
-    session->disconnectHost(kAllHostsId, { this, &RouterHostsWidget::onHostResultReceived });
+        return tr("Failed to disconnect %n of the selected hosts.", "", failed);
+    });
 }
 
 //--------------------------------------------------------------------------------------------------
 void RouterHostsWidget::onRemoveHost()
 {
     const QList<RouterHost> hosts = selectedHosts();
-    if (hosts.size() != 1)
+    if (hosts.isEmpty())
     {
-        LOG(INFO) << "No single selected host";
+        LOG(INFO) << "No selected host";
         return;
     }
 
-    const RouterHost& host = hosts.front();
-
-    const HostId host_id = host.host_id;
+    const int total = static_cast<int>(hosts.size());
 
     QString message = tr("Deleting a host will result in all its configuration for connecting "
                          "to the router being deleted, and the application will be uninstalled "
                          "on the host. This operation is irreversible. Are you sure you want to "
                          "do this?");
+    if (total > 1)
+        message = tr("%n hosts will be deleted.", "", total) + "\n\n" + message;
 
     if (MsgBox::importantQuestion(this, message, Seconds(10)) == MsgBox::No)
     {
-        LOG(INFO) << "[ACTION] Remove host rejected by user";
+        LOG(INFO) << "[ACTION] Remove hosts rejected by user";
         return;
     }
 
-    RouterSession* session = RouterController::session(router_id_);
-    if (!session)
-        return;
-
-    LOG(INFO) << "[ACTION] Remove host accepted by user";
-    session->removeHost(host_id, { this, &RouterHostsWidget::onHostResultReceived });
+    LOG(INFO) << "[ACTION] Remove hosts accepted by user:" << total;
+    sendHostRequests(hosts, &RouterSession::removeHost, [this](int failed)
+    {
+        return tr("Failed to remove %n of the selected hosts.", "", failed);
+    });
 }
 
 //--------------------------------------------------------------------------------------------------
 void RouterHostsWidget::onCheckHostUpdates()
 {
-    const QList<RouterHost> hosts = selectedHosts();
-    if (hosts.size() != 1)
+    const QList<RouterHost> hosts = selectedOnlineHosts();
+    if (hosts.isEmpty())
     {
-        LOG(INFO) << "No single selected host";
+        LOG(INFO) << "No selected online host";
         return;
     }
 
-    const RouterHost& host = hosts.front();
-
-    RouterSession* session = RouterController::session(router_id_);
-    if (!session)
-        return;
-
-    LOG(INFO) << "[ACTION] Check host updates requested by user";
-    session->checkHostUpdates(host.host_id, { this, &RouterHostsWidget::onHostResultReceived });
+    LOG(INFO) << "[ACTION] Check host updates requested by user:" << hosts.size();
+    sendHostRequests(hosts, &RouterSession::checkHostUpdates, [this](int failed)
+    {
+        return tr("Failed to check for updates on %n of the selected hosts.", "", failed);
+    });
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -584,19 +532,7 @@ void RouterHostsWidget::onHostListReceived(const RouterHostList& list)
         fetchHosts();
 
     emit sig_currentChanged();
-    updateStatusLabel();
-}
-
-//--------------------------------------------------------------------------------------------------
-void RouterHostsWidget::onHostResultReceived(const proto::router::HostResult& result)
-{
-    const std::string& error_code = result.error_code();
-    if (error_code != proto::router::kErrorOk)
-    {
-        MsgBox::warning(this, routerErrorText(error_code));
-    }
-
-    fetchHosts();
+    updateCountLabel();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -622,7 +558,7 @@ void RouterHostsWidget::onWorkspaceListReceived(const RouterWorkspaceList& list)
 void RouterHostsWidget::onHostContextMenu(const QPoint& pos)
 {
     const QModelIndex index = ui->tree_hosts->indexAt(pos);
-    if (index.isValid())
+    if (index.isValid() && !ui->tree_hosts->selectionModel()->isRowSelected(index.row()))
         ui->tree_hosts->setCurrentIndex(index);
 
     const int column = index.column();
@@ -779,6 +715,8 @@ proto::router::HostFilter RouterHostsWidget::hostFilter() const
     if (workspace_id != kAllWorkspaces)
         filter.add_workspace_id(workspace_id);
 
+    filter.set_host_id(ui->edit_filter_id->text().trimmed().toStdString());
+    filter.set_display_name(ui->edit_filter_name->text().trimmed().toStdString());
     filter.set_address(ui->edit_filter_address->text().trimmed().toStdString());
     filter.set_os_name(ui->edit_filter_os->text().trimmed().toStdString());
     filter.set_version(ui->edit_filter_version->text().trimmed().toStdString());
@@ -789,6 +727,8 @@ proto::router::HostFilter RouterHostsWidget::hostFilter() const
 //--------------------------------------------------------------------------------------------------
 void RouterHostsWidget::clearFilter()
 {
+    ui->edit_filter_id->clear();
+    ui->edit_filter_name->clear();
     ui->edit_filter_address->clear();
     ui->edit_filter_os->clear();
     ui->edit_filter_version->clear();
@@ -816,9 +756,9 @@ void RouterHostsWidget::updateHostsPagination()
 }
 
 //--------------------------------------------------------------------------------------------------
-void RouterHostsWidget::updateStatusLabel()
+void RouterHostsWidget::updateCountLabel()
 {
-    status_hosts_label_->setText(tr("%n host(s)", "", model_->rowCount()));
+    ui->label_hosts_count->setText(tr("%n host(s)", "", model_->rowCount()));
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -864,6 +804,14 @@ QList<RouterHost> RouterHostsWidget::selectedHosts() const
             hosts.append(*host);
     }
 
+    return hosts;
+}
+
+//--------------------------------------------------------------------------------------------------
+QList<RouterHost> RouterHostsWidget::selectedOnlineHosts() const
+{
+    QList<RouterHost> hosts = selectedHosts();
+    hosts.removeIf([](const RouterHost& host) { return !host.online; });
     return hosts;
 }
 
@@ -934,5 +882,56 @@ void RouterHostsWidget::saveHostsToFile()
         LOG(INFO) << "Unable to write file:" << file.errorString();
         MsgBox::warning(this, tr("Unable to write file."));
         return;
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void RouterHostsWidget::sendHostRequests(const QList<RouterHost>& hosts, HostRequest request,
+                                         const std::function<QString(int)>& error_text)
+{
+    RouterSession* session = RouterController::session(router_id_);
+    if (!session)
+        return;
+
+    struct Batch
+    {
+        int pending = 0;
+        int failed = 0;
+        std::string error_code;
+    };
+
+    const int total = static_cast<int>(hosts.size());
+
+    SharedPointer<Batch> batch(new Batch());
+    batch->pending = total;
+
+    for (const RouterHost& host : hosts)
+    {
+        const HostId host_id = host.host_id;
+
+        (session->*request)(host_id, { this,
+            [this, batch, total, error_text, host_id](const proto::router::HostResult& result)
+        {
+            if (result.error_code() != proto::router::kErrorOk)
+            {
+                LOG(ERROR) << "Request" << result.command_name() << "for host" << host_id
+                           << "failed:" << result.error_code();
+                ++batch->failed;
+                batch->error_code = result.error_code();
+            }
+
+            if (--batch->pending > 0)
+                return;
+
+            if (batch->failed > 0)
+            {
+                if (total == 1)
+                    MsgBox::warning(this, routerErrorText(batch->error_code));
+                else
+                    MsgBox::warning(this, error_text(batch->failed));
+            }
+
+            fetchHosts();
+        }});
     }
 }

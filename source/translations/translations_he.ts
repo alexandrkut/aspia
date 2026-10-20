@@ -29,127 +29,117 @@
         <translation>סגור</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="127"/>
+        <location filename="../common/desktop/about_dialog.cc" line="104"/>
         <source>Version: %1 (%2)</source>
         <translation>גרסה: %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="132"/>
+        <location filename="../common/desktop/about_dialog.cc" line="109"/>
         <source>Aspia is free software released under GNU General Public License 3.</source>
         <translation>Aspia היא תוכנה חופשית המופצת תחת רישיון GNU General Public License 3.</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="133"/>
+        <location filename="../common/desktop/about_dialog.cc" line="110"/>
         <source>You can get a copy of license here:</source>
         <translation>ניתן לקבל עותק של הרישיון כאן:</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="138"/>
+        <location filename="../common/desktop/about_dialog.cc" line="115"/>
         <source>You can also get a translation of GNU GPL license here:</source>
         <translation>ניתן גם לקבל תרגום של רישיון GNU GPL כאן:</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="142"/>
+        <location filename="../common/desktop/about_dialog.cc" line="119"/>
         <source>Links</source>
         <translation>קישורים</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="143"/>
+        <location filename="../common/desktop/about_dialog.cc" line="120"/>
         <source>Home page:</source>
         <translation>דף הבית:</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="144"/>
+        <location filename="../common/desktop/about_dialog.cc" line="121"/>
         <source>GitHub page:</source>
         <translation>עמוד GitHub:</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="153"/>
-        <source>Modifications</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../common/desktop/about_dialog.cc" line="155"/>
-        <source>The changes and the sources:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../common/desktop/about_dialog.cc" line="159"/>
+        <location filename="../common/desktop/about_dialog.cc" line="124"/>
         <source>Developers</source>
         <translation>מפתחים</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="161"/>
+        <location filename="../common/desktop/about_dialog.cc" line="126"/>
         <source>Translators</source>
         <translation>מתרגמים</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="163"/>
+        <location filename="../common/desktop/about_dialog.cc" line="128"/>
         <source>Third-party components</source>
         <translation>רכיבי צד שלישי</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="165"/>
+        <location filename="../common/desktop/about_dialog.cc" line="130"/>
         <source>Graphics and images</source>
         <translation>גרפיקה ותמונות</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="166"/>
+        <location filename="../common/desktop/about_dialog.cc" line="131"/>
         <source>Icons by %1</source>
         <translation>סמלים מאת %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="197"/>
+        <location filename="../common/desktop/about_dialog.cc" line="158"/>
         <source>Application</source>
         <translation>יישום</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="198"/>
+        <location filename="../common/desktop/about_dialog.cc" line="159"/>
         <source>Path: %1</source>
         <translation>נתיב: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="199"/>
+        <location filename="../common/desktop/about_dialog.cc" line="160"/>
         <source>Logging directory: %1</source>
         <translation>תיקיית יומנים: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="201"/>
+        <location filename="../common/desktop/about_dialog.cc" line="162"/>
         <source>Logging file: %1</source>
         <translation>קובץ יומן: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="206"/>
+        <location filename="../common/desktop/about_dialog.cc" line="167"/>
         <source>Build Information</source>
         <translation>פרטי בנייה</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="207"/>
+        <location filename="../common/desktop/about_dialog.cc" line="168"/>
         <source>Git branch: %1</source>
         <translation>ענף Git: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="209"/>
+        <location filename="../common/desktop/about_dialog.cc" line="170"/>
         <source>Git commit: %1</source>
         <translation>Git commit: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="214"/>
+        <location filename="../common/desktop/about_dialog.cc" line="175"/>
         <source>Compilation</source>
         <translation>הידור</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="215"/>
+        <location filename="../common/desktop/about_dialog.cc" line="176"/>
         <source>Compilation date: %1</source>
         <translation>תאריך הידור: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="216"/>
+        <location filename="../common/desktop/about_dialog.cc" line="177"/>
         <source>Compilation time: %1</source>
         <translation>שעת הידור: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="245"/>
+        <location filename="../common/desktop/about_dialog.cc" line="206"/>
         <source>Version Information</source>
         <translation>פרטי גרסה</translation>
     </message>
@@ -936,62 +926,22 @@
 <context>
     <name>Client</name>
     <message>
-        <location filename="../client/main.cc" line="85"/>
+        <location filename="../client/main.cc" line="81"/>
         <source>Unable to create a backup. Some records of the database are damaged. Fix or delete them.</source>
         <translation>יצירת הגיבוי נכשלה. חלק מרשומות מסד הנתונים פגומות. תקן או מחק אותן.</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="239"/>
-        <source>Connect to the host of the address book with this record ID or host ID, using the login and the password stored in it.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/main.cc" line="242"/>
-        <source>id</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/main.cc" line="246"/>
-        <source>Kind of the session to open: desktop, file, info, chat or terminal (default: the one from the settings of the application).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/main.cc" line="249"/>
-        <source>type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/main.cc" line="253"/>
-        <source>Log in with this user name instead of the one stored in the host. Requires --password.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/main.cc" line="256"/>
-        <source>name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/main.cc" line="260"/>
-        <source>Log in with this password instead of the stored one. Requires --username. A password on a command line is visible to the other users of the machine.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/main.cc" line="263"/>
-        <source>password</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/main.cc" line="387"/>
+        <location filename="../client/main.cc" line="293"/>
         <source>Set Master Password</source>
         <translation>הגדרת סיסמה ראשית</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="389"/>
+        <location filename="../client/main.cc" line="295"/>
         <source>Set a master password required to unlock the application.</source>
         <translation>הגדר סיסמה ראשית הנדרשת לביטול נעילת היישום.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/main.cc" line="397"/>
+        <location filename="../client/main.cc" line="303"/>
         <source>The password can not be shorter than %n characters.</source>
         <translation>
             <numerusform>אורך הסיסמה לא יפחת מ-%n תו.</numerusform>
@@ -999,12 +949,12 @@
         </translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="405"/>
+        <location filename="../client/main.cc" line="311"/>
         <source>Password you entered does not meet the security requirements!</source>
         <translation>הסיסמה שהזנת אינה עומדת בדרישות האבטחה!</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/main.cc" line="407"/>
+        <location filename="../client/main.cc" line="313"/>
         <source>The password must contain lowercase and uppercase characters, numbers and should not be shorter than %n characters.</source>
         <translation>
             <numerusform>הסיסמה חייבת להכיל אותיות קטנות וגדולות ומספרים, ואורכה לא יפחת מ-%n תו.</numerusform>
@@ -1012,12 +962,12 @@
         </translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="411"/>
+        <location filename="../client/main.cc" line="317"/>
         <source>Do you want to enter a different password?</source>
         <translation>האם ברצונך להזין סיסמה אחרת?</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="421"/>
+        <location filename="../client/main.cc" line="327"/>
         <source>Unable to set master password.</source>
         <translation>לא ניתן להגדיר סיסמה ראשית.</translation>
     </message>
@@ -1027,17 +977,17 @@
         <translation>בטל נעילה</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="79"/>
+        <location filename="../client/main.cc" line="75"/>
         <source>Unable to create a backup in the directory &quot;%1&quot;.</source>
         <translation>יצירת הגיבוי בתיקייה &quot;%1&quot; נכשלה.</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="91"/>
+        <location filename="../client/main.cc" line="87"/>
         <source>Unable to create a backup.</source>
         <translation>יצירת הגיבוי נכשלה.</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="274"/>
+        <location filename="../client/main.cc" line="238"/>
         <source>An aspia:// link to connect to a host.</source>
         <translation>קישור aspia:// להתחברות למארח.</translation>
     </message>
@@ -1057,59 +1007,9 @@
         <translation>הסיסמה הראשית שגויה.</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="266"/>
+        <location filename="../client/main.cc" line="234"/>
         <source>Aspia Client</source>
         <translation>Aspia Client</translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="127"/>
-        <source>&quot;%1&quot; is neither a host ID nor a record ID.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="129"/>
-        <source>The host ID of --connect is missing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="151"/>
-        <source>&quot;%1&quot; is not a valid session type. Use desktop, file, info, chat or terminal.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="154"/>
-        <source>The session type of --session-type is missing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="171"/>
-        <source>The user name of --username is missing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="187"/>
-        <source>The password of --password is missing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="217"/>
-        <source>&quot;%1&quot; is neither an aspia:// link nor a host ID.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="235"/>
-        <source>--username requires --password as well.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="237"/>
-        <source>--password requires --username as well.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="248"/>
-        <source>--username and --password need a host to connect to (--connect or an aspia:// link).</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1148,37 +1048,37 @@
 <context>
     <name>ClientWindow</name>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="280"/>
+        <location filename="../client/desktop/client_window.cc" line="278"/>
         <source>Session started.</source>
         <translation>ההפעלה החלה.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="599"/>
+        <location filename="../client/desktop/client_window.cc" line="592"/>
         <source>The specified router is unavailable.</source>
         <translation>הנתב שצוין אינו זמין.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="601"/>
+        <location filename="../client/desktop/client_window.cc" line="594"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>נתוני הנתב פגומים. ערוך את הנתב והזן אותם מחדש.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="603"/>
+        <location filename="../client/desktop/client_window.cc" line="596"/>
         <source>The specified router is offline.</source>
         <translation>הנתב שצוין אינו מקוון.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="292"/>
+        <location filename="../client/desktop/client_window.cc" line="290"/>
         <source>Connecting to host %1...</source>
         <translation>מתחבר למארח %1...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="296"/>
+        <location filename="../client/desktop/client_window.cc" line="294"/>
         <source>Connecting to host %1:%2...</source>
         <translation>מתחבר למארח %1:%2...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="332"/>
+        <location filename="../client/desktop/client_window.cc" line="330"/>
         <source>Host is unavailable yet. Waiting to reconnect...</source>
         <translation>המארח עדיין אינו זמין. ממתין לחיבור מחדש...</translation>
     </message>
@@ -1188,22 +1088,22 @@
         <translation>תם הזמן הקצוב להמתנה לחיבור מחדש למארח.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="352"/>
+        <location filename="../client/desktop/client_window.cc" line="350"/>
         <source>The Host version is newer than the Client version (%1 &gt; %2). Please update the application.</source>
         <translation>גרסת המארח חדשה מגרסת הלקוח (%1 &gt; %2). נא לעדכן את היישום.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="610"/>
+        <location filename="../client/desktop/client_window.cc" line="603"/>
         <source>Requesting connection to the host...</source>
         <translation>מבקש חיבור למארח...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="618"/>
+        <location filename="../client/desktop/client_window.cc" line="611"/>
         <source>Connection offer received.</source>
         <translation>התקבלה הצעת חיבור.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="635"/>
+        <location filename="../client/desktop/client_window.cc" line="628"/>
         <source>Error requesting connection via router.</source>
         <translation>שגיאה בבקשת חיבור דרך הנתב.</translation>
     </message>
@@ -2512,17 +2412,17 @@ Credentials replaced: %2</source>
         <translation>מחיקת פרטי כניסה</translation>
     </message>
     <message>
-        <location filename="../client/desktop/credentials_tab.cc" line="180"/>
+        <location filename="../client/desktop/credentials_tab.cc" line="174"/>
         <source>Are you sure you want to delete credentials &quot;%1&quot;?</source>
         <translation>האם אתה בטוח שברצונך למחוק את פרטי הכניסה &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../client/desktop/credentials_tab.cc" line="188"/>
+        <location filename="../client/desktop/credentials_tab.cc" line="182"/>
         <source>Unable to delete credentials.</source>
         <translation>לא ניתן למחוק פרטי כניסה.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/credentials_tab.cc" line="233"/>
+        <location filename="../client/desktop/credentials_tab.cc" line="227"/>
         <source>Failed to read data. The list may be out of date.</source>
         <translation>קריאת הנתונים נכשלה. ייתכן שהרשימה אינה מעודכנת.</translation>
     </message>
@@ -2848,32 +2748,32 @@ Credentials replaced: %2</source>
 <context>
     <name>DesktopWindow</name>
     <message>
-        <location filename="../client/desktop/desktop/desktop_window.cc" line="1164"/>
+        <location filename="../client/desktop/desktop/desktop_window.cc" line="1150"/>
         <source>Save File</source>
         <translation>שמירת קובץ</translation>
     </message>
     <message>
-        <location filename="../client/desktop/desktop/desktop_window.cc" line="1165"/>
+        <location filename="../client/desktop/desktop/desktop_window.cc" line="1151"/>
         <source>PNG Image (*.png);;BMP Image (*.bmp)</source>
         <translation>תמונת PNG (*.png);;תמונת BMP (*.bmp)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/desktop/desktop_window.cc" line="1196"/>
+        <location filename="../client/desktop/desktop/desktop_window.cc" line="1182"/>
         <source>Could not save image</source>
         <translation>לא ניתן לשמור תמונה</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="517"/>
+        <location filename="../client/android/desktop_window.cc" line="506"/>
         <source>Connecting...</source>
         <translation>מתחבר...</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="541"/>
+        <location filename="../client/android/desktop_window.cc" line="530"/>
         <source>The specified router is unavailable.</source>
         <translation>הנתב שצוין אינו זמין.</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="568"/>
+        <location filename="../client/android/desktop_window.cc" line="557"/>
         <source>Requesting connection to the host...</source>
         <translation>מבקש חיבור למארח...</translation>
     </message>
@@ -2888,133 +2788,128 @@ Credentials replaced: %2</source>
         <translation>הפעלה %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="540"/>
+        <location filename="../client/android/desktop_window.cc" line="529"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>נתוני הנתב פגומים. ערוך את הנתב והזן אותם מחדש.</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="547"/>
+        <location filename="../client/android/desktop_window.cc" line="536"/>
         <source>Connecting to router...</source>
         <translation>מתחבר לנתב...</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="776"/>
+        <location filename="../client/android/desktop_window.cc" line="765"/>
         <source>Connecting to host %1...</source>
         <translation>מתחבר למארח %1...</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="782"/>
+        <location filename="../client/android/desktop_window.cc" line="771"/>
         <source>Connection established.</source>
         <translation>החיבור נוצר.</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="795"/>
+        <location filename="../client/android/desktop_window.cc" line="784"/>
         <source>The connection to the host has been lost.</source>
         <translation>החיבור למארח אבד.</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="808"/>
+        <location filename="../client/android/desktop_window.cc" line="797"/>
         <source>The host version is newer than the client. Please update the application.</source>
         <translation>גרסת המארח חדשה מגרסת הלקוח. נא לעדכן את היישום.</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="174"/>
+        <location filename="../client/android/desktop_window.cc" line="164"/>
         <source>Monitor %1</source>
         <translation>צג %1</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="170"/>
-        <source>All monitors</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/android/desktop_window.cc" line="183"/>
+        <location filename="../client/android/desktop_window.cc" line="172"/>
         <source>Power</source>
         <translation>הפעלה/כיבוי</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="187"/>
+        <location filename="../client/android/desktop_window.cc" line="176"/>
         <source>Keyboard</source>
         <translation>מקלדת</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="193"/>
+        <location filename="../client/android/desktop_window.cc" line="182"/>
         <source>Ctrl+Alt+Del</source>
         <translation>Ctrl+Alt+Del</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="200"/>
+        <location filename="../client/android/desktop_window.cc" line="189"/>
         <source>Users</source>
         <translation>משתמשים</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="205"/>
+        <location filename="../client/android/desktop_window.cc" line="194"/>
         <source>Disconnect</source>
         <translation>נתק</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="663"/>
-        <location filename="../client/android/desktop_window.cc" line="720"/>
+        <location filename="../client/android/desktop_window.cc" line="652"/>
+        <location filename="../client/android/desktop_window.cc" line="709"/>
         <source>Back</source>
         <translation>חזרה</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="664"/>
+        <location filename="../client/android/desktop_window.cc" line="653"/>
         <source>Shutdown</source>
         <translation>כיבוי</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="665"/>
+        <location filename="../client/android/desktop_window.cc" line="654"/>
         <source>Reboot</source>
         <translation>הפעלה מחדש</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="670"/>
+        <location filename="../client/android/desktop_window.cc" line="659"/>
         <source>Safe Mode</source>
         <translation>מצב בטוח</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="671"/>
+        <location filename="../client/android/desktop_window.cc" line="660"/>
         <source>Logoff</source>
         <translation>התנתקות</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="672"/>
+        <location filename="../client/android/desktop_window.cc" line="661"/>
         <source>Lock</source>
         <translation>נעל</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="688"/>
+        <location filename="../client/android/desktop_window.cc" line="677"/>
         <source>Are you sure you want to shutdown the remote computer?</source>
         <translation>האם אתה בטוח שברצונך לכבות את המחשב המרוחק?</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="692"/>
+        <location filename="../client/android/desktop_window.cc" line="681"/>
         <source>Are you sure you want to reboot the remote computer?</source>
         <translation>האם אתה בטוח שברצונך להפעיל מחדש את המחשב המרוחק?</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="696"/>
+        <location filename="../client/android/desktop_window.cc" line="685"/>
         <source>Are you sure you want to reboot the remote computer in Safe Mode?</source>
         <translation>האם אתה בטוח שברצונך להפעיל מחדש את המחשב המרוחק במצב בטוח?</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="700"/>
+        <location filename="../client/android/desktop_window.cc" line="689"/>
         <source>Are you sure you want to end the user session on the remote computer?</source>
         <translation>האם אתה בטוח שברצונך לסיים את הפעלת המשתמש במחשב המרוחק?</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="704"/>
+        <location filename="../client/android/desktop_window.cc" line="693"/>
         <source>Are you sure you want to lock the user session on the remote computer?</source>
         <translation>האם אתה בטוח שברצונך לנעול את הפעלת המשתמש במחשב המרוחק?</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="759"/>
+        <location filename="../client/android/desktop_window.cc" line="748"/>
         <source>Confirmation</source>
         <translation>אישור</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="759"/>
+        <location filename="../client/android/desktop_window.cc" line="748"/>
         <source>Yes</source>
         <translation>כן</translation>
     </message>
@@ -3930,8 +3825,8 @@ Credentials replaced: %2</source>
     </message>
     <message>
         <location filename="../client/desktop/management/host_list_model.cc" line="201"/>
-        <source>Workspace</source>
-        <translation>סביבת עבודה</translation>
+        <source>Space</source>
+        <translation>מרחב</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/host_list_model.cc" line="204"/>
@@ -3950,8 +3845,8 @@ Credentials replaced: %2</source>
     </message>
     <message>
         <location filename="../client/desktop/management/host_list_model.cc" line="213"/>
-        <source>Last Online</source>
-        <translation>מקוון לאחרונה</translation>
+        <source>Last Connection</source>
+        <translation>חיבור אחרון</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/host_list_model.cc" line="216"/>
@@ -4039,9 +3934,9 @@ Credentials replaced: %2</source>
     <name>HostWindow</name>
     <message>
         <location filename="../host/ui/host_window.ui" line="26"/>
-        <location filename="../host/ui/host_window.cc" line="645"/>
-        <location filename="../host/ui/host_window.cc" line="898"/>
-        <location filename="../host/ui/host_window.cc" line="1176"/>
+        <location filename="../host/ui/host_window.cc" line="644"/>
+        <location filename="../host/ui/host_window.cc" line="889"/>
+        <location filename="../host/ui/host_window.cc" line="1167"/>
         <source>Aspia Host</source>
         <translation>Aspia Host</translation>
     </message>
@@ -4057,7 +3952,7 @@ Credentials replaced: %2</source>
     </message>
     <message>
         <location filename="../host/ui/host_window.ui" line="198"/>
-        <location filename="../host/ui/host_window.cc" line="1128"/>
+        <location filename="../host/ui/host_window.cc" line="1119"/>
         <source>Router is disabled</source>
         <translation>הנתב מושבת</translation>
     </message>
@@ -4128,7 +4023,7 @@ Credentials replaced: %2</source>
     </message>
     <message>
         <location filename="../host/ui/host_window.ui" line="335"/>
-        <location filename="../host/ui/host_window.cc" line="851"/>
+        <location filename="../host/ui/host_window.cc" line="850"/>
         <source>Hide</source>
         <translation>הסתר</translation>
     </message>
@@ -4168,80 +4063,75 @@ Credentials replaced: %2</source>
         <translation>הצג צ&apos;אט</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="181"/>
-        <location filename="../host/ui/host_window.cc" line="645"/>
-        <location filename="../host/ui/host_window.cc" line="1176"/>
+        <location filename="../host/ui/host_window.cc" line="180"/>
+        <location filename="../host/ui/host_window.cc" line="644"/>
+        <location filename="../host/ui/host_window.cc" line="1167"/>
         <source>Aspia Quick Support</source>
         <translation>Aspia Quick Support</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="340"/>
-        <location filename="../host/ui/host_window.cc" line="846"/>
+        <location filename="../host/ui/host_window.cc" line="339"/>
+        <location filename="../host/ui/host_window.cc" line="845"/>
         <source>Show</source>
         <translation>הצג</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="634"/>
+        <location filename="../host/ui/host_window.cc" line="633"/>
         <source>Screen recording has started.</source>
         <translation>הקלטת המסך החלה.</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="636"/>
+        <location filename="../host/ui/host_window.cc" line="635"/>
         <source>Screen recording stopped.</source>
         <translation>הקלטת המסך הופסקה.</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="835"/>
+        <location filename="../host/ui/host_window.cc" line="834"/>
         <source>Settings storage is unavailable.</source>
         <translation>אחסון ההגדרות אינו זמין.</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="895"/>
-        <source>The ability to show several monitors at once</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../host/ui/host_window.cc" line="909"/>
+        <location filename="../host/ui/host_window.cc" line="900"/>
         <source>Aspia Host will be removed from this computer. The settings of the host will be kept. Do you really want to uninstall the application?</source>
         <translation>Aspia Host יוסר ממחשב זה. הגדרות המארח יישמרו. האם אתה בטוח שברצונך להסיר את היישום?</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="921"/>
+        <location filename="../host/ui/host_window.cc" line="912"/>
         <source>Unable to uninstall the application.</source>
         <translation>לא ניתן להסיר את היישום.</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="948"/>
+        <location filename="../host/ui/host_window.cc" line="939"/>
         <source>If you exit from Aspia, it will not be possible to connect to this computer until you turn on the computer or Aspia again manually. Do you really want to exit the application?</source>
         <translation>אם תצא מ-Aspia, לא ניתן יהיה להתחבר למחשב זה עד שתפעיל שוב את המחשב או את Aspia באופן ידני. האם אתה בטוח שברצונך לצאת מהיישום?</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="1120"/>
+        <location filename="../host/ui/host_window.cc" line="1111"/>
         <source>Not connected to service</source>
         <translation>לא מחובר לשירות</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="1133"/>
+        <location filename="../host/ui/host_window.cc" line="1124"/>
         <source>Connecting to router...</source>
         <translation>מתחבר לנתב...</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="1138"/>
+        <location filename="../host/ui/host_window.cc" line="1129"/>
         <source>Connected to router</source>
         <translation>מחובר לנתב</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="1143"/>
+        <location filename="../host/ui/host_window.cc" line="1134"/>
         <source>Connection error</source>
         <translation>שגיאת חיבור</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="1221"/>
+        <location filename="../host/ui/host_window.cc" line="1212"/>
         <source>IP addresses:</source>
         <translation>כתובות IP:</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="1177"/>
+        <location filename="../host/ui/host_window.cc" line="1168"/>
         <source>ID: %1</source>
         <translation>ID: %1</translation>
     </message>
@@ -4404,30 +4294,9 @@ Credentials replaced: %2</source>
 <context>
     <name>LocalGroupWidget</name>
     <message>
-        <location filename="../client/desktop/management/local_group_widget.cc" line="49"/>
-        <source>Status update...</source>
-        <translation>עדכון מצב...</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/management/local_group_widget.cc" line="170"/>
+        <location filename="../client/desktop/management/local_group_widget.cc" line="161"/>
         <source>Failed to read data. The list may be out of date.</source>
         <translation>קריאת הנתונים נכשלה. ייתכן שהרשימה אינה מעודכנת.</translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../client/desktop/management/local_group_widget.cc" line="431"/>
-        <source>%n child group(s)</source>
-        <translation>
-            <numerusform>%n קבוצת משנה</numerusform>
-            <numerusform>%n קבוצות משנה</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../client/desktop/management/local_group_widget.cc" line="432"/>
-        <source>%n child host(s)</source>
-        <translation>
-            <numerusform>%n מארח</numerusform>
-            <numerusform>%n מארחים</numerusform>
-        </translation>
     </message>
 </context>
 <context>
@@ -4945,15 +4814,10 @@ Credentials imported: %5</source>
         <translation>תצוגה</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="122"/>
-        <location filename="../client/desktop/main_window.ui" line="224"/>
+        <location filename="../client/desktop/main_window.ui" line="121"/>
+        <location filename="../client/desktop/main_window.ui" line="216"/>
         <source>Tool Bar</source>
         <translation>סרגל כלים</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/main_window.ui" line="232"/>
-        <source>Status Bar</source>
-        <translation>שורת מצב</translation>
     </message>
     <message>
         <location filename="../client/desktop/main_window.ui" line="81"/>
@@ -4961,18 +4825,18 @@ Credentials imported: %5</source>
         <translation>עזרה</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="216"/>
+        <location filename="../client/desktop/main_window.ui" line="208"/>
         <source>Exit</source>
         <translation>יציאה</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="150"/>
+        <location filename="../client/desktop/main_window.ui" line="142"/>
         <source>Online Help...</source>
         <translation>עזרה מקוונת...</translation>
     </message>
     <message>
         <location filename="../client/desktop/main_window.ui" line="20"/>
-        <location filename="../client/desktop/main_window.cc" line="926"/>
+        <location filename="../client/desktop/main_window.cc" line="632"/>
         <source>Aspia Client</source>
         <translation>Aspia Client</translation>
     </message>
@@ -4987,158 +4851,148 @@ Credentials imported: %5</source>
         <translation>עריכה</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="105"/>
+        <location filename="../client/desktop/main_window.ui" line="104"/>
         <source>Session Type</source>
         <translation>סוג הפעלה</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="110"/>
+        <location filename="../client/desktop/main_window.ui" line="109"/>
         <source>Actions</source>
         <translation>פעולות</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="159"/>
+        <location filename="../client/desktop/main_window.ui" line="151"/>
         <source>About</source>
         <translation>אודות</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="168"/>
+        <location filename="../client/desktop/main_window.ui" line="160"/>
         <source>Quick Connect...</source>
         <translation>חיבור מהיר...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="177"/>
+        <location filename="../client/desktop/main_window.ui" line="169"/>
         <source>Credentials...</source>
         <translation>פרטי כניסה...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="186"/>
+        <location filename="../client/desktop/main_window.ui" line="178"/>
         <source>Settings...</source>
         <translation>הגדרות...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="198"/>
+        <location filename="../client/desktop/main_window.ui" line="190"/>
         <source>MCP Connector</source>
         <translation>מחבר MCP</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="207"/>
+        <location filename="../client/desktop/main_window.ui" line="199"/>
         <source>Lock</source>
         <translation>נעל</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="240"/>
+        <location filename="../client/desktop/main_window.ui" line="224"/>
         <source>Search Field</source>
         <translation>שדה חיפוש</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="248"/>
+        <location filename="../client/desktop/main_window.ui" line="232"/>
         <source>Large icons</source>
         <translation>סמלים גדולים</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="256"/>
+        <location filename="../client/desktop/main_window.ui" line="240"/>
         <source>Open Sessions in Tabs</source>
         <translation>פתח הפעלות בכרטיסיות</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.ui" line="264"/>
+        <location filename="../client/desktop/main_window.ui" line="248"/>
         <source>Always on Top</source>
         <translation>תמיד עליון</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="129"/>
+        <location filename="../client/desktop/main_window.cc" line="127"/>
         <source>Search...</source>
         <translation>חיפוש...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="219"/>
+        <location filename="../client/desktop/main_window.cc" line="214"/>
         <source>Unable to turn on the MCP connector.</source>
         <translation>לא ניתן להפעיל את מחבר ה-MCP.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="237"/>
+        <location filename="../client/desktop/main_window.cc" line="232"/>
         <source>Management</source>
         <translation>ניהול</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="283"/>
+        <location filename="../client/desktop/main_window.cc" line="278"/>
         <source>Invalid link &quot;%1&quot;.</source>
         <translation>קישור לא חוקי &quot;%1&quot;.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="306"/>
+        <location filename="../client/desktop/main_window.cc" line="301"/>
         <source>The router referenced by the link is not among the saved routers.</source>
         <translation>הנתב שאליו מפנה הקישור אינו נמצא בין הנתבים השמורים.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="355"/>
+        <location filename="../client/desktop/main_window.cc" line="350"/>
         <source>The host referenced by the link is not among the saved hosts.</source>
         <translation>המארח שאליו מפנה הקישור אינו נמצא בין המארחים השמורים.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="893"/>
+        <location filename="../client/desktop/main_window.cc" line="608"/>
         <source>Close all sessions to lock the application.</source>
         <translation>סגור את כל ההפעלות כדי לנעול את היישום.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="899"/>
+        <location filename="../client/desktop/main_window.cc" line="614"/>
         <source>Close all dialogs to lock the application.</source>
         <translation>סגור את כל תיבות הדו-שיח כדי לנעול את היישום.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="922"/>
-        <source>Connect to a host by its ID from the command line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/main_window.cc" line="923"/>
-        <source>The icon of the screen of all the monitors at once</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/main_window.cc" line="1023"/>
+        <location filename="../client/desktop/main_window.cc" line="728"/>
         <source>Connection by ID is specified in the properties of the host, but the router is not configured. Check the parameters of the router in the properties of the host.</source>
         <translation>במאפייני המארח צוין חיבור לפי ID, אך הנתב אינו מוגדר. בדוק את פרמטרי הנתב במאפייני המארח.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1290"/>
+        <location filename="../client/desktop/main_window.cc" line="995"/>
         <source>Unknown application</source>
         <translation>יישום לא ידוע</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1293"/>
+        <location filename="../client/desktop/main_window.cc" line="998"/>
         <source>MCP Connector. Connected: %1</source>
         <translation>מחבר MCP. יישומים מחוברים: %1</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1294"/>
+        <location filename="../client/desktop/main_window.cc" line="999"/>
         <source>%1 - AI is connected</source>
         <translation>%1 - בינה מלאכותית מחוברת</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="367"/>
+        <location filename="../client/desktop/main_window.cc" line="362"/>
         <source>The router associated with this host has been deleted. Edit the host to select another router or switch to direct connection.</source>
         <translation>הנתב המשויך למארח זה נמחק. ערוך את המארח כדי לבחור נתב אחר או לעבור לחיבור ישיר.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="314"/>
-        <location filename="../client/desktop/main_window.cc" line="366"/>
+        <location filename="../client/desktop/main_window.cc" line="309"/>
+        <location filename="../client/desktop/main_window.cc" line="361"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>נתוני הנתב פגומים. ערוך את הנתב והזן אותם מחדש.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="354"/>
+        <location filename="../client/desktop/main_window.cc" line="349"/>
         <source>The data of the host is damaged. Edit the host and enter it again.</source>
         <translation>נתוני המארח פגומים. ערוך את המארח והזן אותם מחדש.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="852"/>
+        <location filename="../client/desktop/main_window.cc" line="567"/>
         <source>Credentials</source>
         <translation>פרטי כניסה</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="883"/>
+        <location filename="../client/desktop/main_window.cc" line="598"/>
         <source>Settings</source>
         <translation>הגדרות</translation>
     </message>
@@ -5192,6 +5046,7 @@ Credentials imported: %5</source>
     </message>
     <message>
         <location filename="../client/desktop/management_tab.ui" line="137"/>
+        <location filename="../client/desktop/management_tab.cc" line="2001"/>
         <source>Delete Host</source>
         <translation>מחיקת מארח</translation>
     </message>
@@ -5239,18 +5094,18 @@ Credentials imported: %5</source>
     </message>
     <message>
         <location filename="../client/desktop/management_tab.ui" line="275"/>
-        <source>Add Workspace</source>
-        <translation>הוספת סביבת עבודה</translation>
+        <source>Add Space</source>
+        <translation>הוספת מרחב</translation>
     </message>
     <message>
         <location filename="../client/desktop/management_tab.ui" line="284"/>
-        <source>Edit Workspace</source>
-        <translation>עריכת סביבת עבודה</translation>
+        <source>Edit Space</source>
+        <translation>עריכת מרחב</translation>
     </message>
     <message>
         <location filename="../client/desktop/management_tab.ui" line="293"/>
-        <source>Delete Workspace</source>
-        <translation>מחיקת סביבת עבודה</translation>
+        <source>Delete Space</source>
+        <translation>מחיקת מרחב</translation>
     </message>
     <message>
         <location filename="../client/desktop/management_tab.ui" line="302"/>
@@ -5274,210 +5129,211 @@ Credentials imported: %5</source>
     </message>
     <message>
         <location filename="../client/desktop/management_tab.ui" line="338"/>
-        <source>Disconnect All</source>
-        <translation>נתק הכול</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/management_tab.ui" line="347"/>
         <source>Remove</source>
         <translation>הסר</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="356"/>
+        <location filename="../client/desktop/management_tab.ui" line="347"/>
         <source>Check for Updates</source>
         <translation>בדיקת עדכונים</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="365"/>
+        <location filename="../client/desktop/management_tab.ui" line="356"/>
         <source>Telemetry</source>
         <translation>טלמטריה</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="374"/>
+        <location filename="../client/desktop/management_tab.ui" line="365"/>
         <source>Approve</source>
         <translation>אשר</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="383"/>
+        <location filename="../client/desktop/management_tab.ui" line="374"/>
         <source>Save...</source>
         <translation>שמור...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="386"/>
+        <location filename="../client/desktop/management_tab.ui" line="377"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="395"/>
+        <location filename="../client/desktop/management_tab.ui" line="386"/>
         <source>Reload</source>
         <translation>טען מחדש</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="398"/>
+        <location filename="../client/desktop/management_tab.ui" line="389"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="407"/>
+        <location filename="../client/desktop/management_tab.ui" line="398"/>
         <source>Create Backup...</source>
         <translation>יצירת גיבוי...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="416"/>
+        <location filename="../client/desktop/management_tab.ui" line="407"/>
         <source>Restore from Backup...</source>
         <translation>שחזור מגיבוי...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.ui" line="424"/>
+        <location filename="../client/desktop/management_tab.ui" line="415"/>
         <source>Auto-refresh Status</source>
         <translation>רענון מצב אוטומטי</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1133"/>
+        <location filename="../client/desktop/management_tab.cc" line="1113"/>
         <source>(copy)</source>
         <translation>(עותק)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1101"/>
-        <location filename="../client/desktop/management_tab.cc" line="1175"/>
-        <location filename="../client/desktop/management_tab.cc" line="2274"/>
+        <location filename="../client/desktop/management_tab.cc" line="1081"/>
+        <location filename="../client/desktop/management_tab.cc" line="1158"/>
+        <location filename="../client/desktop/management_tab.cc" line="2286"/>
         <source>Failed to retrieve host information from the local database.</source>
         <translation>אחזור פרטי המארח ממסד הנתונים המקומי נכשל.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="911"/>
+        <location filename="../client/desktop/management_tab.cc" line="887"/>
         <source>The &quot;%1&quot; session type is not available for Quick Support.</source>
         <translation>סוג ההפעלה &quot;%1&quot; אינו זמין עבור Quick Support.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1138"/>
+        <location filename="../client/desktop/management_tab.cc" line="1118"/>
         <source>Failed to add the host to the local database.</source>
         <translation>הוספת המארח למסד הנתונים המקומי נכשלה.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1179"/>
+        <location filename="../client/desktop/management_tab.cc" line="1176"/>
         <source>Are you sure you want to delete host &quot;%1&quot;?</source>
         <translation>האם אתה בטוח שברצונך למחוק את המארח &quot;%1&quot;?</translation>
     </message>
+    <message numerus="yes">
+        <location filename="../client/desktop/management_tab.cc" line="1178"/>
+        <source>Are you sure you want to delete %n hosts?</source>
+        <translation>
+            <numerusform>האם אתה בטוח שברצונך למחוק %n מארח?</numerusform>
+            <numerusform>האם אתה בטוח שברצונך למחוק %n מארחים?</numerusform>
+        </translation>
+    </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1189"/>
+        <location filename="../client/desktop/management_tab.cc" line="1204"/>
         <source>Unable to remove host</source>
         <translation>לא ניתן להסיר מארח</translation>
     </message>
+    <message numerus="yes">
+        <location filename="../client/desktop/management_tab.cc" line="1206"/>
+        <source>Failed to delete %n of the selected hosts.</source>
+        <translation>
+            <numerusform>מחיקת %n מהמארחים שנבחרו נכשלה.</numerusform>
+            <numerusform>מחיקת %n מהמארחים שנבחרו נכשלה.</numerusform>
+        </translation>
+    </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1252"/>
-        <location filename="../client/desktop/management_tab.cc" line="1322"/>
-        <location filename="../client/desktop/management_tab.cc" line="1348"/>
+        <location filename="../client/desktop/management_tab.cc" line="1274"/>
+        <location filename="../client/desktop/management_tab.cc" line="1351"/>
+        <location filename="../client/desktop/management_tab.cc" line="1384"/>
         <source>Copy Row</source>
         <translation>העתק שורה</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1253"/>
-        <location filename="../client/desktop/management_tab.cc" line="1323"/>
-        <location filename="../client/desktop/management_tab.cc" line="1349"/>
+        <location filename="../client/desktop/management_tab.cc" line="1275"/>
+        <location filename="../client/desktop/management_tab.cc" line="1352"/>
+        <location filename="../client/desktop/management_tab.cc" line="1385"/>
         <source>Copy Value</source>
         <translation>העתק ערך</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1450"/>
-        <source>Are you sure you want to delete workspace &quot;%1&quot;?</source>
-        <translation>האם אתה בטוח שברצונך למחוק את סביבת העבודה &quot;%1&quot;?</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/management_tab.cc" line="1470"/>
-        <source>Failed to delete the workspace.</source>
-        <translation>מחיקת סביבת העבודה נכשלה.</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/management_tab.cc" line="1572"/>
-        <source>Are you sure you want to delete the group &quot;%1&quot;? Hosts assigned to this group or its subgroups will be moved to the workspace root.</source>
-        <translation>האם אתה בטוח שברצונך למחוק את הקבוצה &quot;%1&quot;? מארחים המשויכים לקבוצה זו או לקבוצות המשנה שלה יועברו לשורש סביבת העבודה.</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/management_tab.cc" line="1590"/>
+        <location filename="../client/desktop/management_tab.cc" line="1626"/>
         <source>Failed to delete the group.</source>
         <translation>מחיקת הקבוצה נכשלה.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1629"/>
-        <location filename="../client/desktop/management_tab.cc" line="1686"/>
+        <location filename="../client/desktop/management_tab.cc" line="1665"/>
+        <location filename="../client/desktop/management_tab.cc" line="1722"/>
         <source>The database is not available.</source>
         <translation>מסד הנתונים אינו זמין.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1635"/>
+        <location filename="../client/desktop/management_tab.cc" line="1671"/>
         <source>Create Backup</source>
         <translation>יצירת גיבוי</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1652"/>
+        <location filename="../client/desktop/management_tab.cc" line="1688"/>
         <source>There is nothing to save.</source>
         <translation>אין מה לשמור.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2269"/>
+        <location filename="../client/desktop/management_tab.cc" line="2060"/>
+        <source>Delete Hosts</source>
+        <translation>מחיקת מארחים</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management_tab.cc" line="2281"/>
         <source>The data of the host is damaged. Edit the host and enter it again.</source>
         <translation>נתוני המארח פגומים. ערוך את המארח והזן אותם מחדש.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2290"/>
+        <location filename="../client/desktop/management_tab.cc" line="2302"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>נתוני הנתב פגומים. ערוך את הנתב והזן אותם מחדש.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1664"/>
+        <location filename="../client/desktop/management_tab.cc" line="1700"/>
         <source>Failed to create the backup.</source>
         <translation>יצירת הגיבוי נכשלה.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1692"/>
-        <location filename="../client/desktop/management_tab.cc" line="1718"/>
+        <location filename="../client/desktop/management_tab.cc" line="1728"/>
+        <location filename="../client/desktop/management_tab.cc" line="1754"/>
         <source>Restore from Backup</source>
         <translation>שחזור מגיבוי</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1701"/>
+        <location filename="../client/desktop/management_tab.cc" line="1737"/>
         <source>Everything stored now is deleted and replaced with what the backup holds. Continue?</source>
         <translation>כל מה ששמור כעת יימחק ויוחלף במה שהגיבוי מכיל. להמשיך?</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1720"/>
+        <location filename="../client/desktop/management_tab.cc" line="1756"/>
         <source>The backup was made on another installation. Enter the master password used there.</source>
         <translation>הגיבוי נוצר בהתקנה אחרת. הזן את הסיסמה הראשית ששימשה שם.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1745"/>
+        <location filename="../client/desktop/management_tab.cc" line="1781"/>
         <source>The backup carries no data, so nothing was changed.</source>
         <translation>הגיבוי אינו מכיל נתונים, ולכן לא שונה דבר.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1753"/>
+        <location filename="../client/desktop/management_tab.cc" line="1789"/>
         <source>The file is not a valid backup.</source>
         <translation>הקובץ אינו גיבוי חוקי.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1757"/>
+        <location filename="../client/desktop/management_tab.cc" line="1793"/>
         <source>Failed to restore from the backup.</source>
         <translation>השחזור מהגיבוי נכשל.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1636"/>
-        <location filename="../client/desktop/management_tab.cc" line="1693"/>
+        <location filename="../client/desktop/management_tab.cc" line="1672"/>
+        <location filename="../client/desktop/management_tab.cc" line="1729"/>
         <source>Aspia Backup (*.aspia-backup);;All files (*)</source>
         <translation>גיבוי Aspia (*.aspia-backup);;כל הקבצים (*)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1656"/>
+        <location filename="../client/desktop/management_tab.cc" line="1692"/>
         <source>Unable to write the file.</source>
         <translation>לא ניתן לכתוב את הקובץ.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1749"/>
+        <location filename="../client/desktop/management_tab.cc" line="1785"/>
         <source>Unable to read the file.</source>
         <translation>לא ניתן לקרוא את הקובץ.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1669"/>
+        <location filename="../client/desktop/management_tab.cc" line="1705"/>
         <source>Export completed successfully.
 Routers exported: %1
 Groups exported: %2
@@ -5492,22 +5348,37 @@ Credentials exported: %5</source>
 פרטי כניסה שיוצאו: %5</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1660"/>
+        <location filename="../client/desktop/management_tab.cc" line="1486"/>
+        <source>Are you sure you want to delete space &quot;%1&quot;?</source>
+        <translation>האם אתה בטוח שברצונך למחוק את המרחב &quot;%1&quot;?</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management_tab.cc" line="1506"/>
+        <source>Failed to delete the space.</source>
+        <translation>מחיקת המרחב נכשלה.</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management_tab.cc" line="1608"/>
+        <source>Are you sure you want to delete the group &quot;%1&quot;? Hosts assigned to this group or its subgroups will be moved to the space root.</source>
+        <translation>האם אתה בטוח שברצונך למחוק את הקבוצה &quot;%1&quot;? מארחים המשויכים לקבוצה זו או לקבוצות המשנה שלה יועברו לשורש המרחב.</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management_tab.cc" line="1696"/>
         <source>Some records of the database are damaged. Fix or delete them and try again.</source>
         <translation>חלק מרשומות מסד הנתונים פגומות. תקן או מחק אותן ונסה שוב.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1737"/>
+        <location filename="../client/desktop/management_tab.cc" line="1773"/>
         <source>Unable to decrypt the file with the specified password.</source>
         <translation>לא ניתן לפענח את הקובץ באמצעות הסיסמה שצוינה.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1741"/>
+        <location filename="../client/desktop/management_tab.cc" line="1777"/>
         <source>Unsupported file format version.</source>
         <translation>גרסת תבנית קובץ שאינה נתמכת.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1762"/>
+        <location filename="../client/desktop/management_tab.cc" line="1798"/>
         <source>Import completed successfully.
 Routers imported: %1
 Groups imported: %2
@@ -5522,29 +5393,29 @@ Credentials imported: %5</source>
 פרטי כניסה שיובאו: %5</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2197"/>
-        <location filename="../client/desktop/management_tab.cc" line="2228"/>
+        <location filename="../client/desktop/management_tab.cc" line="2209"/>
+        <location filename="../client/desktop/management_tab.cc" line="2240"/>
         <source>Copy Link</source>
         <translation>העתקת קישור</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2216"/>
-        <location filename="../client/desktop/management_tab.cc" line="2250"/>
+        <location filename="../client/desktop/management_tab.cc" line="2228"/>
+        <location filename="../client/desktop/management_tab.cc" line="2262"/>
         <source>Unable to create a link for this host.</source>
         <translation>לא ניתן ליצור קישור עבור מארח זה.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2291"/>
+        <location filename="../client/desktop/management_tab.cc" line="2303"/>
         <source>The router associated with this host has been deleted. Edit the host to select another router or switch to direct connection.</source>
         <translation>הנתב המשויך למארח זה נמחק. ערוך את המארח כדי לבחור נתב אחר או לעבור לחיבור ישיר.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2298"/>
+        <location filename="../client/desktop/management_tab.cc" line="2310"/>
         <source>The host has an invalid host ID.</source>
         <translation>למארח מזהה מארח לא חוקי.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2307"/>
+        <location filename="../client/desktop/management_tab.cc" line="2319"/>
         <source>The host has an incorrect address.</source>
         <translation>למארח כתובת שגויה.</translation>
     </message>
@@ -6421,37 +6292,48 @@ Credentials imported: %5</source>
 <context>
     <name>RouterClientsWidget</name>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="231"/>
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="225"/>
         <source>Save File</source>
         <translation>שמירת קובץ</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="231"/>
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="225"/>
         <source>JSON files (*.json)</source>
         <translation>קובצי JSON (*.json)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="242"/>
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="236"/>
         <source>Could not open file for writing.</source>
         <translation>לא ניתן לפתוח קובץ לכתיבה.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="277"/>
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="271"/>
         <source>Unable to write file.</source>
         <translation>לא ניתן לכתוב את הקובץ.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="316"/>
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="291"/>
         <source>Are you sure you want to disconnect client &quot;%1&quot;?</source>
         <translation>האם אתה בטוח שברצונך לנתק את הלקוח &quot;%1&quot;?</translation>
     </message>
-    <message>
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="341"/>
-        <source>Are you sure you want to disconnect all clients?</source>
-        <translation>האם אתה בטוח שברצונך לנתק את כל הלקוחות?</translation>
+    <message numerus="yes">
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="296"/>
+        <source>Are you sure you want to disconnect %n clients?</source>
+        <translation>
+            <numerusform>האם אתה בטוח שברצונך לנתק %n לקוח?</numerusform>
+            <numerusform>האם אתה בטוח שברצונך לנתק %n לקוחות?</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="502"/>
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="343"/>
+        <source>Failed to disconnect %n of the selected clients.</source>
+        <translation>
+            <numerusform>ניתוק %n מהלקוחות שנבחרו נכשל.</numerusform>
+            <numerusform>ניתוק %n מהלקוחות שנבחרו נכשל.</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="499"/>
         <source>%n client(s)</source>
         <translation>
             <numerusform>%n לקוח</numerusform>
@@ -6459,27 +6341,27 @@ Credentials imported: %5</source>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.ui" line="53"/>
+        <location filename="../client/desktop/management/router_clients_widget.ui" line="59"/>
         <source>Previous page</source>
         <translation>העמוד הקודם</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.ui" line="56"/>
+        <location filename="../client/desktop/management/router_clients_widget.ui" line="62"/>
         <source>Previous</source>
         <translation>הקודם</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.ui" line="74"/>
+        <location filename="../client/desktop/management/router_clients_widget.ui" line="80"/>
         <source>Next page</source>
         <translation>העמוד הבא</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.ui" line="77"/>
+        <location filename="../client/desktop/management/router_clients_widget.ui" line="83"/>
         <source>Next</source>
         <translation>הבא</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.ui" line="88"/>
+        <location filename="../client/desktop/management/router_clients_widget.ui" line="94"/>
         <source>Items per page:</source>
         <translation>פריטים בעמוד:</translation>
     </message>
@@ -6842,7 +6724,7 @@ Credentials imported: %5</source>
 <context>
     <name>RouterGroupWidget</name>
     <message numerus="yes">
-        <location filename="../client/desktop/management/router_group_widget.cc" line="452"/>
+        <location filename="../client/desktop/management/router_group_widget.cc" line="428"/>
         <source>%n host(s)</source>
         <translation>
             <numerusform>%n מארח</numerusform>
@@ -6850,27 +6732,27 @@ Credentials imported: %5</source>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_group_widget.ui" line="47"/>
+        <location filename="../client/desktop/management/router_group_widget.ui" line="53"/>
         <source>Previous page</source>
         <translation>העמוד הקודם</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_group_widget.ui" line="50"/>
+        <location filename="../client/desktop/management/router_group_widget.ui" line="56"/>
         <source>Previous</source>
         <translation>הקודם</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_group_widget.ui" line="68"/>
+        <location filename="../client/desktop/management/router_group_widget.ui" line="74"/>
         <source>Next page</source>
         <translation>העמוד הבא</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_group_widget.ui" line="71"/>
+        <location filename="../client/desktop/management/router_group_widget.ui" line="77"/>
         <source>Next</source>
         <translation>הבא</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_group_widget.ui" line="82"/>
+        <location filename="../client/desktop/management/router_group_widget.ui" line="88"/>
         <source>Items per page:</source>
         <translation>פריטים בעמוד:</translation>
     </message>
@@ -6881,11 +6763,6 @@ Credentials imported: %5</source>
         <location filename="../client/desktop/management/router_host_dialog.ui" line="14"/>
         <source>Host Properties</source>
         <translation>מאפייני מארח</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/management/router_host_dialog.ui" line="25"/>
-        <source>Workspace:</source>
-        <translation>סביבת עבודה:</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_host_dialog.ui" line="39"/>
@@ -6913,6 +6790,11 @@ Credentials imported: %5</source>
         <translation>סיסמה:</translation>
     </message>
     <message>
+        <location filename="../client/desktop/management/router_host_dialog.ui" line="25"/>
+        <source>Space:</source>
+        <translation>מרחב:</translation>
+    </message>
+    <message>
         <location filename="../client/desktop/management/router_host_dialog.ui" line="63"/>
         <source>Use saved credentials</source>
         <translation>השתמש בפרטי כניסה שמורים</translation>
@@ -6929,8 +6811,8 @@ Credentials imported: %5</source>
     </message>
     <message>
         <location filename="../client/desktop/management/router_host_dialog.cc" line="135"/>
-        <source>Failed to get list of workspaces.</source>
-        <translation>קבלת רשימת סביבות העבודה נכשלה.</translation>
+        <source>Failed to get list of spaces.</source>
+        <translation>קבלת רשימת המרחבים נכשלה.</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_host_dialog.cc" line="143"/>
@@ -7030,81 +6912,126 @@ Credentials imported: %5</source>
     <name>RouterHostsWidget</name>
     <message>
         <location filename="../client/desktop/management/router_hosts_widget.ui" line="56"/>
+        <source>Host ID</source>
+        <translation>מזהה מארח</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="72"/>
+        <source>Display Name</source>
+        <translation>שם תצוגה</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="88"/>
         <source>Address</source>
         <translation>כתובת</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.ui" line="72"/>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="104"/>
         <source>Operating System</source>
         <translation>מערכת הפעלה</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.ui" line="88"/>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="120"/>
         <source>Version</source>
         <translation>גרסה</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.ui" line="104"/>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="136"/>
         <source>Architecture</source>
         <translation>ארכיטקטורה</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.ui" line="120"/>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="152"/>
         <source>Reset filter</source>
         <translation>איפוס מסנן</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.ui" line="157"/>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="195"/>
         <source>Previous page</source>
         <translation>העמוד הקודם</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.ui" line="160"/>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="198"/>
         <source>Previous</source>
         <translation>הקודם</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.ui" line="178"/>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="216"/>
         <source>Next page</source>
         <translation>העמוד הבא</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.ui" line="181"/>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="219"/>
         <source>Next</source>
         <translation>הבא</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.ui" line="192"/>
+        <location filename="../client/desktop/management/router_hosts_widget.ui" line="230"/>
         <source>Items per page:</source>
         <translation>פריטים בעמוד:</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_hosts_widget.cc" line="147"/>
-        <source>All workspaces</source>
-        <translation>כל סביבות העבודה</translation>
+        <source>All spaces</source>
+        <translation>כל המרחבים</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_hosts_widget.cc" line="148"/>
-        <source>Without workspace</source>
-        <translation>ללא סביבת עבודה</translation>
+        <source>Not in any space</source>
+        <translation>ללא מרחב</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.cc" line="392"/>
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="366"/>
         <source>Are you sure you want to disconnect host &quot;%1&quot;?</source>
         <translation>האם אתה בטוח שברצונך לנתק את המארח &quot;%1&quot;?</translation>
     </message>
-    <message>
-        <location filename="../client/desktop/management/router_hosts_widget.cc" line="417"/>
-        <source>Are you sure you want to disconnect all hosts?</source>
-        <translation>האם אתה בטוח שברצונך לנתק את כל המארחים?</translation>
+    <message numerus="yes">
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="368"/>
+        <source>Are you sure you want to disconnect %n hosts?</source>
+        <translation>
+            <numerusform>האם אתה בטוח שברצונך לנתק %n מארח?</numerusform>
+            <numerusform>האם אתה בטוח שברצונך לנתק %n מארחים?</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="379"/>
+        <source>Failed to disconnect %n of the selected hosts.</source>
+        <translation>
+            <numerusform>ניתוק %n מהמארחים שנבחרו נכשל.</numerusform>
+            <numerusform>ניתוק %n מהמארחים שנבחרו נכשל.</numerusform>
+        </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.cc" line="445"/>
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="395"/>
         <source>Deleting a host will result in all its configuration for connecting to the router being deleted, and the application will be uninstalled on the host. This operation is irreversible. Are you sure you want to do this?</source>
         <translation>מחיקת המארח תמחק את כל הגדרות החיבור שלו לנתב, והיישום יוסר מהמארח. פעולה זו אינה הפיכה. האם אתה בטוח שברצונך להמשיך?</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/management/router_hosts_widget.cc" line="821"/>
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="400"/>
+        <source>%n hosts will be deleted.</source>
+        <translation>
+            <numerusform>%n מארח יימחק.</numerusform>
+            <numerusform>%n מארחים יימחקו.</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="411"/>
+        <source>Failed to remove %n of the selected hosts.</source>
+        <translation>
+            <numerusform>מחיקת %n מהמארחים שנבחרו נכשלה.</numerusform>
+            <numerusform>מחיקת %n מהמארחים שנבחרו נכשלה.</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="428"/>
+        <source>Failed to check for updates on %n of the selected hosts.</source>
+        <translation>
+            <numerusform>בדיקת עדכונים ב-%n מהמארחים שנבחרו נכשלה.</numerusform>
+            <numerusform>בדיקת עדכונים ב-%n מהמארחים שנבחרו נכשלה.</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="761"/>
         <source>%n host(s)</source>
         <translation>
             <numerusform>%n מארח</numerusform>
@@ -7112,22 +7039,22 @@ Credentials imported: %5</source>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.cc" line="877"/>
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="825"/>
         <source>Save File</source>
         <translation>שמירת קובץ</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.cc" line="877"/>
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="825"/>
         <source>JSON files (*.json)</source>
         <translation>קובצי JSON (*.json)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.cc" line="888"/>
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="836"/>
         <source>Could not open file for writing.</source>
         <translation>לא ניתן לפתוח קובץ לכתיבה.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_hosts_widget.cc" line="935"/>
+        <location filename="../client/desktop/management/router_hosts_widget.cc" line="883"/>
         <source>Unable to write file.</source>
         <translation>לא ניתן לכתוב את הקובץ.</translation>
     </message>
@@ -7135,62 +7062,65 @@ Credentials imported: %5</source>
 <context>
     <name>RouterRelaysWidget</name>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="247"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="238"/>
         <source>Save File</source>
         <translation>שמירת קובץ</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="247"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="238"/>
         <source>JSON files (*.json)</source>
         <translation>קובצי JSON (*.json)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="258"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="249"/>
         <source>Could not open file for writing.</source>
         <translation>לא ניתן לפתוח קובץ לכתיבה.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="320"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="311"/>
         <source>Unable to write file.</source>
         <translation>לא ניתן לכתוב את הקובץ.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="359"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="331"/>
         <source>Are you sure you want to disconnect relay &quot;%1&quot;?</source>
         <translation>האם אתה בטוח שברצונך לנתק את הממסר &quot;%1&quot;?</translation>
     </message>
-    <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="384"/>
-        <source>Are you sure you want to disconnect all relays?</source>
-        <translation>האם אתה בטוח שברצונך לנתק את כל הממסרים?</translation>
+    <message numerus="yes">
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="336"/>
+        <source>Are you sure you want to disconnect %n relays?</source>
+        <translation>
+            <numerusform>האם אתה בטוח שברצונך לנתק %n ממסר?</numerusform>
+            <numerusform>האם אתה בטוח שברצונך לנתק %n ממסרים?</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="383"/>
+        <source>Failed to disconnect %n of the selected relays.</source>
+        <translation>
+            <numerusform>ניתוק %n מהממסרים שנבחרו נכשל.</numerusform>
+            <numerusform>ניתוק %n מהממסרים שנבחרו נכשל.</numerusform>
+        </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="450"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="443"/>
         <source>Disconnect</source>
         <translation>נתק</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="452"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="445"/>
         <source>Copy Row</source>
         <translation>העתק שורה</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="453"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="446"/>
         <source>Copy Value</source>
         <translation>העתק ערך</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="462"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="455"/>
         <source>Are you sure you want to disconnect peer &quot;%1&quot;?</source>
         <translation>האם אתה בטוח שברצונך לנתק את העמית &quot;%1&quot;?</translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="602"/>
-        <source>%n relay(s)</source>
-        <translation>
-            <numerusform>%n ממסר</numerusform>
-            <numerusform>%n ממסרים</numerusform>
-        </translation>
     </message>
 </context>
 <context>
@@ -7205,13 +7135,13 @@ Credentials imported: %5</source>
     <name>RouterStatusWidget</name>
     <message>
         <location filename="../client/desktop/management/router_status_widget.ui" line="42"/>
-        <location filename="../client/desktop/management/router_status_widget.cc" line="230"/>
+        <location filename="../client/desktop/management/router_status_widget.cc" line="198"/>
         <source>The router is waiting for a two-factor code.</source>
         <translation>הנתב ממתין לקוד אימות דו-שלבי.</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_status_widget.ui" line="65"/>
-        <location filename="../client/desktop/management/router_status_widget.cc" line="231"/>
+        <location filename="../client/desktop/management/router_status_widget.cc" line="199"/>
         <source>Enter Code</source>
         <translation>הזן קוד</translation>
     </message>
@@ -7225,26 +7155,18 @@ Credentials imported: %5</source>
         <source>Event</source>
         <translation>אירוע</translation>
     </message>
-    <message numerus="yes">
-        <location filename="../client/desktop/management/router_status_widget.cc" line="200"/>
-        <source>%n event(s)</source>
-        <translation>
-            <numerusform>%n אירוע</numerusform>
-            <numerusform>%n אירועים</numerusform>
-        </translation>
-    </message>
     <message>
-        <location filename="../client/desktop/management/router_status_widget.cc" line="218"/>
+        <location filename="../client/desktop/management/router_status_widget.cc" line="186"/>
         <source>Two-factor authentication is blocked after too many failed attempts.</source>
         <translation>האימות הדו-שלבי חסום לאחר יותר מדי ניסיונות כושלים.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_status_widget.cc" line="235"/>
+        <location filename="../client/desktop/management/router_status_widget.cc" line="203"/>
         <source>Two-factor authentication has to be set up for this router.</source>
         <translation>יש להגדיר אימות דו-שלבי עבור נתב זה.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_status_widget.cc" line="236"/>
+        <location filename="../client/desktop/management/router_status_widget.cc" line="204"/>
         <source>Set Up</source>
         <translation>הגדר</translation>
     </message>
@@ -7272,17 +7194,17 @@ Credentials imported: %5</source>
         <translation>העמוד הבא</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="94"/>
+        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="95"/>
         <source>Items per page:</source>
         <translation>פריטים בעמוד:</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="220"/>
+        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="221"/>
         <source>Approving a host will give it permanent access to the router. Are you sure you want to approve host &quot;%1&quot;?</source>
         <translation>אישור המארח יעניק לו גישה קבועה לנתב. האם אתה בטוח שברצונך לאשר את המארח &quot;%1&quot;?</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="227"/>
+        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="228"/>
         <source>Approving hosts will give them permanent access to the router. Are you sure you want to approve %n hosts?</source>
         <translation>
             <numerusform>אישור המארחים יעניק להם גישה קבועה לנתב. האם אתה בטוח שברצונך לאשר %n מארח?</numerusform>
@@ -7290,12 +7212,12 @@ Credentials imported: %5</source>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="267"/>
+        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="268"/>
         <source>Failed to approve the host.</source>
         <translation>אישור המארח נכשל.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="269"/>
+        <location filename="../client/desktop/management/router_temp_hosts_widget.cc" line="270"/>
         <source>Failed to approve %n of the selected hosts.</source>
         <translation>
             <numerusform>אישור %n מהמארחים שנבחרו נכשל.</numerusform>
@@ -7503,22 +7425,22 @@ Credentials imported: %5</source>
 <context>
     <name>RouterUsersWidget</name>
     <message>
-        <location filename="../client/desktop/management/router_users_widget.cc" line="229"/>
+        <location filename="../client/desktop/management/router_users_widget.cc" line="205"/>
         <source>You cannot delete a built-in user.</source>
         <translation>לא ניתן למחוק משתמש מובנה.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_users_widget.cc" line="234"/>
+        <location filename="../client/desktop/management/router_users_widget.cc" line="210"/>
         <source>Are you sure you want to delete user &quot;%1&quot;?</source>
         <translation>האם אתה בטוח שברצונך למחוק את המשתמש &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_users_widget.cc" line="292"/>
+        <location filename="../client/desktop/management/router_users_widget.cc" line="268"/>
         <source>Failed to get list of users.</source>
         <translation>קבלת רשימת המשתמשים נכשלה.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/management/router_users_widget.cc" line="435"/>
+        <location filename="../client/desktop/management/router_users_widget.cc" line="411"/>
         <source>%n user(s)</source>
         <translation>
             <numerusform>%n משתמש</numerusform>
@@ -7526,38 +7448,33 @@ Credentials imported: %5</source>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_users_widget.ui" line="56"/>
+        <location filename="../client/desktop/management/router_users_widget.ui" line="62"/>
         <source>Previous page</source>
         <translation>העמוד הקודם</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_users_widget.ui" line="59"/>
+        <location filename="../client/desktop/management/router_users_widget.ui" line="65"/>
         <source>Previous</source>
         <translation>הקודם</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_users_widget.ui" line="77"/>
+        <location filename="../client/desktop/management/router_users_widget.ui" line="83"/>
         <source>Next page</source>
         <translation>העמוד הבא</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_users_widget.ui" line="80"/>
+        <location filename="../client/desktop/management/router_users_widget.ui" line="86"/>
         <source>Next</source>
         <translation>הבא</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_users_widget.ui" line="91"/>
+        <location filename="../client/desktop/management/router_users_widget.ui" line="97"/>
         <source>Items per page:</source>
         <translation>פריטים בעמוד:</translation>
     </message>
 </context>
 <context>
     <name>RouterWorkspaceDialog</name>
-    <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="14"/>
-        <source>Workspace Properties</source>
-        <translation>מאפייני סביבת עבודה</translation>
-    </message>
     <message>
         <location filename="../client/desktop/management/router_workspace_dialog.ui" line="27"/>
         <source>General</source>
@@ -7579,17 +7496,32 @@ Credentials imported: %5</source>
         <translation>גישה</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="182"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="194"/>
         <source>Users with access</source>
         <translation>משתמשים בעלי גישה</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="145"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="300"/>
+        <source>Move the selected host into the space</source>
+        <translation>העבר את המארח שנבחר למרחב</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="313"/>
+        <source>Remove the selected host from the space</source>
+        <translation>הסר את המארח שנבחר מהמרחב</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="343"/>
+        <source>Hosts in space</source>
+        <translation>מארחים במרחב</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="151"/>
         <source>Grant access to the selected user</source>
         <translation>הענק גישה למשתמש שנבחר</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="158"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="164"/>
         <source>Revoke access from the selected user</source>
         <translation>שלול גישה מהמשתמש שנבחר</translation>
     </message>
@@ -7599,53 +7531,43 @@ Credentials imported: %5</source>
         <translation>משתמשים זמינים</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="88"/>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="225"/>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="341"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="14"/>
+        <source>Space Properties</source>
+        <translation>מאפייני מרחב</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="84"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="233"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="361"/>
         <source>Previous page</source>
         <translation>העמוד הקודם</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="112"/>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="249"/>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="365"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="108"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="257"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="385"/>
         <source>Next page</source>
         <translation>העמוד הבא</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="195"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="207"/>
         <source>Hosts</source>
         <translation>מארחים</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="319"/>
-        <source>Hosts in workspace</source>
-        <translation>מארחים בסביבת העבודה</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="282"/>
-        <source>Move the selected host into the workspace</source>
-        <translation>העבר את המארח שנבחר לסביבת העבודה</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="295"/>
-        <source>Remove the selected host from the workspace</source>
-        <translation>הסר את המארח שנבחר מסביבת העבודה</translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="203"/>
+        <location filename="../client/desktop/management/router_workspace_dialog.ui" line="215"/>
         <source>Unassigned hosts</source>
         <translation>מארחים לא משויכים</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_workspace_dialog.cc" line="238"/>
-        <source>Failed to get list of workspaces.</source>
-        <translation>קבלת רשימת סביבות העבודה נכשלה.</translation>
+        <source>Failed to get list of spaces.</source>
+        <translation>קבלת רשימת המרחבים נכשלה.</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_workspace_dialog.cc" line="265"/>
-        <source>The workspace was deleted from another console.</source>
-        <translation>סביבת העבודה נמחקה ממסוף אחר.</translation>
+        <source>The space was deleted from another console.</source>
+        <translation>המרחב נמחק ממסוף אחר.</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_workspace_dialog.cc" line="306"/>
@@ -7654,23 +7576,23 @@ Credentials imported: %5</source>
     </message>
     <message>
         <location filename="../client/desktop/management/router_workspace_dialog.cc" line="428"/>
-        <source>The workspace was changed from another console. The lists are being refreshed - check the changes and save again.</source>
-        <translation>סביבת העבודה שונתה ממסוף אחר. הרשימות מתרעננות - בדוק את השינויים ושמור שוב.</translation>
+        <source>The space was changed from another console. The lists are being refreshed - check the changes and save again.</source>
+        <translation>המרחב שונה ממסוף אחר. הרשימות מתרעננות - בדוק את השינויים ושמור שוב.</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_workspace_dialog.cc" line="534"/>
-        <source>Are you sure you want to remove the host from the workspace?</source>
-        <translation>האם אתה בטוח שברצונך להסיר את המארח מסביבת העבודה?</translation>
+        <source>Are you sure you want to remove the host from the space?</source>
+        <translation>האם אתה בטוח שברצונך להסיר את המארח מהמרחב?</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_workspace_dialog.cc" line="917"/>
-        <source>Workspace name cannot be empty.</source>
-        <translation>שם סביבת העבודה אינו יכול להיות ריק.</translation>
+        <source>Space name cannot be empty.</source>
+        <translation>שם המרחב אינו יכול להיות ריק.</translation>
     </message>
     <message>
         <location filename="../client/desktop/management/router_workspace_dialog.cc" line="928"/>
-        <source>A workspace with the specified name already exists.</source>
-        <translation>סביבת עבודה בשם שצוין כבר קיימת.</translation>
+        <source>A space with the specified name already exists.</source>
+        <translation>מרחב בשם שצוין כבר קיים.</translation>
     </message>
 </context>
 <context>
@@ -7689,14 +7611,6 @@ Credentials imported: %5</source>
         <location filename="../client/android/routers_widget.cc" line="243"/>
         <source>Edit Router</source>
         <translation>עריכת נתב</translation>
-    </message>
-</context>
-<context>
-    <name>ScreenWorker</name>
-    <message>
-        <location filename="../host/workers/screen_worker.cc" line="1245"/>
-        <source>All monitors</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7738,27 +7652,27 @@ Credentials imported: %5</source>
 <context>
     <name>SearchWidget</name>
     <message>
-        <location filename="../client/desktop/management/search_widget.cc" line="296"/>
+        <location filename="../client/desktop/management/search_widget.cc" line="294"/>
         <source>Previous</source>
         <translation>הקודם</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/search_widget.cc" line="297"/>
+        <location filename="../client/desktop/management/search_widget.cc" line="295"/>
         <source>Previous page</source>
         <translation>העמוד הקודם</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/search_widget.cc" line="304"/>
+        <location filename="../client/desktop/management/search_widget.cc" line="302"/>
         <source>Next</source>
         <translation>הבא</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/search_widget.cc" line="305"/>
+        <location filename="../client/desktop/management/search_widget.cc" line="303"/>
         <source>Next page</source>
         <translation>העמוד הבא</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/management/search_widget.cc" line="808"/>
+        <location filename="../client/desktop/management/search_widget.cc" line="787"/>
         <source>%n result(s)</source>
         <translation>
             <numerusform>%n תוצאה</numerusform>
@@ -7827,17 +7741,12 @@ Credentials imported: %5</source>
 <context>
     <name>SelectScreenAction</name>
     <message>
-        <location filename="../client/desktop/desktop/select_screen_action.h" line="42"/>
-        <source>All monitors</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/desktop/desktop/select_screen_action.h" line="48"/>
+        <location filename="../client/desktop/desktop/select_screen_action.h" line="38"/>
         <source>Monitor %1 (primary)</source>
         <translation>צג %1 (ראשי)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/desktop/select_screen_action.h" line="50"/>
+        <location filename="../client/desktop/desktop/select_screen_action.h" line="40"/>
         <source>Monitor %1</source>
         <translation>צג %1</translation>
     </message>
@@ -8188,7 +8097,7 @@ Credentials imported: %5</source>
     </message>
     <message>
         <location filename="../client/desktop/settings_tab.ui" line="814"/>
-        <location filename="../client/desktop/settings_tab.cc" line="144"/>
+        <location filename="../client/desktop/settings_tab.cc" line="145"/>
         <source>Update</source>
         <translation>עדכון</translation>
     </message>
@@ -8223,123 +8132,123 @@ Credentials imported: %5</source>
         <translation>בדוק עדכונים</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="141"/>
+        <location filename="../client/desktop/settings_tab.cc" line="142"/>
         <source>General</source>
         <translation>כללי</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="142"/>
+        <location filename="../client/desktop/settings_tab.cc" line="143"/>
         <source>Desktop</source>
         <translation>שולחן עבודה</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="197"/>
+        <location filename="../client/desktop/settings_tab.cc" line="198"/>
         <source>1 week</source>
         <translation>שבוע אחד</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="198"/>
+        <location filename="../client/desktop/settings_tab.cc" line="199"/>
         <source>2 weeks</source>
         <translation>2 שבועות</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="199"/>
+        <location filename="../client/desktop/settings_tab.cc" line="200"/>
         <source>1 month</source>
         <translation>חודש אחד</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="200"/>
+        <location filename="../client/desktop/settings_tab.cc" line="201"/>
         <source>6 months</source>
         <translation>6 חודשים</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="201"/>
+        <location filename="../client/desktop/settings_tab.cc" line="202"/>
         <source>1 year</source>
         <translation>שנה אחת</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="205"/>
+        <location filename="../client/desktop/settings_tab.cc" line="206"/>
         <source>Do not lock</source>
         <translation>אל תנעל</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="206"/>
+        <location filename="../client/desktop/settings_tab.cc" line="207"/>
         <source>1 minute</source>
         <translation>דקה אחת</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="207"/>
+        <location filename="../client/desktop/settings_tab.cc" line="208"/>
         <source>5 minutes</source>
         <translation>5 דקות</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="208"/>
+        <location filename="../client/desktop/settings_tab.cc" line="209"/>
         <source>10 minutes</source>
         <translation>10 דקות</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="209"/>
+        <location filename="../client/desktop/settings_tab.cc" line="210"/>
         <source>30 minutes</source>
         <translation>30 דקות</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="210"/>
+        <location filename="../client/desktop/settings_tab.cc" line="211"/>
         <source>1 hour</source>
         <translation>שעה אחת</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="225"/>
+        <location filename="../client/desktop/settings_tab.cc" line="226"/>
         <source>No proxy</source>
         <translation>ללא שרת פרוקסי</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="264"/>
+        <location filename="../client/desktop/settings_tab.cc" line="265"/>
         <source>None</source>
         <translation>ללא</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="319"/>
+        <location filename="../client/desktop/settings_tab.cc" line="320"/>
         <source>Stable</source>
         <translation>יציב</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="320"/>
+        <location filename="../client/desktop/settings_tab.cc" line="321"/>
         <source>Beta</source>
         <translation>בטא</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="321"/>
+        <location filename="../client/desktop/settings_tab.cc" line="322"/>
         <source>Alpha</source>
         <translation>אלפא</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="457"/>
+        <location filename="../client/desktop/settings_tab.cc" line="452"/>
         <source>The new language will be applied after the application is restarted.</source>
         <translation>השפה החדשה תוחל לאחר הפעלה מחדש של היישום.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="506"/>
-        <location filename="../client/desktop/settings_tab.cc" line="631"/>
+        <location filename="../client/desktop/settings_tab.cc" line="501"/>
+        <location filename="../client/desktop/settings_tab.cc" line="626"/>
         <source>Choose path</source>
         <translation>בחירת נתיב</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="659"/>
-        <source>MCP will work after the application is restarted.</source>
-        <translation>MCP יפעל לאחר הפעלה מחדש של היישום.</translation>
+        <location filename="../client/desktop/settings_tab.cc" line="654"/>
+        <source>The settings will be applied after the application is restarted.</source>
+        <translation>ההגדרות יוחלו לאחר הפעלה מחדש של היישום.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="706"/>
+        <location filename="../client/desktop/settings_tab.cc" line="701"/>
         <source>Change Master Password</source>
         <translation>שינוי סיסמה ראשית</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="708"/>
+        <location filename="../client/desktop/settings_tab.cc" line="703"/>
         <source>Enter your current password and choose a new one.</source>
         <translation>הזן את הסיסמה הנוכחית שלך ובחר סיסמה חדשה.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/settings_tab.cc" line="716"/>
+        <location filename="../client/desktop/settings_tab.cc" line="711"/>
         <source>The password can not be shorter than %n characters.</source>
         <translation>
             <numerusform>אורך הסיסמה לא יפחת מ-%n תו.</numerusform>
@@ -8347,12 +8256,12 @@ Credentials imported: %5</source>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="723"/>
+        <location filename="../client/desktop/settings_tab.cc" line="718"/>
         <source>Password you entered does not meet the security requirements!</source>
         <translation>הסיסמה שהזנת אינה עומדת בדרישות האבטחה!</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/settings_tab.cc" line="724"/>
+        <location filename="../client/desktop/settings_tab.cc" line="719"/>
         <source>The password must contain lowercase and uppercase characters, numbers and should not be shorter than %n characters.</source>
         <translation>
             <numerusform>הסיסמה חייבת להכיל אותיות קטנות וגדולות ומספרים, ואורכה לא יפחת מ-%n תו.</numerusform>
@@ -8360,62 +8269,62 @@ Credentials imported: %5</source>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="727"/>
+        <location filename="../client/desktop/settings_tab.cc" line="722"/>
         <source>Do you want to enter a different password?</source>
         <translation>האם ברצונך להזין סיסמה אחרת?</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="740"/>
+        <location filename="../client/desktop/settings_tab.cc" line="735"/>
         <source>Invalid current password.</source>
         <translation>הסיסמה הנוכחית שגויה.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="744"/>
+        <location filename="../client/desktop/settings_tab.cc" line="739"/>
         <source>Some records of the database are damaged. Fix or delete them and try again.</source>
         <translation>חלק מרשומות מסד הנתונים פגומות. תקן או מחק אותן ונסה שוב.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="748"/>
+        <location filename="../client/desktop/settings_tab.cc" line="743"/>
         <source>Unable to change the password.</source>
         <translation>לא ניתן לשנות את הסיסמה.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="781"/>
+        <location filename="../client/desktop/settings_tab.cc" line="776"/>
         <source>Unable to read the proxy settings.</source>
         <translation>לא ניתן לקרוא את הגדרות שרת הפרוקסי.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="895"/>
+        <location filename="../client/desktop/settings_tab.cc" line="890"/>
         <source>The key of the database will be stored on this computer. Any program running under your account will be able to read it, even when the application is not running.</source>
         <translation>מפתח מסד הנתונים יישמר במחשב זה. כל תוכנית הפועלת תחת החשבון שלך תוכל לקרוא אותו, גם כאשר היישום אינו פועל.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="898"/>
+        <location filename="../client/desktop/settings_tab.cc" line="893"/>
         <source>Do you want to continue?</source>
         <translation>האם ברצונך להמשיך?</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="909"/>
+        <location filename="../client/desktop/settings_tab.cc" line="904"/>
         <source>Unlock Automatically</source>
         <translation>ביטול נעילה אוטומטי</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="911"/>
+        <location filename="../client/desktop/settings_tab.cc" line="906"/>
         <source>Enter the master password to unlock the application automatically on startup.</source>
         <translation>הזן את הסיסמה הראשית כדי לבטל את נעילת היישום אוטומטית בעת ההפעלה.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="921"/>
+        <location filename="../client/desktop/settings_tab.cc" line="916"/>
         <source>Invalid master password.</source>
         <translation>הסיסמה הראשית שגויה.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="925"/>
+        <location filename="../client/desktop/settings_tab.cc" line="920"/>
         <source>Unable to unlock the database.</source>
         <translation>לא ניתן לבטל את נעילת מסד הנתונים.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/settings_tab.cc" line="939"/>
+        <location filename="../client/desktop/settings_tab.cc" line="934"/>
         <source>Unable to turn on the automatic unlock.</source>
         <translation>לא ניתן להפעיל את ביטול הנעילה האוטומטי.</translation>
     </message>
@@ -8787,7 +8696,7 @@ Credentials imported: %5</source>
 <context>
     <name>Sidebar</name>
     <message>
-        <location filename="../client/desktop/management/search_widget.cc" line="116"/>
+        <location filename="../client/desktop/management/search_widget.cc" line="115"/>
         <location filename="../client/desktop/management/sidebar.cc" line="154"/>
         <source>Local</source>
         <translation>מקומי</translation>
@@ -12907,7 +12816,12 @@ Credentials imported: %5</source>
         <translation>שרת הפרוקסי דחה את החיבור או שלח תגובה לא חוקית.</translation>
     </message>
     <message>
-        <location filename="../base/net/tcp_channel.cc" line="167"/>
+        <location filename="../base/net/tcp_channel.cc" line="161"/>
+        <source>Proxy server could not connect to the destination host.</source>
+        <translation>שרת הפרוקסי לא הצליח להתחבר למארח היעד.</translation>
+    </message>
+    <message>
+        <location filename="../base/net/tcp_channel.cc" line="171"/>
         <source>An unknown error occurred.</source>
         <translation>אירעה שגיאה לא ידועה.</translation>
     </message>

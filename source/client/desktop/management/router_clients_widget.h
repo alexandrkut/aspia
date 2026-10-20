@@ -29,12 +29,8 @@ namespace Ui {
 class RouterClientsWidget;
 } // namespace Ui
 
-class QLabel;
-class QStatusBar;
-
 namespace proto::router {
 class ClientList;
-class ClientResult;
 } // namespace proto::router
 
 class RouterClientsWidget final : public ContentWidget
@@ -47,8 +43,7 @@ public:
 
     void showRouter(qint64 router_id);
     qint64 routerId() const { return router_id_; }
-    bool hasSelectedClient() const;
-    int clientCount() const;
+    int selectedClientCount() const;
 
     void copyCurrentClientRow();
     void copyCurrentClientColumn(int column);
@@ -60,12 +55,9 @@ public:
     void reload() final;
     bool canSave() const final { return true; }
     void save() final;
-    void activate(QStatusBar* statusbar) final;
-    void deactivate(QStatusBar* statusbar) final;
 
 public slots:
     void onDisconnectClient();
-    void onDisconnectAllClients();
 
 signals:
     void sig_currentChanged();
@@ -73,7 +65,6 @@ signals:
 
 private slots:
     void onClientListReceived(const proto::router::ClientList& clients);
-    void onClientResultReceived(const proto::router::ClientResult& result);
     void onClientContextMenu(const QPoint& pos);
     void onHeaderContextMenu(const QPoint& pos);
     void onPageSizeChanged(int index);
@@ -84,13 +75,13 @@ private slots:
 private:
     void fetchClients();
     void updatePagination();
-    void updateStatusLabel();
+    void updateCountLabel();
     const proto::router::ClientInfo* currentClient() const;
+    QList<proto::router::ClientInfo> selectedClients() const;
 
     std::unique_ptr<Ui::RouterClientsWidget> ui;
     qint64 router_id_ = 0;
     ClientListModel* model_ = nullptr;
-    QLabel* status_clients_label_ = nullptr;
     PageModel page_;
 
     Q_DISABLE_COPY_MOVE(RouterClientsWidget)

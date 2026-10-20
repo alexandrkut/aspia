@@ -943,6 +943,21 @@ TEST_F(HostListTest, SearchMatchesDisplayNameAndHostId)
 }
 
 //--------------------------------------------------------------------------------------------------
+TEST_F(HostListTest, SearchMatchesComment)
+{
+    const HostId host_id = addHost("hash-1");
+    ASSERT_NE(host_id, kInvalidHostId);
+    ASSERT_EQ(db_.modifyHost(host_id, findHost(host_id).revision(), workspace_id_, 0, "Office",
+                             "Second Floor"), proto::router::kErrorOk);
+
+    const proto::router::HostSearchResult result = searchHosts("second");
+    ASSERT_EQ(result.error_code(), proto::router::kErrorOk);
+    ASSERT_EQ(result.host_size(), 1);
+    EXPECT_EQ(result.host(0).host_id(), host_id);
+    EXPECT_EQ(result.total_count(), 1);
+}
+
+//--------------------------------------------------------------------------------------------------
 // The search answers with the page that was asked for and with the number of matches in the whole
 // scope, so the client can walk the rest instead of being handed a silently cut list.
 TEST_F(HostListTest, SearchReturnsWindowAndFullCount)
@@ -964,6 +979,20 @@ TEST_F(HostListTest, SearchReturnsWindowAndFullCount)
     EXPECT_EQ(result.host(0).display_name(), "host-b");
     EXPECT_EQ(result.host(1).display_name(), "host-c");
     EXPECT_EQ(result.total_count(), 3);
+}
+
+//--------------------------------------------------------------------------------------------------
+TEST_F(HostListTest, SearchWithATooLongQueryIsRejected)
+{
+    ASSERT_NE(addHostTo("hash-1", workspace_id_, 0, "host-a"), kInvalidHostId);
+
+    const QString at_limit(static_cast<qsizetype>(proto::router::kMaxHostQueryLength), QChar('a'));
+    EXPECT_EQ(searchHosts(at_limit).error_code(), proto::router::kErrorOk);
+
+    const proto::router::HostSearchResult result = searchHosts(at_limit + QChar('a'));
+    EXPECT_EQ(result.error_code(), proto::router::kErrorInvalidRequest);
+    EXPECT_EQ(result.host_size(), 0);
+    EXPECT_EQ(result.total_count(), 0);
 }
 
 //--------------------------------------------------------------------------------------------------
