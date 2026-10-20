@@ -33,21 +33,30 @@ public:
           screen_(screen)
     {
         QString text;
+        QString icon;
 
-        if (is_primary)
-            text = tr("Monitor %1 (primary)").arg(number);
+        if (screen.all_screens())
+        {
+            // The screen of the whole desktop is not a monitor and has no number: it is the
+            // desktop of the host as a whole, and it is shown with the icon of a desktop.
+            text = tr("All monitors");
+            icon = ":/img/monitors.svg";
+        }
         else
-            text = tr("Monitor %1").arg(number);
+        {
+            if (is_primary)
+                text = tr("Monitor %1 (primary)").arg(number);
+            else
+                text = tr("Monitor %1").arg(number);
+
+            if (number >= 1 && number <= 9)
+                icon = QString(":/img/monitor-%1.svg").arg(number);
+            else
+                icon = ":/img/monitor-n.svg";
+        }
 
         setText(text);
         setToolTip(text);
-
-        QString icon;
-        if (number >= 1 && number <= 9)
-            icon = QString(":/img/monitor-%1.svg").arg(number);
-        else
-            icon = ":/img/monitor-n.svg";
-
         setIcon(QIcon(icon));
         setCheckable(true);
     }

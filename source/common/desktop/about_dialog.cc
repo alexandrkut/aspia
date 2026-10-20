@@ -19,6 +19,7 @@
 #include "common/desktop/about_dialog.h"
 
 #include <QDesktopServices>
+#include <QStringList>
 #include <QSysInfo>
 
 #include "version.h"
@@ -42,6 +43,9 @@ const char kGplLink[] = "https://www.gnu.org/licenses/gpl.html";
 const char kGplTranslationLink[] = "https://www.gnu.org/licenses/translations.html";
 const char kHomeLink[] = "https://aspia.org";
 const char kGitHubLink[] = "https://github.com/dchapyshev/aspia";
+
+// The page of this fork, where the changes below are described and the sources are.
+const char kModificationsLink[] = "https://github.com/alexandrkut/aspia";
 
 const char* kDevelopers[] = { "Dmitry Chapyshev (dmitry@aspia.ru)" };
 
@@ -90,6 +94,24 @@ QString createList(const QString& title, const char* array[], size_t array_size)
     return QString("<b>%1</b><br>%2").arg(title, list);
 }
 
+//--------------------------------------------------------------------------------------------------
+QString createList(const QString& title, const QStringList& list)
+{
+    if (list.isEmpty())
+        return QString();
+
+    QString result;
+
+    for (int i = 0; i < list.size(); ++i)
+    {
+        result.append(QString("&bull; %1").arg(list[i]));
+        if (i + 1 != list.size())
+            result.append("<br/>");
+    }
+
+    return QString("<b>%1</b><br>%2").arg(title, result);
+}
+
 } // namespace
 
 //--------------------------------------------------------------------------------------------------
@@ -120,6 +142,27 @@ AboutDialog::AboutDialog(const QString& application_name, QWidget* parent)
              tr("Home page:"), kHomeLink,
              tr("GitHub page:"), kGitHubLink);
 
+    // The changes are shown only in a build that carries the mark of a modification, which is
+    // the suffix of the version. A build of the upstream carries none, and there is nothing
+    // to tell about it.
+    QString modifications;
+
+    if (ASPIA_VERSION_SUFFIX[0] != '\0')
+    {
+        // The changes of this fork. The window "About" is the only place where the person
+        // using the program learns that the program is not the upstream one.
+        const QStringList changes =
+        {
+            tr("Connect to a host by its ID from the command line"),
+            tr("Switch the second factor off per role in the configuration of the router"),
+            tr("The whole desktop of the host as one screen")
+        };
+
+        modifications = createList(tr("Modifications"), changes);
+        modifications += QString("<br>%1 <a href='%2'>%2</a>")
+            .arg(tr("The changes and the sources:"), kModificationsLink);
+    }
+
     QString developers =
         createList(tr("Developers"), kDevelopers, std::size(kDevelopers));
     QString translators =
@@ -135,6 +178,10 @@ AboutDialog::AboutDialog(const QString& application_name, QWidget* parent)
     html += "<html><body>";
     html += "<p>" + license + "</p>";
     html += "<p>" + license_translation + "</p>";
+
+    if (!modifications.isEmpty())
+        html += "<p>" + modifications + "</p>";
+
     html += "<p>" + links + "</p>";
     html += "<p>" + developers + "</p>";
     html += "<p>" + translators + "</p>";

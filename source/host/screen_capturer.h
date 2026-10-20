@@ -98,6 +98,10 @@ public:
         QSize resolution;
         QPoint dpi;
         bool is_primary = false;
+
+        // Whether the screen is the whole desktop at once rather than one of the monitors.
+        // The client shows such a screen with a name and an icon of its own.
+        bool is_all_screens = false;
     };
 
     struct ScreenList

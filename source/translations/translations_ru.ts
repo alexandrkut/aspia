@@ -29,117 +29,142 @@
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="104"/>
+        <location filename="../common/desktop/about_dialog.cc" line="126"/>
         <source>Version: %1 (%2)</source>
         <translation>Версия: %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="109"/>
+        <location filename="../common/desktop/about_dialog.cc" line="131"/>
         <source>Aspia is free software released under GNU General Public License 3.</source>
         <translation>Aspia - свободное программное обеспечение, распространяющееся по лицензии GNU General Public License 3.</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="110"/>
+        <location filename="../common/desktop/about_dialog.cc" line="132"/>
         <source>You can get a copy of license here:</source>
         <translation>Вы можете получить копию лицензии по адресу:</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="115"/>
+        <location filename="../common/desktop/about_dialog.cc" line="137"/>
         <source>You can also get a translation of GNU GPL license here:</source>
         <translation>Ознакомиться с переводом лицензии на ваш язык можно по адресу:</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="119"/>
+        <location filename="../common/desktop/about_dialog.cc" line="141"/>
         <source>Links</source>
         <translation>Ссылки</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="120"/>
+        <location filename="../common/desktop/about_dialog.cc" line="142"/>
         <source>Home page:</source>
         <translation>Домашняя страница:</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="121"/>
+        <location filename="../common/desktop/about_dialog.cc" line="143"/>
         <source>GitHub page:</source>
         <translation>GitHub страница:</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="124"/>
+        <location filename="../common/desktop/about_dialog.cc" line="156"/>
+        <source>Connect to a host by its ID from the command line</source>
+        <translation>Подключение к хосту по его ID из командной строки</translation>
+    </message>
+    <message>
+        <location filename="../common/desktop/about_dialog.cc" line="157"/>
+        <source>Switch the second factor off per role in the configuration of the router</source>
+        <translation>Отключение второго фактора для каждой роли в конфигурации роутера</translation>
+    </message>
+    <message>
+        <location filename="../common/desktop/about_dialog.cc" line="158"/>
+        <source>The whole desktop of the host as one screen</source>
+        <translation>Весь рабочий стол хоста одним экраном</translation>
+    </message>
+    <message>
+        <location filename="../common/desktop/about_dialog.cc" line="161"/>
+        <source>Modifications</source>
+        <translation>Модификации</translation>
+    </message>
+    <message>
+        <location filename="../common/desktop/about_dialog.cc" line="163"/>
+        <source>The changes and the sources:</source>
+        <translation>Изменения и исходники:</translation>
+    </message>
+    <message>
+        <location filename="../common/desktop/about_dialog.cc" line="167"/>
         <source>Developers</source>
         <translation>Разработчики</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="126"/>
+        <location filename="../common/desktop/about_dialog.cc" line="169"/>
         <source>Translators</source>
         <translation>Переводчики</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="128"/>
+        <location filename="../common/desktop/about_dialog.cc" line="171"/>
         <source>Third-party components</source>
         <translation>Сторонние компоненты</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="130"/>
+        <location filename="../common/desktop/about_dialog.cc" line="173"/>
         <source>Graphics and images</source>
         <translation>Графика и изображения</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="131"/>
+        <location filename="../common/desktop/about_dialog.cc" line="174"/>
         <source>Icons by %1</source>
         <translation>Иконки от %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="158"/>
+        <location filename="../common/desktop/about_dialog.cc" line="205"/>
         <source>Application</source>
         <translation>Приложение</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="159"/>
+        <location filename="../common/desktop/about_dialog.cc" line="206"/>
         <source>Path: %1</source>
         <translation>Путь: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="160"/>
+        <location filename="../common/desktop/about_dialog.cc" line="207"/>
         <source>Logging directory: %1</source>
         <translation>Директория логов: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="162"/>
+        <location filename="../common/desktop/about_dialog.cc" line="209"/>
         <source>Logging file: %1</source>
         <translation>Файл лога: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="167"/>
+        <location filename="../common/desktop/about_dialog.cc" line="214"/>
         <source>Build Information</source>
         <translation>Информация о сборке</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="168"/>
+        <location filename="../common/desktop/about_dialog.cc" line="215"/>
         <source>Git branch: %1</source>
         <translation>Ветка Git: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="170"/>
+        <location filename="../common/desktop/about_dialog.cc" line="217"/>
         <source>Git commit: %1</source>
         <translation>Коммит Git: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="175"/>
+        <location filename="../common/desktop/about_dialog.cc" line="222"/>
         <source>Compilation</source>
         <translation>Компиляция</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="176"/>
+        <location filename="../common/desktop/about_dialog.cc" line="223"/>
         <source>Compilation date: %1</source>
         <translation>Дата компиляции: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="177"/>
+        <location filename="../common/desktop/about_dialog.cc" line="224"/>
         <source>Compilation time: %1</source>
         <translation>Время компиляции: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="206"/>
+        <location filename="../common/desktop/about_dialog.cc" line="253"/>
         <source>Version Information</source>
         <translation>Информация о версиях</translation>
     </message>
@@ -1010,42 +1035,42 @@
         <translation>Не удалось создать резервную копию.</translation>
     </message>
     <message>
-<location filename="../client/main.cc" line="239"/>
+        <location filename="../client/main.cc" line="239"/>
         <source>Connect to the host of the address book with this record ID or host ID, using the login and the password stored in it.</source>
         <translation>Подключиться к хосту адресной книги по этому ID записи или ID хоста, используя логин и пароль, сохранённые в нём.</translation>
     </message>
     <message>
-<location filename="../client/main.cc" line="242"/>
+        <location filename="../client/main.cc" line="242"/>
         <source>id</source>
         <translation>id</translation>
     </message>
     <message>
-<location filename="../client/main.cc" line="246"/>
+        <location filename="../client/main.cc" line="246"/>
         <source>Kind of the session to open: desktop, file, info, chat or terminal (default: the one from the settings of the application).</source>
         <translation>Тип открываемой сессии: desktop, file, info, chat или terminal (по умолчанию — из настроек приложения).</translation>
     </message>
     <message>
-<location filename="../client/main.cc" line="249"/>
+        <location filename="../client/main.cc" line="249"/>
         <source>type</source>
         <translation>тип</translation>
     </message>
     <message>
-<location filename="../client/main.cc" line="253"/>
+        <location filename="../client/main.cc" line="253"/>
         <source>Log in with this user name instead of the one stored in the host. Requires --password.</source>
         <translation>Войти под этим именем пользователя вместо сохранённого в хосте. Требует --password.</translation>
     </message>
     <message>
-<location filename="../client/main.cc" line="256"/>
+        <location filename="../client/main.cc" line="256"/>
         <source>name</source>
         <translation>имя</translation>
     </message>
     <message>
-<location filename="../client/main.cc" line="260"/>
+        <location filename="../client/main.cc" line="260"/>
         <source>Log in with this password instead of the stored one. Requires --username. A password on a command line is visible to the other users of the machine.</source>
         <translation>Войти с этим паролем вместо сохранённого. Требует --username. Пароль в командной строке виден другим пользователям машины.</translation>
     </message>
     <message>
-<location filename="../client/main.cc" line="263"/>
+        <location filename="../client/main.cc" line="263"/>
         <source>password</source>
         <translation>пароль</translation>
     </message>
@@ -1060,7 +1085,7 @@
         <translation>&quot;%1&quot; не является ни ID хоста, ни ID записи.</translation>
     </message>
     <message>
-<location filename="../client/connect_request.cc" line="129"/>
+        <location filename="../client/connect_request.cc" line="129"/>
         <source>The host ID of --connect is missing.</source>
         <translation>Не указан ID хоста для --connect.</translation>
     </message>
@@ -1070,17 +1095,17 @@
         <translation>&quot;%1&quot; не является допустимым типом сессии. Используйте desktop, file, info, chat или terminal.</translation>
     </message>
     <message>
-<location filename="../client/connect_request.cc" line="154"/>
+        <location filename="../client/connect_request.cc" line="154"/>
         <source>The session type of --session-type is missing.</source>
         <translation>Не указан тип сессии для --session-type.</translation>
     </message>
     <message>
-<location filename="../client/connect_request.cc" line="171"/>
+        <location filename="../client/connect_request.cc" line="171"/>
         <source>The user name of --username is missing.</source>
         <translation>Не указано имя пользователя для --username.</translation>
     </message>
     <message>
-<location filename="../client/connect_request.cc" line="187"/>
+        <location filename="../client/connect_request.cc" line="187"/>
         <source>The password of --password is missing.</source>
         <translation>Не указан пароль для --password.</translation>
     </message>
@@ -1090,17 +1115,17 @@
         <translation>&quot;%1&quot; не является ни ссылкой aspia://, ни ID хоста.</translation>
     </message>
     <message>
-<location filename="../client/connect_request.cc" line="235"/>
+        <location filename="../client/connect_request.cc" line="235"/>
         <source>--username requires --password as well.</source>
         <translation>--username требует также --password.</translation>
     </message>
     <message>
-<location filename="../client/connect_request.cc" line="237"/>
+        <location filename="../client/connect_request.cc" line="237"/>
         <source>--password requires --username as well.</source>
         <translation>--password требует также --username.</translation>
     </message>
     <message>
-<location filename="../client/connect_request.cc" line="248"/>
+        <location filename="../client/connect_request.cc" line="248"/>
         <source>--username and --password need a host to connect to (--connect or an aspia:// link).</source>
         <translation>--username и --password требуют хоста для подключения (--connect или ссылку aspia://).</translation>
     </message>
@@ -2864,17 +2889,17 @@ Credentials replaced: %2</source>
         <translation>Не удалось сохранить изображение</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="506"/>
+        <location filename="../client/android/desktop_window.cc" line="517"/>
         <source>Connecting...</source>
         <translation>Подключение...</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="530"/>
+        <location filename="../client/android/desktop_window.cc" line="541"/>
         <source>The specified router is unavailable.</source>
         <translation>Указанный маршрутизатор недоступен.</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="557"/>
+        <location filename="../client/android/desktop_window.cc" line="568"/>
         <source>Requesting connection to the host...</source>
         <translation>Запрашивается подключение к хосту...</translation>
     </message>
@@ -2889,128 +2914,133 @@ Credentials replaced: %2</source>
         <translation>Сессия %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="529"/>
+        <location filename="../client/android/desktop_window.cc" line="540"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>Данные маршрутизатора повреждены. Измените маршрутизатор и введите их заново.</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="536"/>
+        <location filename="../client/android/desktop_window.cc" line="547"/>
         <source>Connecting to router...</source>
         <translation>Подключение к маршрутизатору...</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="765"/>
+        <location filename="../client/android/desktop_window.cc" line="776"/>
         <source>Connecting to host %1...</source>
         <translation>Подключение к хосту %1...</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="771"/>
+        <location filename="../client/android/desktop_window.cc" line="782"/>
         <source>Connection established.</source>
         <translation>Соединение установлено.</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="784"/>
+        <location filename="../client/android/desktop_window.cc" line="795"/>
         <source>The connection to the host has been lost.</source>
         <translation>Соединение с хостом потеряно.</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="797"/>
+        <location filename="../client/android/desktop_window.cc" line="808"/>
         <source>The host version is newer than the client. Please update the application.</source>
         <translation>Версия хоста новее клиента. Обновите приложение.</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="164"/>
+        <location filename="../client/android/desktop_window.cc" line="174"/>
         <source>Monitor %1</source>
         <translation>Монитор %1</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="172"/>
+        <location filename="../client/android/desktop_window.cc" line="170"/>
+        <source>All monitors</source>
+        <translation>Все мониторы</translation>
+    </message>
+    <message>
+        <location filename="../client/android/desktop_window.cc" line="183"/>
         <source>Power</source>
         <translation>Питание</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="176"/>
+        <location filename="../client/android/desktop_window.cc" line="187"/>
         <source>Keyboard</source>
         <translation>Клавиатура</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="182"/>
+        <location filename="../client/android/desktop_window.cc" line="193"/>
         <source>Ctrl+Alt+Del</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="189"/>
+        <location filename="../client/android/desktop_window.cc" line="200"/>
         <source>Users</source>
         <translation>Пользователи</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="194"/>
+        <location filename="../client/android/desktop_window.cc" line="205"/>
         <source>Disconnect</source>
         <translation>Отключить</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="652"/>
-        <location filename="../client/android/desktop_window.cc" line="709"/>
+        <location filename="../client/android/desktop_window.cc" line="663"/>
+        <location filename="../client/android/desktop_window.cc" line="720"/>
         <source>Back</source>
         <translation>Назад</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="653"/>
+        <location filename="../client/android/desktop_window.cc" line="664"/>
         <source>Shutdown</source>
         <translation>Выключение</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="654"/>
+        <location filename="../client/android/desktop_window.cc" line="665"/>
         <source>Reboot</source>
         <translation>Перезагрузка</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="659"/>
+        <location filename="../client/android/desktop_window.cc" line="670"/>
         <source>Safe Mode</source>
         <translation>Безопасный режим</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="660"/>
+        <location filename="../client/android/desktop_window.cc" line="671"/>
         <source>Logoff</source>
         <translation>Выход из системы</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="661"/>
+        <location filename="../client/android/desktop_window.cc" line="672"/>
         <source>Lock</source>
         <translation>Блокировка</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="677"/>
+        <location filename="../client/android/desktop_window.cc" line="688"/>
         <source>Are you sure you want to shutdown the remote computer?</source>
         <translation>Вы действительно хотите выключить удаленный компьютер?</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="681"/>
+        <location filename="../client/android/desktop_window.cc" line="692"/>
         <source>Are you sure you want to reboot the remote computer?</source>
         <translation>Вы действительно хотите перезагрузить удаленный компьютер?</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="685"/>
+        <location filename="../client/android/desktop_window.cc" line="696"/>
         <source>Are you sure you want to reboot the remote computer in Safe Mode?</source>
         <translation>Вы действительно хотите перезагрузить удаленный компьютер в безопасном режиме?</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="689"/>
+        <location filename="../client/android/desktop_window.cc" line="700"/>
         <source>Are you sure you want to end the user session on the remote computer?</source>
         <translation>Вы действительно хотите завершить сеанс пользователя на удаленном компьютере?</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="693"/>
+        <location filename="../client/android/desktop_window.cc" line="704"/>
         <source>Are you sure you want to lock the user session on the remote computer?</source>
         <translation>Вы действительно хотите заблокировать сеанс пользователя на удаленном компьютере?</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="748"/>
+        <location filename="../client/android/desktop_window.cc" line="759"/>
         <source>Confirmation</source>
         <translation>Подтверждение</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="748"/>
+        <location filename="../client/android/desktop_window.cc" line="759"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
@@ -7704,7 +7734,7 @@ Credentials imported: %5</source>
 <context>
     <name>ScreenWorker</name>
     <message>
-<location filename="../host/workers/screen_worker.cc" line="1245"/>
+        <location filename="../host/workers/screen_worker.cc" line="1245"/>
         <source>All monitors</source>
         <translation>Все мониторы</translation>
     </message>
@@ -7838,12 +7868,17 @@ Credentials imported: %5</source>
 <context>
     <name>SelectScreenAction</name>
     <message>
-        <location filename="../client/desktop/desktop/select_screen_action.h" line="38"/>
+        <location filename="../client/desktop/desktop/select_screen_action.h" line="42"/>
+        <source>All monitors</source>
+        <translation>Все мониторы</translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/desktop/select_screen_action.h" line="48"/>
         <source>Monitor %1 (primary)</source>
         <translation>Монитор %1 (основной)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/desktop/select_screen_action.h" line="40"/>
+        <location filename="../client/desktop/desktop/select_screen_action.h" line="50"/>
         <source>Monitor %1</source>
         <translation>Монитор %1</translation>
     </message>

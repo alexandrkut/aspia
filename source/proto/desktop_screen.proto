@@ -42,6 +42,11 @@ message Screen
     Point position  = 3;
     Size resolution = 4;
     Point dpi       = 5;
+
+    // Whether the screen is the whole desktop of the host at once rather than one of its
+    // monitors. There is one such screen in the list, and the client shows it with a name
+    // and an icon of its own instead of with the name and the icon of a monitor.
+    bool all_screens = 6;
 }
 
 // Sent by host to client. Contains a list of screens on the host.

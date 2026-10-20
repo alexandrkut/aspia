@@ -160,8 +160,19 @@ void DesktopWindow::onShowActions()
 
         for (int i = 0; i < screen_count; ++i)
         {
-            const bool selected = screen_list_.screen(i).id() == screen_list_.current_screen();
-            action_sheet_->addItem(tr("Monitor %1").arg(i + 1), ":/img/material/monitor.svg", selected);
+            const proto::screen::Screen& screen = screen_list_.screen(i);
+            const bool selected = screen.id() == screen_list_.current_screen();
+
+            // The screen of the whole desktop is not a monitor and has no number: it is the
+            // desktop of the host as a whole, and it is shown with the icon of two monitors.
+            if (screen.all_screens())
+            {
+                action_sheet_->addItem(tr("All monitors"), ":/img/monitors.svg", selected);
+            }
+            else
+            {
+                action_sheet_->addItem(tr("Monitor %1").arg(i + 1), ":/img/material/monitor.svg", selected);
+            }
         }
 
         next_index = screen_count;
