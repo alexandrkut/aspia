@@ -34,15 +34,7 @@ Remote desktop, file transfer and system information tool.
 Обновление
 ----------
 
-Автоматическое обновление не работает. Проверка обновлений ходит на сервер
-`https://aspia.org/updates`, где лежат только сборки апстрима, подписанные его
-ключами. Сборок мода там нет, поэтому программа никогда не предложит новую сборку
-мода. И наоборот: когда у апстрима выйдет новая версия, программа предложит её, и
-установка заменит мод обычной сборкой, вместе с изменениями форка.
-
-Новая сборка ставится руками: пакет с тем же номером версии заменяет прежний молча.
-Проверку обновлений лучше выключить: в клиенте это «Проверять обновления при запуске»,
-в хосте — «Автоматические обновления».
+Автоматическое обновление пока не работает.
 
 With Aspia, you can create your own NAT traversal infrastructure (using Router and Relay servers) with connection by ID or use direct connections. Aspia supports many features. Among them, detailed information about the system, terminal, audio, text chat.
 
