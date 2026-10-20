@@ -4182,7 +4182,7 @@ Değiştirilen kimlik bilgileri: %2</translation>
     </message>
     <message>
         <location filename="../host/ui/host_window.cc" line="895"/>
-        <source>The whole desktop of the host as one screen</source>
+        <source>The ability to show several monitors at once</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

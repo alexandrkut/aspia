@@ -4223,9 +4223,13 @@ Credentials replaced: %2</source>
         <translation>Хранилище настроек недоступно.</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="895"/>
         <source>The whole desktop of the host as one screen</source>
-        <translation>Весь рабочий стол хоста одним экраном</translation>
+        <translation type="vanished">Весь рабочий стол хоста одним экраном</translation>
+    </message>
+    <message>
+        <location filename="../host/ui/host_window.cc" line="895"/>
+        <source>The ability to show several monitors at once</source>
+        <translation>Возможность отображения нескольких мониторов одновременно</translation>
     </message>
     <message>
         <location filename="../host/ui/host_window.cc" line="909"/>
