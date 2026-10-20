@@ -25,6 +25,7 @@
 #include <QScreen>
 #include <QShortcut>
 #include <QSignalBlocker>
+#include <QStringList>
 #include <QStyle>
 #include <QTabBar>
 #include <QTimer>
@@ -913,7 +914,15 @@ void MainWindow::onHelp()
 void MainWindow::onAbout()
 {
     LOG(INFO) << "[ACTION] About clicked";
-    AutoQPointer<AboutDialog> dialog(new AboutDialog(tr("Aspia Client"), this));
+
+    // The changes of this fork that concern the client. The changes of the router and of the
+    // host are of no use to the person who uses the client.
+    const QStringList modifications =
+    {
+        tr("Connect to a host by its ID from the command line")
+    };
+
+    AutoQPointer<AboutDialog> dialog(new AboutDialog(tr("Aspia Client"), modifications, this));
     dialog->exec();
 }
 

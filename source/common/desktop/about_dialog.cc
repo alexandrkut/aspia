@@ -115,7 +115,8 @@ QString createList(const QString& title, const QStringList& list)
 } // namespace
 
 //--------------------------------------------------------------------------------------------------
-AboutDialog::AboutDialog(const QString& application_name, QWidget* parent)
+AboutDialog::AboutDialog(const QString& application_name, const QStringList& modifications,
+                         QWidget* parent)
     : QDialog(parent),
       ui(new Ui::AboutDialog())
 {
@@ -145,21 +146,12 @@ AboutDialog::AboutDialog(const QString& application_name, QWidget* parent)
     // The changes are shown only in a build that carries the mark of a modification, which is
     // the suffix of the version. A build of the upstream carries none, and there is nothing
     // to tell about it.
-    QString modifications;
+    QString modifications_text;
 
-    if (ASPIA_VERSION_SUFFIX[0] != '\0')
+    if (ASPIA_VERSION_SUFFIX[0] != '\0' && !modifications.isEmpty())
     {
-        // The changes of this fork. The window "About" is the only place where the person
-        // using the program learns that the program is not the upstream one.
-        const QStringList changes =
-        {
-            tr("Connect to a host by its ID from the command line"),
-            tr("Switch the second factor off per role in the configuration of the router"),
-            tr("The whole desktop of the host as one screen")
-        };
-
-        modifications = createList(tr("Modifications"), changes);
-        modifications += QString("<br>%1 <a href='%2'>%2</a>")
+        modifications_text = createList(tr("Modifications"), modifications);
+        modifications_text += QString("<br>%1 <a href='%2'>%2</a>")
             .arg(tr("The changes and the sources:"), kModificationsLink);
     }
 
@@ -179,8 +171,8 @@ AboutDialog::AboutDialog(const QString& application_name, QWidget* parent)
     html += "<p>" + license + "</p>";
     html += "<p>" + license_translation + "</p>";
 
-    if (!modifications.isEmpty())
-        html += "<p>" + modifications + "</p>";
+    if (!modifications_text.isEmpty())
+        html += "<p>" + modifications_text + "</p>";
 
     html += "<p>" + links + "</p>";
     html += "<p>" + developers + "</p>";
