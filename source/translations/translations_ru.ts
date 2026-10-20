@@ -71,7 +71,7 @@
     <message>
         <location filename="../common/desktop/about_dialog.cc" line="157"/>
         <source>Switch the second factor off per role in the configuration of the router</source>
-        <translation>Отключение второго фактора для каждой роли в конфигурации роутера</translation>
+        <translation>Отключение 2FA для каждой роли в конфигурации роутера</translation>
     </message>
     <message>
         <location filename="../common/desktop/about_dialog.cc" line="158"/>
