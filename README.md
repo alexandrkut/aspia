@@ -16,8 +16,14 @@ Remote desktop, file transfer and system information tool.
    выключается отдельно для администратора, менеджера и оператора. Каждый вход,
    прошедший без кода, попадает в лог.
 
+3. **Несколько мониторов одновременно.** Хост снимает весь рабочий стол одним кадром и
+   отдаёт его отдельным экраном «Все мониторы» рядом с мониторами. Клиент показывает
+   этот экран со значком двух мониторов.
+
 Плюс переработана сборка: роутер собирается без частей, которые рисуют, и для Linux и
-Windows добавлены скрипты.
+Windows добавлены скрипты. Версия пакета совпадает с версией в окне «О программе», так
+что инсталлер заменяет прежнюю сборку молча. Пакеты ставятся и без участия человека:
+`installer/linux/deploy-router.sh` и `installer/windows/build/deploy-client.cmd`.
 
 With Aspia, you can create your own NAT traversal infrastructure (using Router and Relay servers) with connection by ID or use direct connections. Aspia supports many features. Among them, detailed information about the system, terminal, audio, text chat.
 
