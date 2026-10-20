@@ -18,7 +18,7 @@
     .\build-installer.ps1 -Product router -Version 3.1.1.1
 #>
 param(
-    [ValidateSet('client', 'router')]
+    [ValidateSet('client', 'host', 'router')]
     [string]$Product = 'client',
     [string]$Version = '3.1.1.1',
     [string]$Architecture = 'x86_64'
@@ -26,8 +26,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$repo   = Split-Path (Split-Path (Split-Path $PSScriptRoot -Parent) -Parent) -Parent
-$root   = Split-Path $repo -Parent
+$root   = 'C:\Projects\aspia-mod'
 $wix    = Join-Path $root 'tools\wix3'
 $srcDir = Join-Path $root "aspia\installer\windows"
 $build  = Join-Path $root 'aspia\builds\local-win-x64\Release'
@@ -41,6 +40,22 @@ if (-not (Test-Path $builtBinary))
     throw "The $Product is not built: $builtBinary is missing. Run build-win.ps1 -Target build first."
 }
 
+# The host takes the credentials of the user with it in a library of its own, and the
+# installer puts it next to the program.
+$extraFiles = @()
+
+if ($Product -eq 'host')
+{
+    $credentials = Join-Path $build 'aspia_credentials.dll'
+
+    if (-not (Test-Path $credentials))
+    {
+        throw "The credentials library is not built: $credentials is missing."
+    }
+
+    $extraFiles += $credentials
+}
+
 foreach ($tool in 'candle.exe', 'light.exe')
 {
     if (-not (Test-Path (Join-Path $wix $tool)))
@@ -49,11 +64,16 @@ foreach ($tool in 'candle.exe', 'light.exe')
     }
 }
 
-# The staging folder holds the one file the installer takes. A folder of its own keeps the
-# .wixobj and the .cab out of the build tree of the program itself, and keeps the two products
+# The staging folder holds the files the installer takes. A folder of its own keeps the
+# .wixobj and the .cab out of the build tree of the program itself, and keeps the products
 # from overwriting each other's leftovers.
 New-Item -ItemType Directory -Force -Path $stage | Out-Null
 Copy-Item $builtBinary $stage -Force
+
+foreach ($file in $extraFiles)
+{
+    Copy-Item $file $stage -Force
+}
 
 $env:ASPIA_VERSION  = $Version
 $env:ASPIA_BIN_DIR  = $stage
