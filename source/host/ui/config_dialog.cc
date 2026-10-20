@@ -18,6 +18,7 @@
 
 #include "host/ui/config_dialog.h"
 
+#include <QCheckBox>
 #include <QCollator>
 #include <QDir>
 #include <QFileDialog>
@@ -656,6 +657,27 @@ void ConfigDialog::onExportPortable()
 #if defined(Q_OS_WINDOWS)
     LOG(INFO) << "[ACTION] Export portable";
 
+    // The exported package always accepts the one-time password. The users of the host can be
+    // exported as well: they will be able to connect to the exported host with their own login
+    // and password, and the passwords themselves are not in the package - only the salt and the
+    // verifier of every user.
+    MsgBox box(MsgBox::Question, tr("Export Quick Support"),
+               tr("The exported package connects to the same router as this host and accepts the "
+                  "one-time password. The users of this host can be exported with it: they will "
+                  "be able to connect to the exported host with their own login and password."),
+               MsgBox::Yes | MsgBox::No, this);
+
+    QCheckBox* check_box = new QCheckBox(tr("Export the users of this host"), &box);
+    box.setCheckBox(check_box);
+
+    if (box.exec() != MsgBox::Yes)
+    {
+        LOG(INFO) << "The export is rejected by the user";
+        return;
+    }
+
+    const bool with_users = check_box->isChecked();
+
     QString file_path = QFileDialog::getSaveFileName(
         this, tr("Export"), desktopPath("aspia-quick-support.exe"), tr("Executable files (*.exe)"));
     if (file_path.isEmpty())
@@ -664,7 +686,7 @@ void ConfigDialog::onExportPortable()
         return;
     }
 
-    switch (PortablePackage::exportWithSettings(file_path))
+    switch (PortablePackage::exportWithSettings(file_path, with_users))
     {
         case PortablePackage::Result::SUCCESS:
             MsgBox::information(this, tr("The portable version was successfully exported."));
