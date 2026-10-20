@@ -29,117 +29,127 @@
         <translation>Затваряне</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="104"/>
+        <location filename="../common/desktop/about_dialog.cc" line="127"/>
         <source>Version: %1 (%2)</source>
         <translation>Версия: %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="109"/>
+        <location filename="../common/desktop/about_dialog.cc" line="132"/>
         <source>Aspia is free software released under GNU General Public License 3.</source>
         <translation>Aspia е свободен софтуер, разпространяван под лиценза GNU General Public License 3.</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="110"/>
+        <location filename="../common/desktop/about_dialog.cc" line="133"/>
         <source>You can get a copy of license here:</source>
         <translation>Можете да получите копие на лиценза тук:</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="115"/>
+        <location filename="../common/desktop/about_dialog.cc" line="138"/>
         <source>You can also get a translation of GNU GPL license here:</source>
         <translation>Можете да получите и превод на лиценза GNU GPL тук:</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="119"/>
+        <location filename="../common/desktop/about_dialog.cc" line="142"/>
         <source>Links</source>
         <translation>Връзки</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="120"/>
+        <location filename="../common/desktop/about_dialog.cc" line="143"/>
         <source>Home page:</source>
         <translation>Начална страница:</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="121"/>
+        <location filename="../common/desktop/about_dialog.cc" line="144"/>
         <source>GitHub page:</source>
         <translation>Страница в GitHub:</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="124"/>
+        <location filename="../common/desktop/about_dialog.cc" line="153"/>
+        <source>Modifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../common/desktop/about_dialog.cc" line="155"/>
+        <source>The changes and the sources:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../common/desktop/about_dialog.cc" line="159"/>
         <source>Developers</source>
         <translation>Разработчици</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="126"/>
+        <location filename="../common/desktop/about_dialog.cc" line="161"/>
         <source>Translators</source>
         <translation>Преводачи</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="128"/>
+        <location filename="../common/desktop/about_dialog.cc" line="163"/>
         <source>Third-party components</source>
         <translation>Компоненти на трети страни</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="130"/>
+        <location filename="../common/desktop/about_dialog.cc" line="165"/>
         <source>Graphics and images</source>
         <translation>Графики и изображения</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="131"/>
+        <location filename="../common/desktop/about_dialog.cc" line="166"/>
         <source>Icons by %1</source>
         <translation>Икони от %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="158"/>
+        <location filename="../common/desktop/about_dialog.cc" line="197"/>
         <source>Application</source>
         <translation>Приложение</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="159"/>
+        <location filename="../common/desktop/about_dialog.cc" line="198"/>
         <source>Path: %1</source>
         <translation>Път: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="160"/>
+        <location filename="../common/desktop/about_dialog.cc" line="199"/>
         <source>Logging directory: %1</source>
         <translation>Папка на регистрационните файлове: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="162"/>
+        <location filename="../common/desktop/about_dialog.cc" line="201"/>
         <source>Logging file: %1</source>
         <translation>Регистрационен файл: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="167"/>
+        <location filename="../common/desktop/about_dialog.cc" line="206"/>
         <source>Build Information</source>
         <translation>Информация за компилацията</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="168"/>
+        <location filename="../common/desktop/about_dialog.cc" line="207"/>
         <source>Git branch: %1</source>
         <translation>Клон на Git: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="170"/>
+        <location filename="../common/desktop/about_dialog.cc" line="209"/>
         <source>Git commit: %1</source>
         <translation>Къмит на Git: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="175"/>
+        <location filename="../common/desktop/about_dialog.cc" line="214"/>
         <source>Compilation</source>
         <translation>Компилация</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="176"/>
+        <location filename="../common/desktop/about_dialog.cc" line="215"/>
         <source>Compilation date: %1</source>
         <translation>Дата на компилиране: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="177"/>
+        <location filename="../common/desktop/about_dialog.cc" line="216"/>
         <source>Compilation time: %1</source>
         <translation>Час на компилиране: %1</translation>
     </message>
     <message>
-        <location filename="../common/desktop/about_dialog.cc" line="206"/>
+        <location filename="../common/desktop/about_dialog.cc" line="245"/>
         <source>Version Information</source>
         <translation>Информация за версиите</translation>
     </message>
@@ -946,42 +956,82 @@
         <translation>Невалидна главна парола.</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="75"/>
+        <location filename="../client/main.cc" line="79"/>
         <source>Unable to create a backup in the directory &quot;%1&quot;.</source>
         <translation>Неуспешно създаване на резервно копие в папката &quot;%1&quot;.</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="81"/>
+        <location filename="../client/main.cc" line="85"/>
         <source>Unable to create a backup. Some records of the database are damaged. Fix or delete them.</source>
         <translation>Неуспешно създаване на резервно копие. Някои записи в базата данни са повредени. Поправете ги или ги изтрийте.</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="87"/>
+        <location filename="../client/main.cc" line="91"/>
         <source>Unable to create a backup.</source>
         <translation>Неуспешно създаване на резервно копие.</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="234"/>
+        <location filename="../client/main.cc" line="239"/>
+        <source>Connect to the host of the address book with this record ID or host ID, using the login and the password stored in it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/main.cc" line="242"/>
+        <source>id</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/main.cc" line="246"/>
+        <source>Kind of the session to open: desktop, file, info, chat or terminal (default: the one from the settings of the application).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/main.cc" line="249"/>
+        <source>type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/main.cc" line="253"/>
+        <source>Log in with this user name instead of the one stored in the host. Requires --password.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/main.cc" line="256"/>
+        <source>name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/main.cc" line="260"/>
+        <source>Log in with this password instead of the stored one. Requires --username. A password on a command line is visible to the other users of the machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/main.cc" line="263"/>
+        <source>password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/main.cc" line="266"/>
         <source>Aspia Client</source>
         <translation>Клиент Aspia</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="238"/>
+        <location filename="../client/main.cc" line="274"/>
         <source>An aspia:// link to connect to a host.</source>
         <translation>Връзка aspia:// за свързване с хост.</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="293"/>
+        <location filename="../client/main.cc" line="387"/>
         <source>Set Master Password</source>
         <translation>Задаване на главна парола</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="295"/>
+        <location filename="../client/main.cc" line="389"/>
         <source>Set a master password required to unlock the application.</source>
         <translation>Задайте главна парола, необходима за отключване на приложението.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/main.cc" line="303"/>
+        <location filename="../client/main.cc" line="397"/>
         <source>The password can not be shorter than %n characters.</source>
         <translation>
             <numerusform>Паролата не може да бъде по-кратка от %n знак.</numerusform>
@@ -989,12 +1039,12 @@
         </translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="311"/>
+        <location filename="../client/main.cc" line="405"/>
         <source>Password you entered does not meet the security requirements!</source>
         <translation>Въведената парола не отговаря на изискванията за защита!</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/main.cc" line="313"/>
+        <location filename="../client/main.cc" line="407"/>
         <source>The password must contain lowercase and uppercase characters, numbers and should not be shorter than %n characters.</source>
         <translation>
             <numerusform>Паролата трябва да съдържа малки и главни букви, цифри и не трябва да бъде по-кратка от %n знак.</numerusform>
@@ -1002,14 +1052,64 @@
         </translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="317"/>
+        <location filename="../client/main.cc" line="411"/>
         <source>Do you want to enter a different password?</source>
         <translation>Искате ли да въведете друга парола?</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="327"/>
+        <location filename="../client/main.cc" line="421"/>
         <source>Unable to set master password.</source>
         <translation>Неуспешно задаване на главната парола.</translation>
+    </message>
+    <message>
+        <location filename="../client/connect_request.cc" line="127"/>
+        <source>&quot;%1&quot; is neither a host ID nor a record ID.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/connect_request.cc" line="129"/>
+        <source>The host ID of --connect is missing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/connect_request.cc" line="151"/>
+        <source>&quot;%1&quot; is not a valid session type. Use desktop, file, info, chat or terminal.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/connect_request.cc" line="154"/>
+        <source>The session type of --session-type is missing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/connect_request.cc" line="171"/>
+        <source>The user name of --username is missing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/connect_request.cc" line="187"/>
+        <source>The password of --password is missing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/connect_request.cc" line="217"/>
+        <source>&quot;%1&quot; is neither an aspia:// link nor a host ID.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/connect_request.cc" line="235"/>
+        <source>--username requires --password as well.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/connect_request.cc" line="237"/>
+        <source>--password requires --username as well.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/connect_request.cc" line="248"/>
+        <source>--username and --password need a host to connect to (--connect or an aspia:// link).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1053,57 +1153,57 @@
         <translation>Изтече времето за изчакване на повторното свързване с хоста.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="278"/>
+        <location filename="../client/desktop/client_window.cc" line="280"/>
         <source>Session started.</source>
         <translation>Сесията е стартирана.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="290"/>
+        <location filename="../client/desktop/client_window.cc" line="292"/>
         <source>Connecting to host %1...</source>
         <translation>Свързване с хоста %1...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="294"/>
+        <location filename="../client/desktop/client_window.cc" line="296"/>
         <source>Connecting to host %1:%2...</source>
         <translation>Свързване с хоста %1:%2...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="330"/>
+        <location filename="../client/desktop/client_window.cc" line="332"/>
         <source>Host is unavailable yet. Waiting to reconnect...</source>
         <translation>Хостът все още е недостъпен. Изчакване за повторно свързване...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="350"/>
+        <location filename="../client/desktop/client_window.cc" line="352"/>
         <source>The Host version is newer than the Client version (%1 &gt; %2). Please update the application.</source>
         <translation>Версията на хоста е по-нова от версията на клиента (%1 &gt; %2). Актуализирайте приложението.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="592"/>
+        <location filename="../client/desktop/client_window.cc" line="599"/>
         <source>The specified router is unavailable.</source>
         <translation>Посоченият рутер е недостъпен.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="594"/>
+        <location filename="../client/desktop/client_window.cc" line="601"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>Данните на рутера са повредени. Редактирайте рутера и ги въведете отново.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="596"/>
+        <location filename="../client/desktop/client_window.cc" line="603"/>
         <source>The specified router is offline.</source>
         <translation>Посоченият рутер е офлайн.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="603"/>
+        <location filename="../client/desktop/client_window.cc" line="610"/>
         <source>Requesting connection to the host...</source>
         <translation>Заявяване на връзка с хоста...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="611"/>
+        <location filename="../client/desktop/client_window.cc" line="618"/>
         <source>Connection offer received.</source>
         <translation>Получено е предложение за свързване.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="628"/>
+        <location filename="../client/desktop/client_window.cc" line="635"/>
         <source>Error requesting connection via router.</source>
         <translation>Грешка при заявяване на връзка чрез рутера.</translation>
     </message>
@@ -2758,143 +2858,148 @@ Credentials replaced: %2</source>
         <translation>Сесия %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="164"/>
+        <location filename="../client/android/desktop_window.cc" line="170"/>
+        <source>All monitors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/android/desktop_window.cc" line="174"/>
         <source>Monitor %1</source>
         <translation>Монитор %1</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="172"/>
+        <location filename="../client/android/desktop_window.cc" line="183"/>
         <source>Power</source>
         <translation>Захранване</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="176"/>
+        <location filename="../client/android/desktop_window.cc" line="187"/>
         <source>Keyboard</source>
         <translation>Клавиатура</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="182"/>
+        <location filename="../client/android/desktop_window.cc" line="193"/>
         <source>Ctrl+Alt+Del</source>
         <translation>Ctrl+Alt+Del</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="189"/>
+        <location filename="../client/android/desktop_window.cc" line="200"/>
         <source>Users</source>
         <translation>Потребители</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="194"/>
+        <location filename="../client/android/desktop_window.cc" line="205"/>
         <source>Disconnect</source>
         <translation>Прекъсване на връзката</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="506"/>
+        <location filename="../client/android/desktop_window.cc" line="517"/>
         <source>Connecting...</source>
         <translation>Свързване...</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="529"/>
+        <location filename="../client/android/desktop_window.cc" line="540"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>Данните на рутера са повредени. Редактирайте рутера и ги въведете отново.</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="530"/>
+        <location filename="../client/android/desktop_window.cc" line="541"/>
         <source>The specified router is unavailable.</source>
         <translation>Посоченият рутер е недостъпен.</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="536"/>
+        <location filename="../client/android/desktop_window.cc" line="547"/>
         <source>Connecting to router...</source>
         <translation>Свързване с рутера...</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="557"/>
+        <location filename="../client/android/desktop_window.cc" line="568"/>
         <source>Requesting connection to the host...</source>
         <translation>Заявяване на връзка с хоста...</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="652"/>
-        <location filename="../client/android/desktop_window.cc" line="709"/>
+        <location filename="../client/android/desktop_window.cc" line="663"/>
+        <location filename="../client/android/desktop_window.cc" line="720"/>
         <source>Back</source>
         <translation>Назад</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="653"/>
+        <location filename="../client/android/desktop_window.cc" line="664"/>
         <source>Shutdown</source>
         <translation>Изключване</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="654"/>
+        <location filename="../client/android/desktop_window.cc" line="665"/>
         <source>Reboot</source>
         <translation>Рестартиране</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="659"/>
+        <location filename="../client/android/desktop_window.cc" line="670"/>
         <source>Safe Mode</source>
         <translation>Безопасен режим</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="660"/>
+        <location filename="../client/android/desktop_window.cc" line="671"/>
         <source>Logoff</source>
         <translation>Излизане</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="661"/>
+        <location filename="../client/android/desktop_window.cc" line="672"/>
         <source>Lock</source>
         <translation>Заключване</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="677"/>
+        <location filename="../client/android/desktop_window.cc" line="688"/>
         <source>Are you sure you want to shutdown the remote computer?</source>
         <translation>Наистина ли искате да изключите отдалечения компютър?</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="681"/>
+        <location filename="../client/android/desktop_window.cc" line="692"/>
         <source>Are you sure you want to reboot the remote computer?</source>
         <translation>Наистина ли искате да рестартирате отдалечения компютър?</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="685"/>
+        <location filename="../client/android/desktop_window.cc" line="696"/>
         <source>Are you sure you want to reboot the remote computer in Safe Mode?</source>
         <translation>Наистина ли искате да рестартирате отдалечения компютър в безопасен режим?</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="689"/>
+        <location filename="../client/android/desktop_window.cc" line="700"/>
         <source>Are you sure you want to end the user session on the remote computer?</source>
         <translation>Наистина ли искате да прекратите потребителската сесия на отдалечения компютър?</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="693"/>
+        <location filename="../client/android/desktop_window.cc" line="704"/>
         <source>Are you sure you want to lock the user session on the remote computer?</source>
         <translation>Наистина ли искате да заключите потребителската сесия на отдалечения компютър?</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="748"/>
+        <location filename="../client/android/desktop_window.cc" line="759"/>
         <source>Confirmation</source>
         <translation>Потвърждение</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="748"/>
+        <location filename="../client/android/desktop_window.cc" line="759"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="765"/>
+        <location filename="../client/android/desktop_window.cc" line="776"/>
         <source>Connecting to host %1...</source>
         <translation>Свързване с хоста %1...</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="771"/>
+        <location filename="../client/android/desktop_window.cc" line="782"/>
         <source>Connection established.</source>
         <translation>Връзката е установена.</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="784"/>
+        <location filename="../client/android/desktop_window.cc" line="795"/>
         <source>The connection to the host has been lost.</source>
         <translation>Връзката с хоста е загубена.</translation>
     </message>
     <message>
-        <location filename="../client/android/desktop_window.cc" line="797"/>
+        <location filename="../client/android/desktop_window.cc" line="808"/>
         <source>The host version is newer than the client. Please update the application.</source>
         <translation>Версията на хоста е по-нова от тази на клиента. Актуализирайте приложението.</translation>
     </message>
@@ -3934,9 +4039,9 @@ Credentials replaced: %2</source>
     <name>HostWindow</name>
     <message>
         <location filename="../host/ui/host_window.ui" line="26"/>
-        <location filename="../host/ui/host_window.cc" line="644"/>
-        <location filename="../host/ui/host_window.cc" line="889"/>
-        <location filename="../host/ui/host_window.cc" line="1167"/>
+        <location filename="../host/ui/host_window.cc" line="645"/>
+        <location filename="../host/ui/host_window.cc" line="898"/>
+        <location filename="../host/ui/host_window.cc" line="1176"/>
         <source>Aspia Host</source>
         <translation>Хост Aspia</translation>
     </message>
@@ -3952,7 +4057,7 @@ Credentials replaced: %2</source>
     </message>
     <message>
         <location filename="../host/ui/host_window.ui" line="198"/>
-        <location filename="../host/ui/host_window.cc" line="1119"/>
+        <location filename="../host/ui/host_window.cc" line="1128"/>
         <source>Router is disabled</source>
         <translation>Рутерът е изключен</translation>
     </message>
@@ -4023,7 +4128,7 @@ Credentials replaced: %2</source>
     </message>
     <message>
         <location filename="../host/ui/host_window.ui" line="335"/>
-        <location filename="../host/ui/host_window.cc" line="850"/>
+        <location filename="../host/ui/host_window.cc" line="851"/>
         <source>Hide</source>
         <translation>Скриване</translation>
     </message>
@@ -4063,75 +4168,80 @@ Credentials replaced: %2</source>
         <translation>Показване на чата</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="180"/>
-        <location filename="../host/ui/host_window.cc" line="644"/>
-        <location filename="../host/ui/host_window.cc" line="1167"/>
+        <location filename="../host/ui/host_window.cc" line="181"/>
+        <location filename="../host/ui/host_window.cc" line="645"/>
+        <location filename="../host/ui/host_window.cc" line="1176"/>
         <source>Aspia Quick Support</source>
         <translation>Бърза поддръжка Aspia</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="339"/>
-        <location filename="../host/ui/host_window.cc" line="845"/>
+        <location filename="../host/ui/host_window.cc" line="340"/>
+        <location filename="../host/ui/host_window.cc" line="846"/>
         <source>Show</source>
         <translation>Показване</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="633"/>
+        <location filename="../host/ui/host_window.cc" line="634"/>
         <source>Screen recording has started.</source>
         <translation>Записването на екрана започна.</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="635"/>
+        <location filename="../host/ui/host_window.cc" line="636"/>
         <source>Screen recording stopped.</source>
         <translation>Записването на екрана спря.</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="834"/>
+        <location filename="../host/ui/host_window.cc" line="835"/>
         <source>Settings storage is unavailable.</source>
         <translation>Хранилището на настройките е недостъпно.</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="900"/>
+        <location filename="../host/ui/host_window.cc" line="895"/>
+        <source>The ability to show several monitors at once</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../host/ui/host_window.cc" line="909"/>
         <source>Aspia Host will be removed from this computer. The settings of the host will be kept. Do you really want to uninstall the application?</source>
         <translation>Хост Aspia ще бъде деинсталиран от този компютър. Настройките на хоста ще бъдат запазени. Наистина ли искате да деинсталирате приложението?</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="912"/>
+        <location filename="../host/ui/host_window.cc" line="921"/>
         <source>Unable to uninstall the application.</source>
         <translation>Неуспешно деинсталиране на приложението.</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="939"/>
+        <location filename="../host/ui/host_window.cc" line="948"/>
         <source>If you exit from Aspia, it will not be possible to connect to this computer until you turn on the computer or Aspia again manually. Do you really want to exit the application?</source>
         <translation>Ако излезете от Aspia, няма да можете да се свържете с този компютър, докато не включите отново компютъра или Aspia ръчно. Наистина ли искате да излезете от приложението?</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="1111"/>
+        <location filename="../host/ui/host_window.cc" line="1120"/>
         <source>Not connected to service</source>
         <translation>Няма връзка с услугата</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="1124"/>
+        <location filename="../host/ui/host_window.cc" line="1133"/>
         <source>Connecting to router...</source>
         <translation>Свързване с рутера...</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="1129"/>
+        <location filename="../host/ui/host_window.cc" line="1138"/>
         <source>Connected to router</source>
         <translation>Свързано с рутера</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="1134"/>
+        <location filename="../host/ui/host_window.cc" line="1143"/>
         <source>Connection error</source>
         <translation>Грешка при свързване</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="1212"/>
+        <location filename="../host/ui/host_window.cc" line="1221"/>
         <source>IP addresses:</source>
         <translation>IP адреси:</translation>
     </message>
     <message>
-        <location filename="../host/ui/host_window.cc" line="1168"/>
+        <location filename="../host/ui/host_window.cc" line="1177"/>
         <source>ID: %1</source>
         <translation>ID: %1</translation>
     </message>
@@ -4810,7 +4920,7 @@ Credentials imported: %5</source>
     <name>MainWindow</name>
     <message>
         <location filename="../client/desktop/main_window.ui" line="20"/>
-        <location filename="../client/desktop/main_window.cc" line="632"/>
+        <location filename="../client/desktop/main_window.cc" line="923"/>
         <source>Aspia Client</source>
         <translation>Клиент Aspia</translation>
     </message>
@@ -4911,88 +5021,98 @@ Credentials imported: %5</source>
         <translation>Винаги най-отгоре</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="127"/>
+        <location filename="../client/desktop/main_window.cc" line="129"/>
         <source>Search...</source>
         <translation>Търсене...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="214"/>
+        <location filename="../client/desktop/main_window.cc" line="216"/>
         <source>Unable to turn on the MCP connector.</source>
         <translation>Неуспешно включване на MCP конектора.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="232"/>
+        <location filename="../client/desktop/main_window.cc" line="234"/>
         <source>Management</source>
         <translation>Управление</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="278"/>
+        <location filename="../client/desktop/main_window.cc" line="280"/>
         <source>Invalid link &quot;%1&quot;.</source>
         <translation>Невалидна връзка &quot;%1&quot;.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="301"/>
+        <location filename="../client/desktop/main_window.cc" line="303"/>
         <source>The router referenced by the link is not among the saved routers.</source>
         <translation>Рутерът, посочен във връзката, не е сред запазените рутери.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="309"/>
-        <location filename="../client/desktop/main_window.cc" line="361"/>
+        <location filename="../client/desktop/main_window.cc" line="311"/>
+        <location filename="../client/desktop/main_window.cc" line="363"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>Данните на рутера са повредени. Редактирайте рутера и ги въведете отново.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="349"/>
+        <location filename="../client/desktop/main_window.cc" line="351"/>
         <source>The data of the host is damaged. Edit the host and enter it again.</source>
         <translation>Данните на хоста са повредени. Редактирайте хоста и ги въведете отново.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="350"/>
+        <location filename="../client/desktop/main_window.cc" line="352"/>
         <source>The host referenced by the link is not among the saved hosts.</source>
         <translation>Хостът, посочен във връзката, не е сред запазените хостове.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="362"/>
+        <location filename="../client/desktop/main_window.cc" line="364"/>
         <source>The router associated with this host has been deleted. Edit the host to select another router or switch to direct connection.</source>
         <translation>Рутерът, свързан с този хост, е изтрит. Редактирайте хоста, за да изберете друг рутер, или превключете на директна връзка.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="567"/>
+        <location filename="../client/desktop/main_window.cc" line="849"/>
         <source>Credentials</source>
         <translation>Идентификационни данни</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="598"/>
+        <location filename="../client/desktop/main_window.cc" line="880"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="608"/>
+        <location filename="../client/desktop/main_window.cc" line="890"/>
         <source>Close all sessions to lock the application.</source>
         <translation>Затворете всички сесии, за да заключите приложението.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="614"/>
+        <location filename="../client/desktop/main_window.cc" line="896"/>
         <source>Close all dialogs to lock the application.</source>
         <translation>Затворете всички диалогови прозорци, за да заключите приложението.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="728"/>
+        <location filename="../client/desktop/main_window.cc" line="919"/>
+        <source>Connect to a host by its ID from the command line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/main_window.cc" line="920"/>
+        <source>The icon of the screen of all the monitors at once</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/main_window.cc" line="1019"/>
         <source>Connection by ID is specified in the properties of the host, but the router is not configured. Check the parameters of the router in the properties of the host.</source>
         <translation>В свойствата на хоста е зададено свързване по ID, но рутерът не е конфигуриран. Проверете параметрите на рутера в свойствата на хоста.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="995"/>
+        <location filename="../client/desktop/main_window.cc" line="1286"/>
         <source>Unknown application</source>
         <translation>Неизвестно приложение</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="998"/>
+        <location filename="../client/desktop/main_window.cc" line="1289"/>
         <source>MCP Connector. Connected: %1</source>
         <translation>MCP конектор. Свързани: %1</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="999"/>
+        <location filename="../client/desktop/main_window.cc" line="1290"/>
         <source>%1 - AI is connected</source>
         <translation>%1 - ИИ е свързан</translation>
     </message>
@@ -5046,7 +5166,7 @@ Credentials imported: %5</source>
     </message>
     <message>
         <location filename="../client/desktop/management_tab.ui" line="137"/>
-        <location filename="../client/desktop/management_tab.cc" line="2001"/>
+        <location filename="../client/desktop/management_tab.cc" line="2019"/>
         <source>Delete Host</source>
         <translation>Изтриване на хост</translation>
     </message>
@@ -5183,34 +5303,34 @@ Credentials imported: %5</source>
         <translation>Автоматично обновяване на състоянието</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="887"/>
+        <location filename="../client/desktop/management_tab.cc" line="905"/>
         <source>The &quot;%1&quot; session type is not available for Quick Support.</source>
         <translation>Типът на сесията &quot;%1&quot; не е наличен за Бърза поддръжка.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1081"/>
-        <location filename="../client/desktop/management_tab.cc" line="1158"/>
-        <location filename="../client/desktop/management_tab.cc" line="2286"/>
+        <location filename="../client/desktop/management_tab.cc" line="1099"/>
+        <location filename="../client/desktop/management_tab.cc" line="1176"/>
+        <location filename="../client/desktop/management_tab.cc" line="2304"/>
         <source>Failed to retrieve host information from the local database.</source>
         <translation>Неуспешно извличане на информацията за хоста от локалната база данни.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1113"/>
+        <location filename="../client/desktop/management_tab.cc" line="1131"/>
         <source>(copy)</source>
         <translation>(копие)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1118"/>
+        <location filename="../client/desktop/management_tab.cc" line="1136"/>
         <source>Failed to add the host to the local database.</source>
         <translation>Неуспешно добавяне на хоста в локалната база данни.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1176"/>
+        <location filename="../client/desktop/management_tab.cc" line="1194"/>
         <source>Are you sure you want to delete host &quot;%1&quot;?</source>
         <translation>Наистина ли искате да изтриете хоста &quot;%1&quot;?</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/management_tab.cc" line="1178"/>
+        <location filename="../client/desktop/management_tab.cc" line="1196"/>
         <source>Are you sure you want to delete %n hosts?</source>
         <translation>
             <numerusform>Наистина ли искате да изтриете %n хост?</numerusform>
@@ -5218,12 +5338,12 @@ Credentials imported: %5</source>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1204"/>
+        <location filename="../client/desktop/management_tab.cc" line="1222"/>
         <source>Unable to remove host</source>
         <translation>Неуспешно изтриване на хоста</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/management_tab.cc" line="1206"/>
+        <location filename="../client/desktop/management_tab.cc" line="1224"/>
         <source>Failed to delete %n of the selected hosts.</source>
         <translation>
             <numerusform>Неуспешно изтриване на %n от избраните хостове.</numerusform>
@@ -5231,78 +5351,78 @@ Credentials imported: %5</source>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1274"/>
-        <location filename="../client/desktop/management_tab.cc" line="1351"/>
-        <location filename="../client/desktop/management_tab.cc" line="1384"/>
+        <location filename="../client/desktop/management_tab.cc" line="1292"/>
+        <location filename="../client/desktop/management_tab.cc" line="1369"/>
+        <location filename="../client/desktop/management_tab.cc" line="1402"/>
         <source>Copy Row</source>
         <translation>Копиране на реда</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1275"/>
-        <location filename="../client/desktop/management_tab.cc" line="1352"/>
-        <location filename="../client/desktop/management_tab.cc" line="1385"/>
+        <location filename="../client/desktop/management_tab.cc" line="1293"/>
+        <location filename="../client/desktop/management_tab.cc" line="1370"/>
+        <location filename="../client/desktop/management_tab.cc" line="1403"/>
         <source>Copy Value</source>
         <translation>Копиране на стойността</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1486"/>
+        <location filename="../client/desktop/management_tab.cc" line="1504"/>
         <source>Are you sure you want to delete space &quot;%1&quot;?</source>
         <translation>Наистина ли искате да изтриете пространството &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1506"/>
+        <location filename="../client/desktop/management_tab.cc" line="1524"/>
         <source>Failed to delete the space.</source>
         <translation>Неуспешно изтриване на пространството.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1608"/>
+        <location filename="../client/desktop/management_tab.cc" line="1626"/>
         <source>Are you sure you want to delete the group &quot;%1&quot;? Hosts assigned to this group or its subgroups will be moved to the space root.</source>
         <translation>Наистина ли искате да изтриете групата &quot;%1&quot;? Хостовете, присвоени на тази група или на нейните подгрупи, ще бъдат преместени в корена на пространството.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1626"/>
+        <location filename="../client/desktop/management_tab.cc" line="1644"/>
         <source>Failed to delete the group.</source>
         <translation>Неуспешно изтриване на групата.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1665"/>
-        <location filename="../client/desktop/management_tab.cc" line="1722"/>
+        <location filename="../client/desktop/management_tab.cc" line="1683"/>
+        <location filename="../client/desktop/management_tab.cc" line="1740"/>
         <source>The database is not available.</source>
         <translation>Базата данни не е достъпна.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1671"/>
+        <location filename="../client/desktop/management_tab.cc" line="1689"/>
         <source>Create Backup</source>
         <translation>Създаване на резервно копие</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1672"/>
-        <location filename="../client/desktop/management_tab.cc" line="1729"/>
+        <location filename="../client/desktop/management_tab.cc" line="1690"/>
+        <location filename="../client/desktop/management_tab.cc" line="1747"/>
         <source>Aspia Backup (*.aspia-backup);;All files (*)</source>
         <translation>Резервно копие на Aspia (*.aspia-backup);;Всички файлове (*)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1688"/>
+        <location filename="../client/desktop/management_tab.cc" line="1706"/>
         <source>There is nothing to save.</source>
         <translation>Няма нищо за запазване.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1692"/>
+        <location filename="../client/desktop/management_tab.cc" line="1710"/>
         <source>Unable to write the file.</source>
         <translation>Неуспешно записване на файла.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1696"/>
+        <location filename="../client/desktop/management_tab.cc" line="1714"/>
         <source>Some records of the database are damaged. Fix or delete them and try again.</source>
         <translation>Някои записи в базата данни са повредени. Поправете ги или ги изтрийте и опитайте отново.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1700"/>
+        <location filename="../client/desktop/management_tab.cc" line="1718"/>
         <source>Failed to create the backup.</source>
         <translation>Неуспешно създаване на резервното копие.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1705"/>
+        <location filename="../client/desktop/management_tab.cc" line="1723"/>
         <source>Export completed successfully.
 Routers exported: %1
 Groups exported: %2
@@ -5317,53 +5437,53 @@ Credentials exported: %5</source>
 Експортирани идентификационни данни: %5</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1728"/>
-        <location filename="../client/desktop/management_tab.cc" line="1754"/>
+        <location filename="../client/desktop/management_tab.cc" line="1746"/>
+        <location filename="../client/desktop/management_tab.cc" line="1772"/>
         <source>Restore from Backup</source>
         <translation>Възстановяване от резервно копие</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1737"/>
+        <location filename="../client/desktop/management_tab.cc" line="1755"/>
         <source>Everything stored now is deleted and replaced with what the backup holds. Continue?</source>
         <translation>Всички текущи данни ще бъдат изтрити и заменени със съдържанието на резервното копие. Да се продължи ли?</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1756"/>
+        <location filename="../client/desktop/management_tab.cc" line="1774"/>
         <source>The backup was made on another installation. Enter the master password used there.</source>
         <translation>Резервното копие е създадено в друга инсталация. Въведете главната парола, използвана там.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1773"/>
+        <location filename="../client/desktop/management_tab.cc" line="1791"/>
         <source>Unable to decrypt the file with the specified password.</source>
         <translation>Неуспешно дешифроване на файла с посочената парола.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1777"/>
+        <location filename="../client/desktop/management_tab.cc" line="1795"/>
         <source>Unsupported file format version.</source>
         <translation>Неподдържана версия на файловия формат.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1781"/>
+        <location filename="../client/desktop/management_tab.cc" line="1799"/>
         <source>The backup carries no data, so nothing was changed.</source>
         <translation>Резервното копие не съдържа данни, затова нищо не е променено.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1785"/>
+        <location filename="../client/desktop/management_tab.cc" line="1803"/>
         <source>Unable to read the file.</source>
         <translation>Неуспешно четене на файла.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1789"/>
+        <location filename="../client/desktop/management_tab.cc" line="1807"/>
         <source>The file is not a valid backup.</source>
         <translation>Файлът не е валидно резервно копие.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1793"/>
+        <location filename="../client/desktop/management_tab.cc" line="1811"/>
         <source>Failed to restore from the backup.</source>
         <translation>Неуспешно възстановяване от резервното копие.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1798"/>
+        <location filename="../client/desktop/management_tab.cc" line="1816"/>
         <source>Import completed successfully.
 Routers imported: %1
 Groups imported: %2
@@ -5378,44 +5498,44 @@ Credentials imported: %5</source>
 Импортирани идентификационни данни: %5</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2060"/>
+        <location filename="../client/desktop/management_tab.cc" line="2078"/>
         <source>Delete Hosts</source>
         <translation>Изтриване на хостове</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2209"/>
-        <location filename="../client/desktop/management_tab.cc" line="2240"/>
+        <location filename="../client/desktop/management_tab.cc" line="2227"/>
+        <location filename="../client/desktop/management_tab.cc" line="2258"/>
         <source>Copy Link</source>
         <translation>Копиране на връзката</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2228"/>
-        <location filename="../client/desktop/management_tab.cc" line="2262"/>
+        <location filename="../client/desktop/management_tab.cc" line="2246"/>
+        <location filename="../client/desktop/management_tab.cc" line="2280"/>
         <source>Unable to create a link for this host.</source>
         <translation>Неуспешно създаване на връзка за този хост.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2281"/>
+        <location filename="../client/desktop/management_tab.cc" line="2299"/>
         <source>The data of the host is damaged. Edit the host and enter it again.</source>
         <translation>Данните на хоста са повредени. Редактирайте хоста и ги въведете отново.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2302"/>
+        <location filename="../client/desktop/management_tab.cc" line="2320"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>Данните на рутера са повредени. Редактирайте рутера и ги въведете отново.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2303"/>
+        <location filename="../client/desktop/management_tab.cc" line="2321"/>
         <source>The router associated with this host has been deleted. Edit the host to select another router or switch to direct connection.</source>
         <translation>Рутерът, свързан с този хост, е изтрит. Редактирайте хоста, за да изберете друг рутер, или превключете на директна връзка.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2310"/>
+        <location filename="../client/desktop/management_tab.cc" line="2328"/>
         <source>The host has an invalid host ID.</source>
         <translation>Хостът има невалиден ID.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2319"/>
+        <location filename="../client/desktop/management_tab.cc" line="2337"/>
         <source>The host has an incorrect address.</source>
         <translation>Хостът има неправилен адрес.</translation>
     </message>
@@ -7614,6 +7734,14 @@ Credentials imported: %5</source>
     </message>
 </context>
 <context>
+    <name>ScreenWorker</name>
+    <message>
+        <location filename="../host/workers/screen_worker.cc" line="1245"/>
+        <source>All monitors</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SearchDialog</name>
     <message>
         <location filename="../client/desktop/management/search_dialog.ui" line="14"/>
@@ -7741,12 +7869,17 @@ Credentials imported: %5</source>
 <context>
     <name>SelectScreenAction</name>
     <message>
-        <location filename="../client/desktop/desktop/select_screen_action.h" line="38"/>
+        <location filename="../client/desktop/desktop/select_screen_action.h" line="42"/>
+        <source>All monitors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/desktop/select_screen_action.h" line="48"/>
         <source>Monitor %1 (primary)</source>
         <translation>Монитор %1 (основен)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/desktop/select_screen_action.h" line="40"/>
+        <location filename="../client/desktop/desktop/select_screen_action.h" line="50"/>
         <source>Monitor %1</source>
         <translation>Монитор %1</translation>
     </message>
