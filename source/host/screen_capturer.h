@@ -112,7 +112,7 @@ public:
     virtual bool selectScreen(ScreenId screen_id) = 0;
 
     // Whether this capturer can take the frame of every monitor at once. A capturer that cannot
-    // leaves the screen of them all out of its list, so the choice is never offered to a client
+    // leaves the screen of them all out of the list, so the choice is never offered to a client
     // that could not carry it out.
     virtual bool supportsAllScreens() const { return false; }
     virtual ScreenId currentScreen() const = 0;
@@ -126,6 +126,12 @@ public:
 
     // Rect of the screen currently being captured.
     virtual const QRect& currentScreenRect() const = 0;
+
+    // Rect of the entire virtual desktop in the coordinates of the screen. It is not the same
+    // as the rect of the desktop when a monitor stands to the left of the primary one: the
+    // desktop of Windows starts where it starts and not where the screen does, and the frame
+    // of the whole desktop and the mouse of the client are placed by that offset.
+    virtual const QRect& allScreensRect() const { return desktopRect(); }
 
     Type type() const;
 

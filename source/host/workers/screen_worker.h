@@ -142,6 +142,10 @@ private:
 #endif // defined(Q_OS_LINUX)
     ScreenCapturer::ScreenId defaultScreen();
     void selectScreen(ScreenCapturer::ScreenId screen_id, const QSize& resolution);
+    // Adds the screen of every monitor at once to the list, when the capturer can take such
+    // a frame. A capturer that cannot leaves the list alone, and the client is never offered
+    // a choice the host could not carry out.
+    void appendAllScreens(ScreenCapturer::ScreenList* screen_list);
     void sendCurrentScreenList();
     void sendScreenList(const ScreenCapturer::ScreenList& list, ScreenCapturer::ScreenId current);
     void encodeScreen(const Frame* frame);

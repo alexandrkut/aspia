@@ -52,11 +52,10 @@ public:
     ErrorCode initialize();
 
     // Sequentially calls Duplicate function of all the DxgiOutputDuplicator instances owned by
-    // this instance, and writes into |target|. |desktop_origin| is the top left of the virtual
-    // desktop the outputs belong to: each of them is drawn in the place it has on that desktop,
-    // which is not the same place when the desktop does not start at the origin of the screen.
-    bool duplicate(Context* context, SharedPointer<Frame>& target,
-                   const QPoint& desktop_origin = QPoint());
+    // this instance, and writes into |target|. Each of them is drawn in the place it has on the
+    // desktop, counted from the origin of that desktop, which is the origin of the frame as
+    // well.
+    bool duplicate(Context* context, SharedPointer<Frame>& target);
 
     // Captures one monitor and writes into |target|. |monitor_id| should be between [0, screenCount()).
     bool duplicateMonitor(Context* context, int monitor_id, SharedPointer<Frame>& target);

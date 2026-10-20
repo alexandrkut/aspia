@@ -443,13 +443,13 @@ DxgiDuplicatorController::Result DxgiDuplicatorController::doDuplicateDesktop(Dx
 //--------------------------------------------------------------------------------------------------
 bool DxgiDuplicatorController::doDuplicateAll(Context* context, SharedPointer<Frame>& target)
 {
-    // The origin of the desktop is the origin of the frame the outputs are drawn into, so each
-    // of them goes to the place it has on the desktop and not to the place it has on the screen.
-    const QPoint desktop_origin = desktop_rect_.topLeft();
-
+    // Every output is drawn in the place it has on the desktop, and the frame is of the size
+    // of the desktop. The rects of the outputs are normalized to the origin of the desktop
+    // when the controller is initialized (see translateRect()), so the frame and the outputs
+    // are counted from the same origin and the output lands in the frame where it belongs.
     for (size_t i = 0; i < duplicators_.size(); ++i)
     {
-        if (!duplicators_[i].duplicate(&context->contexts[i], target, desktop_origin))
+        if (!duplicators_[i].duplicate(&context->contexts[i], target))
             return false;
     }
 

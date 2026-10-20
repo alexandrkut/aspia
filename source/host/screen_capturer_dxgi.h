@@ -52,6 +52,7 @@ public:
     const Frame* captureFrame(Error* error) final;
     const QRect& desktopRect() const final;
     const QRect& currentScreenRect() const final;
+    const QRect& allScreensRect() const final;
 
 protected:
     // ScreenCapturer implementation.
