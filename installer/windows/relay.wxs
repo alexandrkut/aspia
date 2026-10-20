@@ -16,7 +16,7 @@
 
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
 
-    <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)" Schedule="afterInstallInitialize" AllowDowngrades="no" AllowSameVersionUpgrades="no" Disallow="no" />
+    <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)" Schedule="afterInstallInitialize" AllowDowngrades="no" AllowSameVersionUpgrades="yes" Disallow="no" />
 
     <!-- Windows version checking -->
     <Condition Message="This application is only supported on Windows 7, Windows Server 2008 R2, or higher.">
@@ -32,6 +32,13 @@
 
     <Icon Id="aspia.ico" SourceFile="resources/aspia.ico" />
     <Property Id="ARPPRODUCTICON" Value="aspia.ico" />
+
+    <!-- The relay may be running when it is removed, and a running program keeps its image
+         on the disk: the file is left behind until the machine is restarted. Closing the
+         program before the removal takes the file with it. -->
+    <util:CloseApplication Id="CloseRelayOnRemove" Target="aspia_relay.exe"
+                           ElevatedEndSessionMessage="yes" Timeout="5" TerminateProcess="0"
+                           RebootPrompt="no" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
         <Directory Id="$(var.Program_Files)">
