@@ -18,9 +18,9 @@
     .\build-installer.ps1 -Product router -Version 3.1.1.1
 #>
 param(
-    [ValidateSet('client', 'host', 'router')]
+    [ValidateSet('client', 'host', 'router', 'relay')]
     [string]$Product = 'client',
-    [string]$Version = '3.1.1.1',
+    [string]$Version = '',
     [string]$Architecture = 'x86_64'
 )
 
@@ -31,6 +31,24 @@ $wix    = Join-Path $root 'tools\wix3'
 $srcDir = Join-Path $root "aspia\installer\windows"
 $build  = Join-Path $root 'aspia\builds\local-win-x64\Release'
 $stage  = Join-Path $root "aspia\builds\msi-$Product-$Architecture"
+
+# The version of the package is the version of the program: the three numbers of the sources
+# and the number of the commits behind them, which is the fourth number of the version the
+# program shows in the window "About". The installer replaces a package of the same version,
+# so the number grows with the commits and nobody has to raise it by hand.
+if (-not $Version)
+{
+    $cmake = Get-Content (Join-Path $root 'aspia\CMakeLists.txt') -Raw
+
+    $parts = @('MAJOR', 'MINOR', 'PATCH') | ForEach-Object {
+        if ($cmake -match "set\(ASPIA_VERSION_$_ (\d+)\)") { $Matches[1] } else { throw "the version is not in the sources" }
+    }
+
+    $commits = (git -C (Join-Path $root 'aspia') rev-list --count HEAD).Trim()
+    $Version = ($parts + $commits) -join '.'
+
+    Write-Host "the version of the package is $Version"
+}
 
 $executable = "aspia_$Product.exe"
 $builtBinary = Join-Path $build $executable
