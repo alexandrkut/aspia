@@ -48,6 +48,7 @@ public:
     int screenCount() final;
     bool screenList(ScreenList* screens) final;
     bool selectScreen(ScreenId screen_id) final;
+    bool supportsAllScreens() const final { return true; }
     const Frame* captureFrame(Error* error) final;
     const QRect& desktopRect() const final;
     const QRect& currentScreenRect() const final;
@@ -60,6 +61,11 @@ private:
     std::shared_ptr<DxgiDuplicatorController> controller_;
 
     int current_screen_index_ = 0;
+
+    // Whether the frame being captured is the frame of the whole desktop rather than the frame of
+    // one monitor. The screens of the desktop are captured one by one and drawn into one frame,
+    // so the frame is of the size of the desktop and every monitor is in it where it belongs.
+    bool all_screens_ = false;
 
     // One retained frame per monitor, keyed by the stable screen id (not the index, which shifts when
     // a monitor is (un)plugged). Keeping each monitor's last frame instead of dropping it on every

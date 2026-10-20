@@ -81,6 +81,15 @@ public:
 
     static const ScreenId kInvalidScreenId = -2;
 
+    // The screen of every monitor at once. It is not a monitor of its own but the whole desktop
+    // they make up, so the frame of it covers them all and the picture of it is the picture of
+    // the desktop as a whole.
+    //
+    // A capturer that cannot take such a frame says so with supportsAllScreens(), and then the
+    // screen is not in the list at all - the client is never offered a choice the host cannot
+    // carry out.
+    static const ScreenId kAllScreensId = -1;
+
     struct Screen
     {
         ScreenId id = kInvalidScreenId;
@@ -101,6 +110,11 @@ public:
     virtual int screenCount() = 0;
     virtual bool screenList(ScreenList* screens) = 0;
     virtual bool selectScreen(ScreenId screen_id) = 0;
+
+    // Whether this capturer can take the frame of every monitor at once. A capturer that cannot
+    // leaves the screen of them all out of its list, so the choice is never offered to a client
+    // that could not carry it out.
+    virtual bool supportsAllScreens() const { return false; }
     virtual ScreenId currentScreen() const = 0;
     virtual const Frame* captureFrame(Error* error) = 0;
     virtual const MouseCursor* captureCursor() = 0;

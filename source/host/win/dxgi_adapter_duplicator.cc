@@ -165,15 +165,19 @@ void DxgiAdapterDuplicator::unregister(const Context* const context)
 }
 
 //--------------------------------------------------------------------------------------------------
-bool DxgiAdapterDuplicator::duplicate(Context* context, SharedPointer<Frame>& target)
+bool DxgiAdapterDuplicator::duplicate(Context* context, SharedPointer<Frame>& target,
+                                       const QPoint& desktop_origin)
 {
     DCHECK_EQ(context->contexts.size(), duplicators_.size());
 
     for (size_t i = 0; i < duplicators_.size(); ++i)
     {
-        if (!duplicators_[i].duplicate(&context->contexts[i],
-                                       duplicators_[i].desktopRect().topLeft(),
-                                       target))
+        // The place of the output on the desktop it belongs to, counted from the origin of that
+        // desktop. A monitor to the left of the primary one has a negative coordinate on the
+        // screen, and drawing it at that coordinate would put it outside of the frame.
+        const QPoint position = duplicators_[i].desktopRect().topLeft() - desktop_origin;
+
+        if (!duplicators_[i].duplicate(&context->contexts[i], position, target))
         {
             return false;
         }

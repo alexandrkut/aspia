@@ -602,6 +602,11 @@ void ScreenWorker::onCaptureScreen()
         {
             for (const auto& screen : std::as_const(screen_list.screens))
             {
+                // The screen of every monitor at once is not a monitor and has no resolutions of
+                // its own: the size of it is the size of the desktop.
+                if (screen.id == ScreenCapturer::kAllScreensId)
+                    continue;
+
                 if (!screen_resizer_->supportedResolutions(screen.id).contains(preferred_resolution_))
                 {
                     LOG(INFO) << "Preferred resolution" << preferred_resolution_
@@ -1238,8 +1243,10 @@ void ScreenWorker::sendCurrentScreenList()
 
     const ScreenCapturer::ScreenId current = screen_capturer_->currentScreen();
 
-    if (screen_resizer_)
+    if (screen_resizer_ && current != ScreenCapturer::kAllScreensId)
     {
+        // The screen of every monitor at once has no resolutions of its own: it is the desktop
+        // as it is, and the size of it is not something the host may choose.
         screen_list.resolutions = screen_resizer_->supportedResolutions(current);
         if (screen_list.resolutions.isEmpty())
             LOG(INFO) << "No supported resolutions";

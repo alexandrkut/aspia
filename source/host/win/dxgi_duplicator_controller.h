@@ -70,6 +70,11 @@ public:
     // greater than the total screen count of all the Duplicators, this function returns false.
     Result duplicateMonitor(DxgiFrame* frame, int monitor_id);
 
+  // Captures every monitor at once and writes them into one frame, the frame of the whole
+  // virtual desktop. The frame is as large as the desktop rect and each monitor is drawn in the
+  // place it has on it.
+  Result duplicateDesktop(DxgiFrame* frame);
+
     // Returns the count of screens on the system. These screens can be retrieved by an integer in
     // the range of [0, screenCount()). If system does not support DXGI based capturer, this
     // function returns 0.
@@ -82,6 +87,11 @@ public:
 
     // Returns a QRect to cover the entire virtual desktop.
     const QRect& desktopRect() const;
+
+    // Returns the rect of the whole virtual desktop in the original Windows virtual-screen
+    // coordinates, before the bounding box is normalized to the origin. The frame of the whole
+    // desktop starts there, and the mouse of the client is placed on the screen by that offset.
+    const QRect& initialDesktopRect() const;
 
     // Returns the rect of one screen. |monitor_id| should be >= 0. If the system does not support DXGI
     // based capturer, or |monitor_id| is greater than the total screen count of all the Duplicators, this
@@ -100,6 +110,10 @@ private:
     // function calls initialize(). And if the duplication failed, this function calls
     // deinitialize() to ensure the Dxgi components can be reinitialized next time.
     Result doDuplicate(DxgiFrame* frame, int monitor_id);
+
+  // Does the real duplication work for the whole virtual desktop. The frame is as large as the
+  // desktop rect and every output is drawn in the place it has on it.
+  Result doDuplicateDesktop(DxgiFrame* frame);
 
     // Unregisters Context from this instance and all DxgiAdapterDuplicator(s) it owns.
     void unregister(const Context* const context);
@@ -156,6 +170,11 @@ private:
     // is always initialized after DxgiDuplicatorController.
     int identity_ = 0;
     QRect desktop_rect_;
+
+    // The same rect before it is normalized to the origin: the place the desktop of Windows
+    // really starts at, which is not the origin of the screen when a monitor stands to the left
+    // of the primary one.
+    QRect initial_desktop_rect_;
     std::vector<DxgiAdapterDuplicator> duplicators_;
     std::optional<QRect> full_screen_rect_;
     // A number to indicate how many succeeded duplications have been performed.

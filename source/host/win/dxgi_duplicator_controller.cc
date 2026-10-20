@@ -98,6 +98,13 @@ DxgiDuplicatorController::Result DxgiDuplicatorController::duplicateMonitor(Dxgi
 }
 
 //--------------------------------------------------------------------------------------------------
+DxgiDuplicatorController::Result DxgiDuplicatorController::duplicateDesktop(DxgiFrame* frame)
+{
+    DCHECK(frame);
+    return doDuplicateDesktop(frame);
+}
+
+//--------------------------------------------------------------------------------------------------
 int DxgiDuplicatorController::screenCount()
 {
     if (initialize())
@@ -129,6 +136,12 @@ bool DxgiDuplicatorController::deviceNames(QStringList* output)
 const QRect& DxgiDuplicatorController::desktopRect() const
 {
     return desktop_rect_;
+}
+
+//--------------------------------------------------------------------------------------------------
+const QRect& DxgiDuplicatorController::initialDesktopRect() const
+{
+    return initial_desktop_rect_;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -307,6 +320,17 @@ bool DxgiDuplicatorController::doInitialize()
         desktop_rect_ = desktop_rect_.united(duplicators_.back().desktopRect());
     }
 
+    // The desktop as Windows knows it, before the rects are normalized to the origin. A monitor
+    // to the left of the primary one has a negative coordinate there, and the frame of the whole
+    // desktop has to start where the desktop starts and not where the screen does.
+    initial_desktop_rect_ = QRect();
+
+    for (size_t i = 0; i < duplicators_.size(); ++i)
+    {
+        for (int j = 0; j < duplicators_[i].screenCount(); ++j)
+            initial_desktop_rect_ = initial_desktop_rect_.united(duplicators_[i].initialScreenRect(j));
+    }
+
     translateRect();
 
     ++identity_;
@@ -323,6 +347,7 @@ bool DxgiDuplicatorController::doInitialize()
 void DxgiDuplicatorController::deinitialize()
 {
     desktop_rect_ = QRect();
+    initial_desktop_rect_ = QRect();
     duplicators_.clear();
     full_screen_rect_.reset();
 }
@@ -352,11 +377,79 @@ void DxgiDuplicatorController::setup(Context* context)
 }
 
 //--------------------------------------------------------------------------------------------------
+DxgiDuplicatorController::Result DxgiDuplicatorController::doDuplicateDesktop(DxgiFrame* frame)
+{
+    DCHECK(frame);
+
+    // The same change of the screen resolution is watched for as when a single monitor is
+    // captured: the dxgi components do not follow it without a reinitialization.
+    const QRect rect = ScreenCaptureUtils::fullScreenRect();
+
+    if (!full_screen_rect_.has_value())
+    {
+        full_screen_rect_ = rect;
+    }
+    else if (rect != full_screen_rect_)
+    {
+        full_screen_rect_ = rect;
+        deinitialize();
+    }
+
+    if (!initialize())
+    {
+        if (succeeded_duplications_ == 0 && !isCurrentSessionSupported())
+        {
+            LOG(ERROR) << "Current binary is running in session 0. DXGI components cannot be "
+                          "initialized";
+            return Result::UNSUPPORTED_SESSION;
+        }
+
+        return Result::INITIALIZATION_FAILED;
+    }
+
+    // The frame covers the whole desktop, and it is a source of its own: a frame of one monitor
+    // and a frame of the whole desktop are not the same thing, and the frame would otherwise
+    // keep what it has of the other one.
+    if (!frame->prepare(desktopRect().size(), ScreenCapturer::kAllScreensId))
+        return Result::FRAME_PREPARE_FAILED;
+
+    SharedPointer<Frame> shared_frame = frame->frame();
+
+    shared_frame->updatedRegion()->clear();
+
+    setup(frame->context());
+
+    if (ensureFrameCaptured(frame->context(), shared_frame))
+    {
+        if (doDuplicateAll(frame->context(), shared_frame))
+        {
+            // The frame starts at the top left of the desktop, where Windows says the desktop
+            // starts and not where the screen does: a monitor to the left of the primary one
+            // has a negative coordinate there, and the mouse of the client is placed on the
+            // screen by this offset.
+            shared_frame->setTopLeft(initialDesktopRect().topLeft());
+
+            ++succeeded_duplications_;
+            return Result::SUCCEEDED;
+        }
+    }
+
+    deinitialize();
+
+    LOG(ERROR) << "Unable to duplicate the whole desktop";
+    return Result::DUPLICATION_FAILED;
+}
+
+//--------------------------------------------------------------------------------------------------
 bool DxgiDuplicatorController::doDuplicateAll(Context* context, SharedPointer<Frame>& target)
 {
+    // The origin of the desktop is the origin of the frame the outputs are drawn into, so each
+    // of them goes to the place it has on the desktop and not to the place it has on the screen.
+    const QPoint desktop_origin = desktop_rect_.topLeft();
+
     for (size_t i = 0; i < duplicators_.size(); ++i)
     {
-        if (!duplicators_[i].duplicate(&context->contexts[i], target))
+        if (!duplicators_[i].duplicate(&context->contexts[i], target, desktop_origin))
             return false;
     }
 
