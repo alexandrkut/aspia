@@ -622,6 +622,29 @@ void ConfigDialog::onExportInstaller()
 #endif
 
     const QString default_name = QString("aspia-host-%1-%2.msi").arg(ASPIA_VERSION_SHORT_STRING).arg(arch);
+
+    // The exported installer carries the settings of the host: the connection to the router and
+    // the users. By default they are imported on the first installation only, so the data of a
+    // host that is already installed is left alone. With the box ticked the settings are
+    // imported on every installation, and the data of the installed host is overwritten.
+    MsgBox box(MsgBox::Question, tr("Export Installer"),
+               tr("The exported installer carries the settings of this host: the connection to "
+                  "the router and the users. By default they are imported on the first "
+                  "installation only, and the data of a host that is already installed is left "
+                  "alone."),
+               MsgBox::Yes | MsgBox::No, this);
+
+    QCheckBox* check_box = new QCheckBox(tr("Overwrite the old data on install"), &box);
+    box.setCheckBox(check_box);
+
+    if (box.exec() != MsgBox::Yes)
+    {
+        LOG(INFO) << "The export is rejected by the user";
+        return;
+    }
+
+    const bool overwrite_data = check_box->isChecked();
+
     QString file_path = QFileDialog::getSaveFileName(
         this, tr("Export"), desktopPath(default_name), tr("MSI-files (*.msi)"));
     if (file_path.isEmpty())
@@ -630,7 +653,7 @@ void ConfigDialog::onExportInstaller()
         return;
     }
 
-    switch (MsiPackage::exportWithSettings(file_path))
+    switch (MsiPackage::exportWithSettings(file_path, overwrite_data))
     {
         case MsiPackage::Result::SUCCESS:
             MsgBox::information(this, tr("The installer was successfully exported."));

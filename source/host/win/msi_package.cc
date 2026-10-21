@@ -623,7 +623,7 @@ bool updatePackageCode(MSIHANDLE database)
 
 //--------------------------------------------------------------------------------------------------
 MsiPackage::Result embedSettings(const QString& package_path, const QString& settings_path,
-    const QString& cabinet_path)
+    const QString& cabinet_path, bool overwrite_data)
 {
     ScopedMsiHandle database;
     UINT error = pfn_MsiOpenDatabaseW(qUtf16Printable(package_path), MSIDBOPEN_TRANSACT, database.receive());
@@ -660,6 +660,22 @@ MsiPackage::Result embedSettings(const QString& package_path, const QString& set
         return MsiPackage::Result::FAILED;
     }
 
+    // The action that imports the settings runs on the first installation only, so the data of
+    // a host that is already installed is left alone. When the data is to be overwritten, the
+    // condition is taken away and the action runs on every installation.
+    if (overwrite_data)
+    {
+        ScopedMsiHandle condition_row(pfn_MsiCreateRecord(1));
+        setRecordString(condition_row, 1, QString());
+
+        if (!executeQuery(database,
+                QString("UPDATE `InstallExecuteSequence` SET `Condition`=? WHERE `Action`='%1'")
+                    .arg(kImportAction), condition_row))
+        {
+            return MsiPackage::Result::FAILED;
+        }
+    }
+
     error = pfn_MsiDatabaseCommit(database);
     if (error != ERROR_SUCCESS)
     {
@@ -674,7 +690,7 @@ MsiPackage::Result embedSettings(const QString& package_path, const QString& set
 
 //--------------------------------------------------------------------------------------------------
 // static
-MsiPackage::Result MsiPackage::exportWithSettings(const QString& file_path)
+MsiPackage::Result MsiPackage::exportWithSettings(const QString& file_path, bool overwrite_data)
 {
     if (!loadFunctions())
         return Result::FAILED;
@@ -710,7 +726,7 @@ MsiPackage::Result MsiPackage::exportWithSettings(const QString& file_path)
         return Result::FAILED;
     }
 
-    const Result result = embedSettings(file_path, settings_path, cabinet_path);
+    const Result result = embedSettings(file_path, settings_path, cabinet_path, overwrite_data);
     if (result != Result::SUCCESS)
         QFile::remove(file_path);
 

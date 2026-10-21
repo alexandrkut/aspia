@@ -1590,6 +1590,21 @@
         <translation>Úložiště nastavení není k dispozici.</translation>
     </message>
     <message>
+        <location filename="../host/ui/config_dialog.cc" line="630"/>
+        <source>Export Installer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../host/ui/config_dialog.cc" line="631"/>
+        <source>The exported installer carries the settings of this host: the connection to the router and the users. By default they are imported on the first installation only, and the data of a host that is already installed is left alone.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../host/ui/config_dialog.cc" line="637"/>
+        <source>Overwrite the old data on install</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../host/ui/config_dialog.ui" line="204"/>
         <location filename="../host/ui/config_dialog.cc" line="584"/>
         <source>Import</source>
@@ -1604,113 +1619,113 @@
     <message>
         <location filename="../host/ui/config_dialog.ui" line="211"/>
         <location filename="../host/ui/config_dialog.cc" line="601"/>
-        <location filename="../host/ui/config_dialog.cc" line="626"/>
-        <location filename="../host/ui/config_dialog.cc" line="682"/>
+        <location filename="../host/ui/config_dialog.cc" line="649"/>
+        <location filename="../host/ui/config_dialog.cc" line="705"/>
         <source>Export</source>
         <translation>Exportovat</translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="626"/>
+        <location filename="../host/ui/config_dialog.cc" line="649"/>
         <source>MSI-files (*.msi)</source>
         <translation>Soubory MSI (*.msi)</translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="636"/>
+        <location filename="../host/ui/config_dialog.cc" line="659"/>
         <source>The installer was successfully exported.</source>
         <translation>Instalátor byl úspěšně exportován.</translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="640"/>
+        <location filename="../host/ui/config_dialog.cc" line="663"/>
         <source>The installed host package was not found.</source>
         <translation>Nainstalovaný balíček hostitele nebyl nalezen.</translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="644"/>
+        <location filename="../host/ui/config_dialog.cc" line="667"/>
         <source>The installed version of the host does not support exporting the installer.</source>
         <translation>Nainstalovaná verze hostitele nepodporuje export instalátoru.</translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="648"/>
+        <location filename="../host/ui/config_dialog.cc" line="671"/>
         <source>Unable to export the installer.</source>
         <translation>Nelze exportovat instalátor.</translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="664"/>
+        <location filename="../host/ui/config_dialog.cc" line="687"/>
         <source>Export Quick Support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="665"/>
+        <location filename="../host/ui/config_dialog.cc" line="688"/>
         <source>The exported package connects to the same router as this host and accepts the one-time password. The users of this host can be exported with it: they will be able to connect to the exported host with their own login and password.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="670"/>
+        <location filename="../host/ui/config_dialog.cc" line="693"/>
         <source>Export the users of this host</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="682"/>
+        <location filename="../host/ui/config_dialog.cc" line="705"/>
         <source>Executable files (*.exe)</source>
         <translation>Spustitelné soubory (*.exe)</translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="692"/>
+        <location filename="../host/ui/config_dialog.cc" line="715"/>
         <source>The portable version was successfully exported.</source>
         <translation>Přenosná verze byla úspěšně exportována.</translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="696"/>
+        <location filename="../host/ui/config_dialog.cc" line="719"/>
         <source>The portable version works only through a router. Set up the connection to the router and save the settings.</source>
         <translation>Přenosná verze funguje pouze přes router. Nastavte připojení k routeru a uložte nastavení.</translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="700"/>
+        <location filename="../host/ui/config_dialog.cc" line="723"/>
         <source>Unable to export the portable version.</source>
         <translation>Nelze exportovat přenosnou verzi.</translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="721"/>
+        <location filename="../host/ui/config_dialog.cc" line="744"/>
         <source>The configuration can not be written. Make sure that you have sufficient rights to write.</source>
         <translation>Konfiguraci nelze zapsat. Ujistěte se, že máte dostatečná práva k zápisu.</translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="737"/>
+        <location filename="../host/ui/config_dialog.cc" line="760"/>
         <source>An invalid update server address was entered.</source>
         <translation>Byla zadána neplatná adresa serveru aktualizací.</translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="745"/>
+        <location filename="../host/ui/config_dialog.cc" line="768"/>
         <source>Enter the update server address.</source>
         <translation>Zadejte adresu serveru aktualizací.</translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="755"/>
+        <location filename="../host/ui/config_dialog.cc" line="778"/>
         <source>An invalid public key was entered.</source>
         <translation>Byl zadán neplatný veřejný klíč.</translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="774"/>
+        <location filename="../host/ui/config_dialog.cc" line="797"/>
         <source>Incorrect proxy address entered.</source>
         <translation>Byla zadána nesprávná adresa proxy serveru.</translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="786"/>
+        <location filename="../host/ui/config_dialog.cc" line="809"/>
         <source>Incorrect router address entered.</source>
         <translation>Byla zadána nesprávná adresa routeru.</translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="796"/>
+        <location filename="../host/ui/config_dialog.cc" line="819"/>
         <source>Incorrect router public key entered.</source>
         <translation>Byl zadán nesprávný veřejný klíč routeru.</translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="968"/>
+        <location filename="../host/ui/config_dialog.cc" line="991"/>
         <source>Install</source>
         <translation>Nainstalovat</translation>
     </message>
     <message>
-        <location filename="../host/ui/config_dialog.cc" line="973"/>
+        <location filename="../host/ui/config_dialog.cc" line="996"/>
         <source>Remove</source>
         <translation>Odebrat</translation>
     </message>
