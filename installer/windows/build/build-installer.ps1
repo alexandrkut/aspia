@@ -21,7 +21,8 @@ param(
     [ValidateSet('client', 'host', 'router', 'relay')]
     [string]$Product = 'client',
     [string]$Version = '',
-    [string]$Architecture = 'x86_64'
+    [string]$Architecture = 'x86_64',
+    [string]$Language = ''
 )
 
 $ErrorActionPreference = 'Stop'
@@ -31,6 +32,19 @@ $wix    = Join-Path $root 'tools\wix3'
 $srcDir = Join-Path $root "aspia\installer\windows"
 $build  = Join-Path $root 'aspia\builds\local-win-x64\Release'
 $stage  = Join-Path $root "aspia\builds\msi-$Product-$Architecture"
+
+# The name of the program in the list of the installed programs and the name of the shortcut in
+# the menu "Start" come from the translation of the package. The client and the host of the mod
+# are in Russian, like the original ones, and the router and the relay stay in English: the
+# translations of the original for them are in English too.
+if (-not $Language)
+{
+    $Language = if ($Product -in @('client', 'host')) { 'ru-ru' } else { 'en-us' }
+}
+
+# The language of the package is the language of its translation, and the installer refuses a
+# package whose language does not match the language of the translation.
+$languageId = if ($Language -eq 'ru-ru') { '1049' } else { '1033' }
 
 # The version of the package is the version of the program: the three numbers of the sources
 # and the number of the build of this line of the versions, which is the fourth number of the
@@ -99,6 +113,7 @@ foreach ($file in $extraFiles)
 }
 
 $env:ASPIA_VERSION  = $Version
+$env:ASPIA_LANGUAGE = $languageId
 $env:ASPIA_BIN_DIR  = $stage
 
 $candleArch = switch ($Architecture) {
@@ -116,7 +131,7 @@ $extensions = @(
 
 $msi = Join-Path $stage "aspia-$Product-$Version$Suffix-$Architecture.msi"
 $wxs = "$Product.wxs"
-$wxl = "translations\$Product.en-us.wxl"
+$wxl = "translations\$Product.$Language.wxl"
 
 Push-Location $srcDir
 try
@@ -124,6 +139,7 @@ try
     Write-Host '##################################################'
     Write-Host "Aspia $Product MSI"
     Write-Host "  Version    : $Version"
+    Write-Host "  Language   : $Language ($languageId)"
     Write-Host "  Arch       : $Architecture (candle: $candleArch)"
     Write-Host "  Exe        : $builtBinary"
     Write-Host "  Output     : $msi"
@@ -131,7 +147,10 @@ try
     & (Join-Path $wix 'candle.exe') -out "$stage\" -arch $candleArch @extensions $wxs
     if ($LASTEXITCODE -ne 0) { throw "candle failed with $LASTEXITCODE" }
 
-    & (Join-Path $wix 'light.exe') -sval -out $msi -cultures:en-us @extensions -loc $wxl `
+    # The cultures are loaded in the order of the precedence: the strings of the translation of
+    # the package win, and the English ones fill the gaps: the extensions of the installer have
+    # no translation in Russian.
+    & (Join-Path $wix 'light.exe') -sval -out $msi -cultures:"$Language;en-us" @extensions -loc $wxl `
         "$stage\$Product.wixobj"
     if ($LASTEXITCODE -ne 0) { throw "light failed with $LASTEXITCODE" }
 }

@@ -9,7 +9,7 @@
 <?define Executable="aspia_client.exe"?>
 
 <!-- Product description -->
-<Product Id="*" Name="!(loc.ProductName)" Language="1033" Version="$(var.Version)" Manufacturer="$(var.Manufacturer)" UpgradeCode="{33B57F67-C531-4713-B29B-06796E5BACD6}">
+<Product Id="*" Name="!(loc.ProductName)" Language="$(var.Language)" Version="$(var.Version)" Manufacturer="$(var.Manufacturer)" UpgradeCode="{33B57F67-C531-4713-B29B-06796E5BACD6}">
     <Package Id="*" InstallerVersion="405" Compressed="yes" Manufacturer="$(var.Manufacturer)" InstallPrivileges="elevated" InstallScope="perMachine" />
 
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
