@@ -41,7 +41,7 @@ QByteArray serialize(const google::protobuf::MessageLite& message)
 //--------------------------------------------------------------------------------------------------
 proto::peer::Version serialize(const QVersionNumber& version)
 {
-    if (version.segmentCount() != 3)
+    if (version.segmentCount() != 3 && version.segmentCount() != 4)
     {
         LOG(ERROR) << "Invalid version segments count:" << version.segmentCount();
         return proto::peer::Version();
@@ -52,15 +52,42 @@ proto::peer::Version serialize(const QVersionNumber& version)
     proto_version.set_minor(static_cast<quint32>(version.minorVersion()));
     proto_version.set_patch(static_cast<quint32>(version.microVersion()));
 
+    // The fourth segment is the number of the build of the line of the versions. The programs of
+    // the upstream have no such segment, and their versions stay the same.
+    if (version.segmentCount() == 4)
+        proto_version.set_revision(static_cast<quint32>(version.segmentAt(3)));
+
     return proto_version;
 }
 
 //--------------------------------------------------------------------------------------------------
 QVersionNumber parse(const proto::peer::Version& version)
 {
+    if (version.revision() != 0)
+    {
+        return QVersionNumber({ static_cast<int>(version.major()),
+                                static_cast<int>(version.minor()),
+                                static_cast<int>(version.patch()),
+                                static_cast<int>(version.revision()) });
+    }
+
     return QVersionNumber({ static_cast<int>(version.major()),
                             static_cast<int>(version.minor()),
                             static_cast<int>(version.patch()) });
+}
+
+//--------------------------------------------------------------------------------------------------
+QString versionToString(const proto::peer::Version& version)
+{
+    QString result = QString("%1.%2.%3")
+        .arg(version.major())
+        .arg(version.minor())
+        .arg(version.patch());
+
+    if (version.revision() != 0)
+        result += QString(".%1").arg(version.revision());
+
+    return result;
 }
 
 //--------------------------------------------------------------------------------------------------

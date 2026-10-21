@@ -225,7 +225,7 @@ void Authenticator::finish(const Location& location, ErrorCode error_code)
 bool Authenticator::setPeerVersion(const proto::peer::Version& version)
 {
     if (version.major() > kMaxVersionComponent || version.minor() > kMaxVersionComponent ||
-        version.patch() > kMaxVersionComponent)
+        version.patch() > kMaxVersionComponent || version.revision() > kMaxVersionComponent)
     {
         CLOG(ERROR) << "Invalid peer version:" << version.major() << version.minor()
                     << version.patch();
