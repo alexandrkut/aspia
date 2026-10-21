@@ -22,7 +22,6 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QTemporaryDir>
-#include <QUuid>
 #include <qt_windows.h>
 
 #include <fci.h>
@@ -75,7 +74,6 @@ using PFN_MsiRecordSetInteger = decltype(&::MsiRecordSetInteger);
 using PFN_MsiRecordSetStreamW = decltype(&::MsiRecordSetStreamW);
 using PFN_MsiRecordSetStringW = decltype(&::MsiRecordSetStringW);
 using PFN_MsiSummaryInfoPersist = decltype(&::MsiSummaryInfoPersist);
-using PFN_MsiSummaryInfoSetPropertyW = decltype(&::MsiSummaryInfoSetPropertyW);
 using PFN_MsiViewExecute = decltype(&::MsiViewExecute);
 using PFN_MsiViewFetch = decltype(&::MsiViewFetch);
 using PFN_MsiViewModify = decltype(&::MsiViewModify);
@@ -99,7 +97,6 @@ PFN_MsiRecordSetInteger pfn_MsiRecordSetInteger = nullptr;
 PFN_MsiRecordSetStreamW pfn_MsiRecordSetStreamW = nullptr;
 PFN_MsiRecordSetStringW pfn_MsiRecordSetStringW = nullptr;
 PFN_MsiSummaryInfoPersist pfn_MsiSummaryInfoPersist = nullptr;
-PFN_MsiSummaryInfoSetPropertyW pfn_MsiSummaryInfoSetPropertyW = nullptr;
 PFN_MsiViewExecute pfn_MsiViewExecute = nullptr;
 PFN_MsiViewFetch pfn_MsiViewFetch = nullptr;
 PFN_MsiViewModify pfn_MsiViewModify = nullptr;
@@ -196,8 +193,7 @@ bool loadFunctions()
         ok &= resolve(msi, "MsiRecordSetStreamW", &pfn_MsiRecordSetStreamW);
         ok &= resolve(msi, "MsiRecordSetStringW", &pfn_MsiRecordSetStringW);
         ok &= resolve(msi, "MsiSummaryInfoPersist", &pfn_MsiSummaryInfoPersist);
-        ok &= resolve(msi, "MsiSummaryInfoSetPropertyW", &pfn_MsiSummaryInfoSetPropertyW);
-        ok &= resolve(msi, "MsiViewExecute", &pfn_MsiViewExecute);
+            ok &= resolve(msi, "MsiViewExecute", &pfn_MsiViewExecute);
         ok &= resolve(msi, "MsiViewFetch", &pfn_MsiViewFetch);
         ok &= resolve(msi, "MsiViewModify", &pfn_MsiViewModify);
         ok &= resolve(cabinet, "FCIAddFile", &pfn_FCIAddFile);
@@ -594,20 +590,20 @@ bool replaceCabinet(MSIHANDLE database, const QString& cabinet_path)
 //--------------------------------------------------------------------------------------------------
 bool updatePackageCode(MSIHANDLE database)
 {
+    // The exported package keeps the code of the product of the host, so that it is installed
+    // over the host as an update of it. A package with a code of its own and the upgrade code
+    // of the host is refused by the installer when the host is already installed: another
+    // version of the same product is already there, and continuing the installation is
+    // impossible.
+    //
+    // The code of the product is in the summary information of the package, and the code of the
+    // package itself is built from the files of the package. The summary information is written
+    // back, so that the package is not left with the codes of the package it was copied from.
     ScopedMsiHandle summary;
     UINT error = pfn_MsiGetSummaryInformationW(database, nullptr, 1, summary.receive());
     if (error != ERROR_SUCCESS)
     {
         LOG(ERROR) << "MsiGetSummaryInformationW failed:" << SystemError::toString(error);
-        return false;
-    }
-
-    const QString package_code = QUuid::createUuid().toString(QUuid::WithBraces).toUpper();
-
-    error = pfn_MsiSummaryInfoSetPropertyW(summary, PID_REVNUMBER, VT_LPSTR, 0, nullptr, qUtf16Printable(package_code));
-    if (error != ERROR_SUCCESS)
-    {
-        LOG(ERROR) << "MsiSummaryInfoSetPropertyW failed:" << SystemError::toString(error);
         return false;
     }
 
@@ -620,6 +616,7 @@ bool updatePackageCode(MSIHANDLE database)
 
     return true;
 }
+
 
 //--------------------------------------------------------------------------------------------------
 MsiPackage::Result embedSettings(const QString& package_path, const QString& settings_path,
@@ -652,7 +649,10 @@ MsiPackage::Result embedSettings(const QString& package_path, const QString& set
     ScopedMsiHandle size_row(pfn_MsiCreateRecord(1));
     pfn_MsiRecordSetInteger(size_row, 1, static_cast<int>(QFileInfo(settings_path).size()));
 
-    // A package with other contents must not share the package code of the installed one.
+    // The package keeps the code of the product of the host, so it is installed over the host
+    // as an update of it. A package with a code of its own and the upgrade code of the host
+    // is refused by the installer when the host is already installed: another version of the
+    // same product is already there, and continuing the installation is impossible.
     if (!executeQuery(database,
             QString("UPDATE `File` SET `FileSize`=? WHERE `File`='%1'").arg(kSettingsFile), size_row) ||
         !replaceCabinet(database, cabinet_path) || !updatePackageCode(database))
