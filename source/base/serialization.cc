@@ -41,7 +41,7 @@ QByteArray serialize(const google::protobuf::MessageLite& message)
 //--------------------------------------------------------------------------------------------------
 proto::peer::Version serialize(const QVersionNumber& version)
 {
-    if (version.segmentCount() != 3 && version.segmentCount() != 4)
+    if (version.segmentCount() != 3)
     {
         LOG(ERROR) << "Invalid version segments count:" << version.segmentCount();
         return proto::peer::Version();
@@ -52,30 +52,12 @@ proto::peer::Version serialize(const QVersionNumber& version)
     proto_version.set_minor(static_cast<quint32>(version.minorVersion()));
     proto_version.set_patch(static_cast<quint32>(version.microVersion()));
 
-    // The fourth segment is the number of the build of the line of the versions. It goes into
-    // its own field, so the programs of the upstream, which do not know it, keep the version
-    // without the fourth number.
-    if (version.segmentCount() == 4)
-        proto_version.set_build(static_cast<quint32>(version.segmentAt(3)));
-
     return proto_version;
 }
 
 //--------------------------------------------------------------------------------------------------
 QVersionNumber parse(const proto::peer::Version& version)
 {
-    // The number of the build of the line of the versions is the fourth number of the version.
-    // The programs of the upstream do not send it, and their version has no fourth number.
-    constexpr quint32 kMaxBuildNumber = 999;
-
-    if (version.build() != 0 && version.build() <= kMaxBuildNumber)
-    {
-        return QVersionNumber({ static_cast<int>(version.major()),
-                                static_cast<int>(version.minor()),
-                                static_cast<int>(version.patch()),
-                                static_cast<int>(version.build()) });
-    }
-
     return QVersionNumber({ static_cast<int>(version.major()),
                             static_cast<int>(version.minor()),
                             static_cast<int>(version.patch()) });
@@ -84,15 +66,10 @@ QVersionNumber parse(const proto::peer::Version& version)
 //--------------------------------------------------------------------------------------------------
 QString versionToString(const proto::peer::Version& version)
 {
-    QString result = QString("%1.%2.%3")
+    return QString("%1.%2.%3")
         .arg(version.major())
         .arg(version.minor())
         .arg(version.patch());
-
-    if (version.build() != 0)
-        result += QString(".%1").arg(version.build());
-
-    return result;
 }
 
 //--------------------------------------------------------------------------------------------------

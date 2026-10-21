@@ -619,10 +619,9 @@ void ClientAuthenticator::sendSessionResponse()
     version->set_minor(ASPIA_VERSION_MINOR);
     version->set_patch(ASPIA_VERSION_PATCH);
 
-    // The revision is left empty on purpose: the programs of the upstream do not know the
-    // fourth number of the version, and the version they show has none. The number of the
-    // build of the line of the versions goes into its own field, which they ignore as well.
-    version->set_build(ASPIA_VERSION_BUILD);
+    // The revision is left empty on purpose: the number of the build of the line of the
+    // versions is of no use to the peer, and the version the programs of the upstream show has
+    // no fourth number. The peer gets the version of the line of the versions, as before.
 
     response.set_os_name(SysInfo::operatingSystemName().toStdString());
     response.set_computer_name(SysInfo::computerName().toStdString());
