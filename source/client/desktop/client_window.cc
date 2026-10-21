@@ -508,8 +508,11 @@ bool ClientWindow::askCredentials(HostConfig* host)
 
     AutoQPointer<AuthorizationDialog> auth_dialog(new AuthorizationDialog(this));
 
+    // A Quick Support host may have a user of its own: the mod exports the users of the host
+    // with the package, and such a host is entered with a login and a password. The one-time
+    // password stays the way in that is offered first, but the other ways are not taken away.
     auth_dialog->setOneTimePasswordEnabled(host->routerId() > 0);
-    auth_dialog->setOneTimePasswordOnly(host->isPortable());
+    auth_dialog->setOneTimePasswordPreferred(host->isPortable());
     auth_dialog->setSaveCredentialsVisible(can_save_credentials);
     auth_dialog->setUserName(host->username());
     auth_dialog->setPassword(host->password());
