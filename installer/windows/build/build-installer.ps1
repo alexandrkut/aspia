@@ -153,6 +153,20 @@ try
     & (Join-Path $wix 'light.exe') -sval -out $msi -cultures:"$Language;en-us" @extensions -loc $wxl `
         "$stage\$Product.wixobj"
     if ($LASTEXITCODE -ne 0) { throw "light failed with $LASTEXITCODE" }
+
+    # The version in the list of the installed programs shows the mark of a modified build too,
+    # so that the packages of the mod are told from the packages of the original. The builder of
+    # the package takes numbers only in the version, so the mark is written into the package after
+    # it is built. The installer compares the versions by the first three numbers, and the mark is
+    # in the fourth one, so the comparison of the versions is not affected by it.
+    $installer = New-Object -ComObject WindowsInstaller.Installer
+    $database = $installer.OpenDatabase($msi, 1)
+    $view = $database.OpenView("UPDATE ``Property`` SET ``Value``='$Version$Suffix' WHERE ``Property``='ProductVersion'")
+    $view.Execute()
+    $view.Close()
+    $database.Commit()
+    [System.Runtime.InteropServices.Marshal]::ReleaseComObject($database) | Out-Null
+    [System.Runtime.InteropServices.Marshal]::ReleaseComObject($installer) | Out-Null
 }
 finally
 {

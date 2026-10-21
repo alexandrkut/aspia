@@ -82,11 +82,16 @@ version_part() { sed -n "s/^set(ASPIA_VERSION_$1 \([^)]*\))/\1/p" "$SOURCE_ROOT/
 # the old one, so the number is raised by hand with every release.
 VERSION="$(version_part MAJOR).$(version_part MINOR).$(version_part PATCH).$(version_part BUILD)"
 
-# The version the binary carries also has the suffix of a build that is not the released
-# one, and the package version cannot have it: a hyphen starts the revision there.
+# The mark of a modified build goes into the version of the package, so that it is seen in the
+# list of the installed packages. The version of the binary carries it too.
 VERSION_SUFFIX="$(version_part SUFFIX)"
 VERSION_SUFFIX="${VERSION_SUFFIX//\"/}"
 [ "$VERSION" != ".." ] || die "no version in $SOURCE_ROOT/CMakeLists.txt"
+
+# The version of a Debian package is the version of the program and the revision of the package,
+# and the two are separated by a hyphen. The mark of a modified build is the revision here: it
+# is a part of the version, and the version of the package is newer than the one without it.
+DEB_VERSION="$VERSION$VERSION_SUFFIX"
 
 MACHINE="$(uname -m)"
 case "$MACHINE" in
@@ -222,7 +227,7 @@ build_deb()
 
     cat > "$root/DEBIAN/control" <<CONTROL
 Package: $name
-Version: $VERSION
+Version: $DEB_VERSION
 Architecture: $DEB_ARCH
 Maintainer: $MAINTAINER
 Homepage: $HOMEPAGE
@@ -269,6 +274,9 @@ build_rpm()
 
     {
         echo "Name:      $name"
+        # The version of an RPM package cannot carry the mark of a modified build: a hyphen
+        # separates the version from the release there, and is not allowed in either of them.
+        # The mark of the mod is in the name of the file then.
         echo "Version:   $VERSION"
         echo "Release:   1"
         echo "Summary:   $(summary_of "$component")"
