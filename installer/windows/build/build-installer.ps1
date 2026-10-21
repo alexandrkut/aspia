@@ -49,6 +49,12 @@ if (-not $Version)
     Write-Host "the version of the package is $Version"
 }
 
+# The mark of a modified build goes into the name of the file and not into the version of the
+# package: the version of the package is a number, and the installer compares it with the
+# version of the package that is installed.
+$cmake = Get-Content (Join-Path $root 'aspia\CMakeLists.txt') -Raw
+if ($cmake -match 'set\(ASPIA_VERSION_SUFFIX "([^"]*)"\)') { $Suffix = $Matches[1] } else { $Suffix = '' }
+
 $executable = "aspia_$Product.exe"
 $builtBinary = Join-Path $build $executable
 
@@ -108,7 +114,7 @@ $extensions = @(
     '-ext', 'WixFirewallExtension'
 )
 
-$msi = Join-Path $stage "aspia-$Product-$Version-$Architecture.msi"
+$msi = Join-Path $stage "aspia-$Product-$Version$Suffix-$Architecture.msi"
 $wxs = "$Product.wxs"
 $wxl = "translations\$Product.en-us.wxl"
 

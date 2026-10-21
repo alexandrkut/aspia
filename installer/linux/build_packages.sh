@@ -206,7 +206,7 @@ build_deb()
     local component="$1"
     local name="aspia-$component"
     local root="$WORK_DIR/deb/$component"
-    local output="$OUTPUT_DIR/$name-$VERSION-$MACHINE.deb"
+    local output="$OUTPUT_DIR/$name-$VERSION$VERSION_SUFFIX-$MACHINE.deb"
     local script
 
     stage_payload "$component" "$root"
@@ -262,7 +262,7 @@ build_rpm()
     local spec="$WORK_DIR/$name.spec"
     local top="$WORK_DIR/rpmbuild"
     local log="$WORK_DIR/$name-rpmbuild.log"
-    local output="$OUTPUT_DIR/$name-$VERSION-$MACHINE.rpm"
+    local output="$OUTPUT_DIR/$name-$VERSION$VERSION_SUFFIX-$MACHINE.rpm"
     local dir
 
     stage_payload "$component" "$root"
