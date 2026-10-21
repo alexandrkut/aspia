@@ -63,7 +63,12 @@ proto::peer::Version serialize(const QVersionNumber& version)
 //--------------------------------------------------------------------------------------------------
 QVersionNumber parse(const proto::peer::Version& version)
 {
-    if (version.revision() != 0)
+    // The revision is the number of the build of the line of the versions. The older builds put
+    // the number of the commits into it, and such a number is not a build number, so it is
+    // dropped: the version of such a build stays the same as the version of the line.
+    constexpr quint32 kMaxBuildNumber = 999;
+
+    if (version.revision() != 0 && version.revision() <= kMaxBuildNumber)
     {
         return QVersionNumber({ static_cast<int>(version.major()),
                                 static_cast<int>(version.minor()),
