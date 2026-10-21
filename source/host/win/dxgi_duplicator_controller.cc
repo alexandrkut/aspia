@@ -423,11 +423,16 @@ DxgiDuplicatorController::Result DxgiDuplicatorController::doDuplicateDesktop(Dx
     {
         if (doDuplicateAll(frame->context(), shared_frame))
         {
-            // The frame starts at the top left of the desktop, where Windows says the desktop
-            // starts and not where the screen does: a monitor to the left of the primary one
-            // has a negative coordinate there, and the mouse of the client is placed on the
-            // screen by this offset.
-            shared_frame->setTopLeft(initialDesktopRect().topLeft());
+            // The frame covers the whole desktop, and the rects of the outputs are normalized to
+            // the origin of the desktop, so the frame starts there as well. The offset of the
+            // frame is counted from the same corner as the coordinates of the client, and the
+            // mouse of the client is placed on the screen by this offset.
+            //
+            // The rect of the desktop as Windows knows it (initialDesktopRect()) is in the space
+            // of the desktop, where a monitor to the left of the primary one has a negative
+            // coordinate. That space is the one the cursor of the system is reported in, and it
+            // is not the one the frames and the mouse are counted in.
+            shared_frame->setTopLeft(desktopRect().topLeft());
 
             ++succeeded_duplications_;
             return Result::SUCCEEDED;

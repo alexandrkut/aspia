@@ -348,19 +348,14 @@ void InputInjectorWin::injectMouseEvent(const proto::input::MouseEvent& event)
     // coordinates are untrusted; clamp them into the screen and compute in 64-bit so the intermediate
     // multiply by 65535 cannot overflow a signed int.
     //
-    // The absolute coordinates of the mouse are counted from the top left of the virtual screen of
-    // Windows, and that corner is not always the origin of the coordinates: a monitor to the left
-    // of the primary one has a negative coordinate there. The offset of the screen is in the same
-    // space, so the corner of the virtual screen is taken away before the coordinates are scaled.
-    // Without it the mouse lands on a monitor to the left of the one it was moved on.
+    // The offset of the screen is counted from the top left of the virtual screen, the same as the
+    // coordinates of the client are counted from the top left of the captured frame, so the sum is
+    // the place on the virtual screen.
     const qint64 max_x = screen_size_.width() - 1;
     const qint64 max_y = screen_size_.height() - 1;
 
-    const qint64 origin_x = GetSystemMetrics(SM_XVIRTUALSCREEN);
-    const qint64 origin_y = GetSystemMetrics(SM_YVIRTUALSCREEN);
-
-    const qint64 x = qBound<qint64>(0, static_cast<qint64>(event.x()) + screen_offset_.x() - origin_x, max_x);
-    const qint64 y = qBound<qint64>(0, static_cast<qint64>(event.y()) + screen_offset_.y() - origin_y, max_y);
+    const qint64 x = qBound<qint64>(0, static_cast<qint64>(event.x()) + screen_offset_.x(), max_x);
+    const qint64 y = qBound<qint64>(0, static_cast<qint64>(event.y()) + screen_offset_.y(), max_y);
 
     QPoint pos(static_cast<int>((x * 65535) / max_x), static_cast<int>((y * 65535) / max_y));
 
