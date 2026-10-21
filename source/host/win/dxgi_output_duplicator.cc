@@ -284,6 +284,15 @@ bool DxgiOutputDuplicator::duplicate(Context* context, const QPoint& offset, Sha
 
         updated_region += context->updated_region;
 
+        if (context->require_full_copy)
+        {
+            // A complete copy was asked for, so the whole texture is copied and not only the
+            // part of it that changed. The target may hold the content of an earlier time -
+            // the frame of a monitor that was not shown while the whole desktop was captured -
+            // and the diff alone would not make it whole.
+            updated_region = Region(QRect(QPoint(0, 0), texture_->asDesktopFrame().size()));
+        }
+
         copyRegionToTarget(texture_->asDesktopFrame(), updated_region);
 
         updated_region.translate(offset.x(), offset.y());
@@ -299,12 +308,18 @@ bool DxgiOutputDuplicator::duplicate(Context* context, const QPoint& offset, Sha
     // last captured pixels so a still-black target is not shown until the screen changes. Only the
     // staging texture can re-expose them without a new frame (its CPU copy survives release()); reading
     // the texture directly here would be a use-after-free, and the mapping texture cannot re-map, so it
-    // just keeps the request pending and retries. On a screen re-switch the retained frame already
-    // holds the monitor content, so require_full_copy is false and this branch is not entered.
-    if (context->require_full_copy && num_frames_captured_ > 0 && !updated_region.isEmpty())
+    // just keeps the request pending and retries.
+    if (context->require_full_copy && num_frames_captured_ > 0)
     {
         if (texture_->remapLastFrame())
         {
+            if (updated_region.isEmpty())
+            {
+                // A complete copy was asked for and nothing has changed since the last capture,
+                // so the whole texture is copied to make the target whole.
+                updated_region = Region(QRect(QPoint(0, 0), texture_->asDesktopFrame().size()));
+            }
+
             copyRegionToTarget(texture_->asDesktopFrame(), updated_region);
             texture_->release();
 

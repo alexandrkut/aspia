@@ -214,6 +214,13 @@ const Frame* ScreenCapturerDxgi::captureFrame(Error* error)
     if (!frame)
         frame = std::make_unique<DxgiFrame>(controller_);
 
+    // The frame of the screen holds the content from the last time it was shown, and the
+    // monitors that are not shown are not updated while the whole desktop is captured, so the
+    // frame of a monitor is stale by the time it is shown again. The diff of the new capture
+    // would not make it whole, so a complete copy is asked for.
+    if (force_full_update_)
+        controller_->requestFullCopy(frame.get());
+
     DxgiDuplicatorController::Result result = all_screens_ ?
         controller_->duplicateDesktop(frame.get()) :
         controller_->duplicateMonitor(frame.get(), current_screen_index_);

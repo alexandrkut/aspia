@@ -102,6 +102,12 @@ public:
     // bounding box is normalized to the origin). Used to map the OS-reported cursor position.
     const QRect& initialScreenRect(int monitor_id) const;
 
+    // Asks the duplicators for a complete copy of the next frame of every output. The frame of
+    // a monitor holds the content from the last time it was shown, and the monitors that are not
+    // shown are not updated while the whole desktop is captured, so the frame of a monitor is
+    // stale by the time it is shown again. A complete copy makes the picture whole.
+    void requestFullCopy(DxgiFrame* frame);
+
 private:
     // DxgiFrameContext calls private unregister(Context*) function in reset().
     friend void DxgiFrameContext::reset();

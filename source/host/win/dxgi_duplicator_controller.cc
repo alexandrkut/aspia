@@ -179,6 +179,20 @@ const QRect& DxgiDuplicatorController::initialScreenRect(int monitor_id) const
 }
 
 //--------------------------------------------------------------------------------------------------
+void DxgiDuplicatorController::requestFullCopy(DxgiFrame* frame)
+{
+    if (!frame)
+        return;
+
+    Context* context = frame->context();
+    if (!context)
+        return;
+
+    for (size_t i = 0; i < duplicators_.size() && i < context->contexts.size(); ++i)
+        duplicators_[i].requestFullCopy(&context->contexts[i]);
+}
+
+//--------------------------------------------------------------------------------------------------
 DxgiDuplicatorController::Result DxgiDuplicatorController::doDuplicate(DxgiFrame* frame, int monitor_id)
 {
     DCHECK(frame);
