@@ -77,6 +77,11 @@ public:
 
     void connectRouterHost(const HostConfig& host, proto::peer::SessionType session_type);
 
+    // The same, for a host that is in no book and is named by its address: the client connects to
+    // it directly, without a router. The credentials of such a host are the ones the caller gave,
+    // for there is no record of it and no stored credentials to take.
+    void connectDirectHost(const HostConfig& host, proto::peer::SessionType session_type);
+
 private slots:
     void onSwitchContent(SidebarItem::Type type);
     void onSidebarContextMenu(SidebarItem::Type type, const QPoint& pos);

@@ -166,16 +166,49 @@ TEST(ConnectRequestTest, UnknownSessionTypeIsRefused)
 }
 
 //--------------------------------------------------------------------------------------------------
-// A record ID is a positive number. Zero, a negative number, a word and an option without its value
-// are all refused instead of connecting to nothing.
+// A record ID is a positive number. Zero, a negative number and an option without its value are
+// all refused instead of connecting to nothing. A word is a name of a host now, and a host named
+// by its address is connected to directly.
 TEST(ConnectRequestTest, BadIdentifiersAreRefused)
 {
     EXPECT_TRUE(fails({ QStringLiteral("--connect=0") }));
     EXPECT_TRUE(fails({ QStringLiteral("--connect=-1") }));
-    EXPECT_TRUE(fails({ QStringLiteral("--connect=abc") }));
     EXPECT_TRUE(fails({ QStringLiteral("--connect=") }));
     EXPECT_TRUE(fails({ QStringLiteral("--connect") }));
-    EXPECT_TRUE(fails({ QStringLiteral("aspia-client-name") }));
+    EXPECT_TRUE(fails({ QStringLiteral("host/name") }));
+}
+
+//--------------------------------------------------------------------------------------------------
+// A host of no book is named by its address, and the client connects to it directly. An address
+// may carry a port of its own, and a name of a host is an address as well.
+TEST(ConnectRequestTest, AddressIsAccepted)
+{
+    const QStringList addresses = {
+        QStringLiteral("192.168.1.5"),
+        QStringLiteral("192.168.1.5:8050"),
+        QStringLiteral("myhost.local"),
+        QStringLiteral("myhost"),
+        QStringLiteral("host-one"),
+        QStringLiteral("12.5"),
+        QStringLiteral("[::1]") };
+
+    for (const QString& address : addresses)
+    {
+        const ConnectRequest request = parse({ QStringLiteral("--connect"), address });
+
+        EXPECT_FALSE(request.isEmpty()) << address.toStdString();
+        EXPECT_EQ(request.identifier(), address) << address.toStdString();
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+// The same, spelled without the option.
+TEST(ConnectRequestTest, BareAddress)
+{
+    const ConnectRequest request = parse({ QStringLiteral("192.168.1.5") });
+
+    EXPECT_FALSE(request.isEmpty());
+    EXPECT_EQ(request.identifier(), QStringLiteral("192.168.1.5"));
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -302,14 +335,14 @@ TEST(ConnectRequestTest, HostIdentifierWithTheRest)
 }
 
 //--------------------------------------------------------------------------------------------------
-// Neither a record ID nor a host ID: a misspelt identifier is refused with a reason instead of
-// being looked up in vain.
+// Neither a record ID nor a host ID nor an address: a misspelt identifier is refused with a reason
+// instead of being looked up in vain. A number is always an ID, and a name of a host is an
+// address, so what is left is refused.
 TEST(ConnectRequestTest, NeitherIdentifierIsRefused)
 {
-    EXPECT_TRUE(fails({ QStringLiteral("--connect=host-one") }));
-    EXPECT_TRUE(fails({ QStringLiteral("--connect=ZT00MiZzPTE") }));
     EXPECT_TRUE(fails({ QStringLiteral("--connect=0") }));
     EXPECT_TRUE(fails({ QStringLiteral("--connect=-3") }));
     EXPECT_TRUE(fails({ QStringLiteral("--connect=") }));
-    EXPECT_TRUE(fails({ QStringLiteral("--connect=12.5") }));
+    EXPECT_TRUE(fails({ QStringLiteral("--connect=host/name") }));
+    EXPECT_TRUE(fails({ QStringLiteral("--connect=a host") }));
 }

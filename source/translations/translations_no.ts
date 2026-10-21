@@ -499,13 +499,13 @@
         <translation>Lagre innloggingsdata</translation>
     </message>
     <message>
-        <location filename="../client/desktop/authorization_dialog.cc" line="216"/>
-        <location filename="../client/desktop/authorization_dialog.cc" line="232"/>
+        <location filename="../client/desktop/authorization_dialog.cc" line="227"/>
+        <location filename="../client/desktop/authorization_dialog.cc" line="243"/>
         <source>Password cannot be empty.</source>
         <translation>Passordet kan ikke være tomt.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/authorization_dialog.cc" line="225"/>
+        <location filename="../client/desktop/authorization_dialog.cc" line="236"/>
         <source>User name cannot be empty.</source>
         <translation>Brukernavnet kan ikke være tomt.</translation>
     </message>
@@ -941,57 +941,52 @@
         <translation>Kan ikke opprette en sikkerhetskopi. Enkelte oppføringer i databasen er skadet. Reparer eller slett dem.</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="239"/>
-        <source>Connect to the host of the address book with this record ID or host ID, using the login and the password stored in it.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/main.cc" line="242"/>
+        <location filename="../client/main.cc" line="243"/>
         <source>id</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="246"/>
+        <location filename="../client/main.cc" line="247"/>
         <source>Kind of the session to open: desktop, file, info, chat or terminal (default: the one from the settings of the application).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="249"/>
+        <location filename="../client/main.cc" line="250"/>
         <source>type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="253"/>
+        <location filename="../client/main.cc" line="254"/>
         <source>Log in with this user name instead of the one stored in the host. Requires --password.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="256"/>
+        <location filename="../client/main.cc" line="257"/>
         <source>name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="260"/>
+        <location filename="../client/main.cc" line="261"/>
         <source>Log in with this password instead of the stored one. Requires --username. A password on a command line is visible to the other users of the machine.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="263"/>
+        <location filename="../client/main.cc" line="264"/>
         <source>password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="387"/>
+        <location filename="../client/main.cc" line="388"/>
         <source>Set Master Password</source>
         <translation>Angi hovedpassord</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="389"/>
+        <location filename="../client/main.cc" line="390"/>
         <source>Set a master password required to unlock the application.</source>
         <translation>Angi et hovedpassord som kreves for å låse opp programmet.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/main.cc" line="397"/>
+        <location filename="../client/main.cc" line="398"/>
         <source>The password can not be shorter than %n characters.</source>
         <translation>
             <numerusform>Passordet kan ikke være kortere enn %n tegn.</numerusform>
@@ -999,12 +994,12 @@
         </translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="405"/>
+        <location filename="../client/main.cc" line="406"/>
         <source>Password you entered does not meet the security requirements!</source>
         <translation>Passordet du skrev inn, oppfyller ikke sikkerhetskravene!</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/main.cc" line="407"/>
+        <location filename="../client/main.cc" line="408"/>
         <source>The password must contain lowercase and uppercase characters, numbers and should not be shorter than %n characters.</source>
         <translation>
             <numerusform>Passordet må inneholde små og store bokstaver samt tall, og kan ikke være kortere enn %n tegn.</numerusform>
@@ -1012,12 +1007,12 @@
         </translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="411"/>
+        <location filename="../client/main.cc" line="412"/>
         <source>Do you want to enter a different password?</source>
         <translation>Vil du skrive inn et annet passord?</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="421"/>
+        <location filename="../client/main.cc" line="422"/>
         <source>Unable to set master password.</source>
         <translation>Kan ikke angi hovedpassord.</translation>
     </message>
@@ -1037,7 +1032,12 @@
         <translation>Kan ikke opprette en sikkerhetskopi.</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="274"/>
+        <location filename="../client/main.cc" line="239"/>
+        <source>Connect to the host of the address book with this record ID or host ID, using the login and the password stored in it, or connect directly to a host by its address, which needs the login and the password given with --username and --password.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/main.cc" line="275"/>
         <source>An aspia:// link to connect to a host.</source>
         <translation>En aspia://-lenke for å koble til en vert.</translation>
     </message>
@@ -1057,57 +1057,57 @@
         <translation>Ugyldig hovedpassord.</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="266"/>
+        <location filename="../client/main.cc" line="267"/>
         <source>Aspia Client</source>
         <translation>Aspia Client</translation>
     </message>
     <message>
-        <location filename="../client/connect_request.cc" line="127"/>
-        <source>&quot;%1&quot; is neither a host ID nor a record ID.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="129"/>
-        <source>The host ID of --connect is missing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../client/connect_request.cc" line="151"/>
-        <source>&quot;%1&quot; is not a valid session type. Use desktop, file, info, chat or terminal.</source>
+        <source>&quot;%1&quot; is neither a host ID nor a record ID nor a host address.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../client/connect_request.cc" line="154"/>
+        <source>The host ID of --connect is missing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/connect_request.cc" line="176"/>
+        <source>&quot;%1&quot; is not a valid session type. Use desktop, file, info, chat or terminal.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/connect_request.cc" line="179"/>
         <source>The session type of --session-type is missing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/connect_request.cc" line="171"/>
+        <location filename="../client/connect_request.cc" line="196"/>
         <source>The user name of --username is missing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/connect_request.cc" line="187"/>
+        <location filename="../client/connect_request.cc" line="212"/>
         <source>The password of --password is missing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/connect_request.cc" line="217"/>
-        <source>&quot;%1&quot; is neither an aspia:// link nor a host ID.</source>
+        <location filename="../client/connect_request.cc" line="242"/>
+        <source>&quot;%1&quot; is neither an aspia:// link nor a host ID nor a host address.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/connect_request.cc" line="235"/>
+        <location filename="../client/connect_request.cc" line="261"/>
         <source>--username requires --password as well.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/connect_request.cc" line="237"/>
+        <location filename="../client/connect_request.cc" line="263"/>
         <source>--password requires --username as well.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/connect_request.cc" line="248"/>
+        <location filename="../client/connect_request.cc" line="274"/>
         <source>--username and --password need a host to connect to (--connect or an aspia:// link).</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1115,32 +1115,32 @@
 <context>
     <name>ClientListModel</name>
     <message>
-        <location filename="../client/desktop/management/client_list_model.cc" line="141"/>
+        <location filename="../client/desktop/management/client_list_model.cc" line="142"/>
         <source>Computer Name</source>
         <translation>Datamaskinnavn</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/client_list_model.cc" line="144"/>
+        <location filename="../client/desktop/management/client_list_model.cc" line="145"/>
         <source>IP Address</source>
         <translation>IP-adresse</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/client_list_model.cc" line="147"/>
+        <location filename="../client/desktop/management/client_list_model.cc" line="148"/>
         <source>Connect Time</source>
         <translation>Tilkoblingstidspunkt</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/client_list_model.cc" line="150"/>
+        <location filename="../client/desktop/management/client_list_model.cc" line="151"/>
         <source>Version</source>
         <translation>Versjon</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/client_list_model.cc" line="153"/>
+        <location filename="../client/desktop/management/client_list_model.cc" line="154"/>
         <source>Architecture</source>
         <translation>Arkitektur</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/client_list_model.cc" line="156"/>
+        <location filename="../client/desktop/management/client_list_model.cc" line="157"/>
         <source>Operating System</source>
         <translation>Operativsystem</translation>
     </message>
@@ -1153,17 +1153,17 @@
         <translation>Økten er startet.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="599"/>
+        <location filename="../client/desktop/client_window.cc" line="602"/>
         <source>The specified router is unavailable.</source>
         <translation>Den angitte ruteren er utilgjengelig.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="601"/>
+        <location filename="../client/desktop/client_window.cc" line="604"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>Dataene til ruteren er skadet. Rediger ruteren og skriv dem inn på nytt.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="603"/>
+        <location filename="../client/desktop/client_window.cc" line="606"/>
         <source>The specified router is offline.</source>
         <translation>Den angitte ruteren er ikke tilkoblet.</translation>
     </message>
@@ -1193,17 +1193,17 @@
         <translation>Vertsversjonen er nyere enn klientversjonen (%1 &gt; %2). Oppdater programmet.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="610"/>
+        <location filename="../client/desktop/client_window.cc" line="613"/>
         <source>Requesting connection to the host...</source>
         <translation>Ber om tilkobling til verten...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="618"/>
+        <location filename="../client/desktop/client_window.cc" line="621"/>
         <source>Connection offer received.</source>
         <translation>Tilkoblingstilbud mottatt.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="635"/>
+        <location filename="../client/desktop/client_window.cc" line="638"/>
         <source>Error requesting connection via router.</source>
         <translation>Feil ved forespørsel om tilkobling via ruter.</translation>
     </message>
@@ -4976,7 +4976,7 @@ Påloggingsinformasjon importert: %5</translation>
     </message>
     <message>
         <location filename="../client/desktop/main_window.ui" line="20"/>
-        <location filename="../client/desktop/main_window.cc" line="923"/>
+        <location filename="../client/desktop/main_window.cc" line="962"/>
         <source>Aspia Client</source>
         <translation>Aspia Client</translation>
     </message>
@@ -5051,98 +5051,103 @@ Påloggingsinformasjon importert: %5</translation>
         <translation>Alltid øverst</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="129"/>
+        <location filename="../client/desktop/main_window.cc" line="130"/>
         <source>Search...</source>
         <translation>Søk...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="216"/>
+        <location filename="../client/desktop/main_window.cc" line="217"/>
         <source>Unable to turn on the MCP connector.</source>
         <translation>Kan ikke slå på MCP-koblingen.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="234"/>
+        <location filename="../client/desktop/main_window.cc" line="235"/>
         <source>Management</source>
         <translation>Administrasjon</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="280"/>
+        <location filename="../client/desktop/main_window.cc" line="281"/>
         <source>Invalid link &quot;%1&quot;.</source>
         <translation>Ugyldig lenke &quot;%1&quot;.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="303"/>
+        <location filename="../client/desktop/main_window.cc" line="304"/>
         <source>The router referenced by the link is not among the saved routers.</source>
         <translation>Ruteren som lenken viser til, er ikke blant de lagrede ruterne.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="352"/>
+        <location filename="../client/desktop/main_window.cc" line="353"/>
         <source>The host referenced by the link is not among the saved hosts.</source>
         <translation>Verten som lenken viser til, er ikke blant de lagrede vertene.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="890"/>
+        <location filename="../client/desktop/main_window.cc" line="415"/>
+        <source>A host named by its address has no record of it in the address book, and there are no stored credentials to use. Give the user name and the password with --username and --password.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/main_window.cc" line="929"/>
         <source>Close all sessions to lock the application.</source>
         <translation>Lukk alle økter for å låse programmet.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="896"/>
+        <location filename="../client/desktop/main_window.cc" line="935"/>
         <source>Close all dialogs to lock the application.</source>
         <translation>Lukk alle dialoger for å låse programmet.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="919"/>
+        <location filename="../client/desktop/main_window.cc" line="958"/>
         <source>Connect to a host by its ID from the command line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="920"/>
+        <location filename="../client/desktop/main_window.cc" line="959"/>
         <source>The icon of the screen of all the monitors at once</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1019"/>
+        <location filename="../client/desktop/main_window.cc" line="1058"/>
         <source>Connection by ID is specified in the properties of the host, but the router is not configured. Check the parameters of the router in the properties of the host.</source>
         <translation>Tilkobling via ID er angitt i egenskapene til verten, men ruteren er ikke konfigurert. Kontroller ruterparametrene i egenskapene til verten.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1286"/>
+        <location filename="../client/desktop/main_window.cc" line="1325"/>
         <source>Unknown application</source>
         <translation>Ukjent program</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1289"/>
+        <location filename="../client/desktop/main_window.cc" line="1328"/>
         <source>MCP Connector. Connected: %1</source>
         <translation>MCP-kobling. Tilkoblet: %1</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1290"/>
+        <location filename="../client/desktop/main_window.cc" line="1329"/>
         <source>%1 - AI is connected</source>
         <translation>%1 - KI er tilkoblet</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="364"/>
+        <location filename="../client/desktop/main_window.cc" line="365"/>
         <source>The router associated with this host has been deleted. Edit the host to select another router or switch to direct connection.</source>
         <translation>Ruteren som er knyttet til denne verten, er slettet. Rediger verten for å velge en annen ruter eller bytte til direkte tilkobling.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="311"/>
-        <location filename="../client/desktop/main_window.cc" line="363"/>
+        <location filename="../client/desktop/main_window.cc" line="312"/>
+        <location filename="../client/desktop/main_window.cc" line="364"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>Dataene til ruteren er skadet. Rediger ruteren og skriv dem inn på nytt.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="351"/>
+        <location filename="../client/desktop/main_window.cc" line="352"/>
         <source>The data of the host is damaged. Edit the host and enter it again.</source>
         <translation>Dataene til verten er skadet. Rediger verten og skriv dem inn på nytt.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="849"/>
+        <location filename="../client/desktop/main_window.cc" line="888"/>
         <source>Credentials</source>
         <translation>Påloggingsinformasjon</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="880"/>
+        <location filename="../client/desktop/main_window.cc" line="919"/>
         <source>Settings</source>
         <translation>Innstillinger</translation>
     </message>
@@ -5196,7 +5201,7 @@ Påloggingsinformasjon importert: %5</translation>
     </message>
     <message>
         <location filename="../client/desktop/management_tab.ui" line="137"/>
-        <location filename="../client/desktop/management_tab.cc" line="2019"/>
+        <location filename="../client/desktop/management_tab.cc" line="2028"/>
         <source>Delete Host</source>
         <translation>Slett vert</translation>
     </message>
@@ -5333,34 +5338,34 @@ Påloggingsinformasjon importert: %5</translation>
         <translation>Oppdater status automatisk</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1131"/>
+        <location filename="../client/desktop/management_tab.cc" line="1140"/>
         <source>(copy)</source>
         <translation>(kopi)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1099"/>
-        <location filename="../client/desktop/management_tab.cc" line="1176"/>
-        <location filename="../client/desktop/management_tab.cc" line="2304"/>
+        <location filename="../client/desktop/management_tab.cc" line="1108"/>
+        <location filename="../client/desktop/management_tab.cc" line="1185"/>
+        <location filename="../client/desktop/management_tab.cc" line="2313"/>
         <source>Failed to retrieve host information from the local database.</source>
         <translation>Kunne ikke hente vertsinformasjon fra den lokale databasen.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="905"/>
+        <location filename="../client/desktop/management_tab.cc" line="914"/>
         <source>The &quot;%1&quot; session type is not available for Quick Support.</source>
         <translation>Økttypen &quot;%1&quot; er ikke tilgjengelig for Quick Support.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1136"/>
+        <location filename="../client/desktop/management_tab.cc" line="1145"/>
         <source>Failed to add the host to the local database.</source>
         <translation>Kunne ikke legge til verten i den lokale databasen.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1194"/>
+        <location filename="../client/desktop/management_tab.cc" line="1203"/>
         <source>Are you sure you want to delete host &quot;%1&quot;?</source>
         <translation>Er du sikker på at du vil slette verten &quot;%1&quot;?</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/management_tab.cc" line="1196"/>
+        <location filename="../client/desktop/management_tab.cc" line="1205"/>
         <source>Are you sure you want to delete %n hosts?</source>
         <translation>
             <numerusform>Er du sikker på at du vil slette %n vert?</numerusform>
@@ -5368,12 +5373,12 @@ Påloggingsinformasjon importert: %5</translation>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1222"/>
+        <location filename="../client/desktop/management_tab.cc" line="1231"/>
         <source>Unable to remove host</source>
         <translation>Kan ikke fjerne vert</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/management_tab.cc" line="1224"/>
+        <location filename="../client/desktop/management_tab.cc" line="1233"/>
         <source>Failed to delete %n of the selected hosts.</source>
         <translation>
             <numerusform>Kunne ikke slette %n av de valgte vertene.</numerusform>
@@ -5381,109 +5386,109 @@ Påloggingsinformasjon importert: %5</translation>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1292"/>
-        <location filename="../client/desktop/management_tab.cc" line="1369"/>
-        <location filename="../client/desktop/management_tab.cc" line="1402"/>
+        <location filename="../client/desktop/management_tab.cc" line="1301"/>
+        <location filename="../client/desktop/management_tab.cc" line="1378"/>
+        <location filename="../client/desktop/management_tab.cc" line="1411"/>
         <source>Copy Row</source>
         <translation>Kopier rad</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1293"/>
-        <location filename="../client/desktop/management_tab.cc" line="1370"/>
-        <location filename="../client/desktop/management_tab.cc" line="1403"/>
+        <location filename="../client/desktop/management_tab.cc" line="1302"/>
+        <location filename="../client/desktop/management_tab.cc" line="1379"/>
+        <location filename="../client/desktop/management_tab.cc" line="1412"/>
         <source>Copy Value</source>
         <translation>Kopier verdi</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1644"/>
+        <location filename="../client/desktop/management_tab.cc" line="1653"/>
         <source>Failed to delete the group.</source>
         <translation>Kunne ikke slette gruppen.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1683"/>
-        <location filename="../client/desktop/management_tab.cc" line="1740"/>
+        <location filename="../client/desktop/management_tab.cc" line="1692"/>
+        <location filename="../client/desktop/management_tab.cc" line="1749"/>
         <source>The database is not available.</source>
         <translation>Databasen er ikke tilgjengelig.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1689"/>
+        <location filename="../client/desktop/management_tab.cc" line="1698"/>
         <source>Create Backup</source>
         <translation>Opprett sikkerhetskopi</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1706"/>
+        <location filename="../client/desktop/management_tab.cc" line="1715"/>
         <source>There is nothing to save.</source>
         <translation>Det er ingenting å lagre.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2078"/>
+        <location filename="../client/desktop/management_tab.cc" line="2087"/>
         <source>Delete Hosts</source>
         <translation>Slett verter</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2299"/>
+        <location filename="../client/desktop/management_tab.cc" line="2308"/>
         <source>The data of the host is damaged. Edit the host and enter it again.</source>
         <translation>Dataene til verten er skadet. Rediger verten og skriv dem inn på nytt.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2320"/>
+        <location filename="../client/desktop/management_tab.cc" line="2329"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>Dataene til ruteren er skadet. Rediger ruteren og skriv dem inn på nytt.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1718"/>
+        <location filename="../client/desktop/management_tab.cc" line="1727"/>
         <source>Failed to create the backup.</source>
         <translation>Kunne ikke opprette sikkerhetskopien.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1746"/>
-        <location filename="../client/desktop/management_tab.cc" line="1772"/>
+        <location filename="../client/desktop/management_tab.cc" line="1755"/>
+        <location filename="../client/desktop/management_tab.cc" line="1781"/>
         <source>Restore from Backup</source>
         <translation>Gjenopprett fra sikkerhetskopi</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1755"/>
+        <location filename="../client/desktop/management_tab.cc" line="1764"/>
         <source>Everything stored now is deleted and replaced with what the backup holds. Continue?</source>
         <translation>Alt som er lagret nå, blir slettet og erstattet med innholdet i sikkerhetskopien. Fortsette?</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1774"/>
+        <location filename="../client/desktop/management_tab.cc" line="1783"/>
         <source>The backup was made on another installation. Enter the master password used there.</source>
         <translation>Sikkerhetskopien ble laget på en annen installasjon. Skriv inn hovedpassordet som ble brukt der.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1799"/>
+        <location filename="../client/desktop/management_tab.cc" line="1808"/>
         <source>The backup carries no data, so nothing was changed.</source>
         <translation>Sikkerhetskopien inneholder ingen data, så ingenting ble endret.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1807"/>
+        <location filename="../client/desktop/management_tab.cc" line="1816"/>
         <source>The file is not a valid backup.</source>
         <translation>Filen er ikke en gyldig sikkerhetskopi.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1811"/>
+        <location filename="../client/desktop/management_tab.cc" line="1820"/>
         <source>Failed to restore from the backup.</source>
         <translation>Kunne ikke gjenopprette fra sikkerhetskopien.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1690"/>
-        <location filename="../client/desktop/management_tab.cc" line="1747"/>
+        <location filename="../client/desktop/management_tab.cc" line="1699"/>
+        <location filename="../client/desktop/management_tab.cc" line="1756"/>
         <source>Aspia Backup (*.aspia-backup);;All files (*)</source>
         <translation>Aspia-sikkerhetskopi (*.aspia-backup);;Alle filer (*)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1710"/>
+        <location filename="../client/desktop/management_tab.cc" line="1719"/>
         <source>Unable to write the file.</source>
         <translation>Kan ikke skrive filen.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1803"/>
+        <location filename="../client/desktop/management_tab.cc" line="1812"/>
         <source>Unable to read the file.</source>
         <translation>Kan ikke lese filen.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1723"/>
+        <location filename="../client/desktop/management_tab.cc" line="1732"/>
         <source>Export completed successfully.
 Routers exported: %1
 Groups exported: %2
@@ -5498,37 +5503,37 @@ Lagrede passord eksportert: %4
 Påloggingsinformasjon eksportert: %5</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1504"/>
+        <location filename="../client/desktop/management_tab.cc" line="1513"/>
         <source>Are you sure you want to delete space &quot;%1&quot;?</source>
         <translation>Er du sikker på at du vil slette rommet &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1524"/>
+        <location filename="../client/desktop/management_tab.cc" line="1533"/>
         <source>Failed to delete the space.</source>
         <translation>Kunne ikke slette rommet.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1626"/>
+        <location filename="../client/desktop/management_tab.cc" line="1635"/>
         <source>Are you sure you want to delete the group &quot;%1&quot;? Hosts assigned to this group or its subgroups will be moved to the space root.</source>
         <translation>Er du sikker på at du vil slette gruppen &quot;%1&quot;? Verter som er tilordnet denne gruppen eller undergruppene dens, blir flyttet til roten av rommet.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1714"/>
+        <location filename="../client/desktop/management_tab.cc" line="1723"/>
         <source>Some records of the database are damaged. Fix or delete them and try again.</source>
         <translation>Enkelte oppføringer i databasen er skadet. Reparer eller slett dem og prøv igjen.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1791"/>
+        <location filename="../client/desktop/management_tab.cc" line="1800"/>
         <source>Unable to decrypt the file with the specified password.</source>
         <translation>Kan ikke dekryptere filen med det angitte passordet.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1795"/>
+        <location filename="../client/desktop/management_tab.cc" line="1804"/>
         <source>Unsupported file format version.</source>
         <translation>Filformatversjonen støttes ikke.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1816"/>
+        <location filename="../client/desktop/management_tab.cc" line="1825"/>
         <source>Import completed successfully.
 Routers imported: %1
 Groups imported: %2
@@ -5543,29 +5548,29 @@ Lagrede passord importert: %4
 Påloggingsinformasjon importert: %5</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2227"/>
-        <location filename="../client/desktop/management_tab.cc" line="2258"/>
+        <location filename="../client/desktop/management_tab.cc" line="2236"/>
+        <location filename="../client/desktop/management_tab.cc" line="2267"/>
         <source>Copy Link</source>
         <translation>Kopier lenke</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2246"/>
-        <location filename="../client/desktop/management_tab.cc" line="2280"/>
+        <location filename="../client/desktop/management_tab.cc" line="2255"/>
+        <location filename="../client/desktop/management_tab.cc" line="2289"/>
         <source>Unable to create a link for this host.</source>
         <translation>Kan ikke opprette en lenke for denne verten.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2321"/>
+        <location filename="../client/desktop/management_tab.cc" line="2330"/>
         <source>The router associated with this host has been deleted. Edit the host to select another router or switch to direct connection.</source>
         <translation>Ruteren som er knyttet til denne verten, er slettet. Rediger verten for å velge en annen ruter eller bytte til direkte tilkobling.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2328"/>
+        <location filename="../client/desktop/management_tab.cc" line="2337"/>
         <source>The host has an invalid host ID.</source>
         <translation>Verten har en ugyldig verts-ID.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2337"/>
+        <location filename="../client/desktop/management_tab.cc" line="2346"/>
         <source>The host has an incorrect address.</source>
         <translation>Verten har en ugyldig adresse.</translation>
     </message>
@@ -6350,37 +6355,37 @@ Påloggingsinformasjon importert: %5</translation>
 <context>
     <name>RelayListModel</name>
     <message>
-        <location filename="../client/desktop/management/relay_list_model.cc" line="141"/>
+        <location filename="../client/desktop/management/relay_list_model.cc" line="142"/>
         <source>Address</source>
         <translation>Adresse</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/relay_list_model.cc" line="144"/>
+        <location filename="../client/desktop/management/relay_list_model.cc" line="145"/>
         <source>Connect Time</source>
         <translation>Tilkoblingstidspunkt</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/relay_list_model.cc" line="147"/>
+        <location filename="../client/desktop/management/relay_list_model.cc" line="148"/>
         <source>Pool Size</source>
         <translation>Poolstørrelse</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/relay_list_model.cc" line="150"/>
+        <location filename="../client/desktop/management/relay_list_model.cc" line="151"/>
         <source>Version</source>
         <translation>Versjon</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/relay_list_model.cc" line="153"/>
+        <location filename="../client/desktop/management/relay_list_model.cc" line="154"/>
         <source>Computer Name</source>
         <translation>Datamaskinnavn</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/relay_list_model.cc" line="156"/>
+        <location filename="../client/desktop/management/relay_list_model.cc" line="157"/>
         <source>Architecture</source>
         <translation>Arkitektur</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/relay_list_model.cc" line="159"/>
+        <location filename="../client/desktop/management/relay_list_model.cc" line="160"/>
         <source>Operating System</source>
         <translation>Operativsystem</translation>
     </message>
@@ -6442,17 +6447,17 @@ Påloggingsinformasjon importert: %5</translation>
 <context>
     <name>RouterClientsWidget</name>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="225"/>
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="226"/>
         <source>Save File</source>
         <translation>Lagre fil</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="225"/>
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="226"/>
         <source>JSON files (*.json)</source>
         <translation>JSON-filer (*.json)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="236"/>
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="237"/>
         <source>Could not open file for writing.</source>
         <translation>Kunne ikke åpne filen for skriving.</translation>
     </message>
@@ -7212,17 +7217,17 @@ Påloggingsinformasjon importert: %5</translation>
 <context>
     <name>RouterRelaysWidget</name>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="238"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="239"/>
         <source>Save File</source>
         <translation>Lagre fil</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="238"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="239"/>
         <source>JSON files (*.json)</source>
         <translation>JSON-filer (*.json)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="249"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="250"/>
         <source>Could not open file for writing.</source>
         <translation>Kunne ikke åpne filen for skriving.</translation>
     </message>

@@ -499,13 +499,13 @@
         <translation>Zapisz dane do logowania</translation>
     </message>
     <message>
-        <location filename="../client/desktop/authorization_dialog.cc" line="216"/>
-        <location filename="../client/desktop/authorization_dialog.cc" line="232"/>
+        <location filename="../client/desktop/authorization_dialog.cc" line="227"/>
+        <location filename="../client/desktop/authorization_dialog.cc" line="243"/>
         <source>Password cannot be empty.</source>
         <translation>Hasło nie może być puste.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/authorization_dialog.cc" line="225"/>
+        <location filename="../client/desktop/authorization_dialog.cc" line="236"/>
         <source>User name cannot be empty.</source>
         <translation>Nazwa użytkownika nie może być pusta.</translation>
     </message>
@@ -942,57 +942,52 @@
         <translation>Nie można utworzyć kopii zapasowej. Niektóre rekordy są uszkodzone. Napraw je lub usuń.</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="239"/>
-        <source>Connect to the host of the address book with this record ID or host ID, using the login and the password stored in it.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/main.cc" line="242"/>
+        <location filename="../client/main.cc" line="243"/>
         <source>id</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="246"/>
+        <location filename="../client/main.cc" line="247"/>
         <source>Kind of the session to open: desktop, file, info, chat or terminal (default: the one from the settings of the application).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="249"/>
+        <location filename="../client/main.cc" line="250"/>
         <source>type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="253"/>
+        <location filename="../client/main.cc" line="254"/>
         <source>Log in with this user name instead of the one stored in the host. Requires --password.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="256"/>
+        <location filename="../client/main.cc" line="257"/>
         <source>name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="260"/>
+        <location filename="../client/main.cc" line="261"/>
         <source>Log in with this password instead of the stored one. Requires --username. A password on a command line is visible to the other users of the machine.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="263"/>
+        <location filename="../client/main.cc" line="264"/>
         <source>password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="387"/>
+        <location filename="../client/main.cc" line="388"/>
         <source>Set Master Password</source>
         <translation>Ustaw hasło główne</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="389"/>
+        <location filename="../client/main.cc" line="390"/>
         <source>Set a master password required to unlock the application.</source>
         <translation>Ustaw hasło główne wymagane do odblokowania aplikacji.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/main.cc" line="397"/>
+        <location filename="../client/main.cc" line="398"/>
         <source>The password can not be shorter than %n characters.</source>
         <translation>
             <numerusform>Hasło nie może być krótsze niż %n znak.</numerusform>
@@ -1001,12 +996,12 @@
         </translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="405"/>
+        <location filename="../client/main.cc" line="406"/>
         <source>Password you entered does not meet the security requirements!</source>
         <translation>Wprowadzone hasło nie spełnia wymagań bezpieczeństwa!</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/main.cc" line="407"/>
+        <location filename="../client/main.cc" line="408"/>
         <source>The password must contain lowercase and uppercase characters, numbers and should not be shorter than %n characters.</source>
         <translation>
             <numerusform>Hasło musi zawierać małe i wielkie litery oraz cyfry i nie powinno być krótsze niż %n znak.</numerusform>
@@ -1015,12 +1010,12 @@
         </translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="411"/>
+        <location filename="../client/main.cc" line="412"/>
         <source>Do you want to enter a different password?</source>
         <translation>Czy chcesz wprowadzić inne hasło?</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="421"/>
+        <location filename="../client/main.cc" line="422"/>
         <source>Unable to set master password.</source>
         <translation>Nie można ustawić hasła głównego.</translation>
     </message>
@@ -1040,7 +1035,12 @@
         <translation>Nie można utworzyć kopii zapasowej.</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="274"/>
+        <location filename="../client/main.cc" line="239"/>
+        <source>Connect to the host of the address book with this record ID or host ID, using the login and the password stored in it, or connect directly to a host by its address, which needs the login and the password given with --username and --password.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/main.cc" line="275"/>
         <source>An aspia:// link to connect to a host.</source>
         <translation>Link aspia:// do połączenia z hostem.</translation>
     </message>
@@ -1060,57 +1060,57 @@
         <translation>Nieprawidłowe hasło główne.</translation>
     </message>
     <message>
-        <location filename="../client/main.cc" line="266"/>
+        <location filename="../client/main.cc" line="267"/>
         <source>Aspia Client</source>
         <translation>Klient Aspia</translation>
     </message>
     <message>
-        <location filename="../client/connect_request.cc" line="127"/>
-        <source>&quot;%1&quot; is neither a host ID nor a record ID.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/connect_request.cc" line="129"/>
-        <source>The host ID of --connect is missing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../client/connect_request.cc" line="151"/>
-        <source>&quot;%1&quot; is not a valid session type. Use desktop, file, info, chat or terminal.</source>
+        <source>&quot;%1&quot; is neither a host ID nor a record ID nor a host address.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../client/connect_request.cc" line="154"/>
+        <source>The host ID of --connect is missing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/connect_request.cc" line="176"/>
+        <source>&quot;%1&quot; is not a valid session type. Use desktop, file, info, chat or terminal.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/connect_request.cc" line="179"/>
         <source>The session type of --session-type is missing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/connect_request.cc" line="171"/>
+        <location filename="../client/connect_request.cc" line="196"/>
         <source>The user name of --username is missing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/connect_request.cc" line="187"/>
+        <location filename="../client/connect_request.cc" line="212"/>
         <source>The password of --password is missing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/connect_request.cc" line="217"/>
-        <source>&quot;%1&quot; is neither an aspia:// link nor a host ID.</source>
+        <location filename="../client/connect_request.cc" line="242"/>
+        <source>&quot;%1&quot; is neither an aspia:// link nor a host ID nor a host address.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/connect_request.cc" line="235"/>
+        <location filename="../client/connect_request.cc" line="261"/>
         <source>--username requires --password as well.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/connect_request.cc" line="237"/>
+        <location filename="../client/connect_request.cc" line="263"/>
         <source>--password requires --username as well.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/connect_request.cc" line="248"/>
+        <location filename="../client/connect_request.cc" line="274"/>
         <source>--username and --password need a host to connect to (--connect or an aspia:// link).</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1118,32 +1118,32 @@
 <context>
     <name>ClientListModel</name>
     <message>
-        <location filename="../client/desktop/management/client_list_model.cc" line="141"/>
+        <location filename="../client/desktop/management/client_list_model.cc" line="142"/>
         <source>Computer Name</source>
         <translation>Nazwa komputera</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/client_list_model.cc" line="144"/>
+        <location filename="../client/desktop/management/client_list_model.cc" line="145"/>
         <source>IP Address</source>
         <translation>Adres IP</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/client_list_model.cc" line="147"/>
+        <location filename="../client/desktop/management/client_list_model.cc" line="148"/>
         <source>Connect Time</source>
         <translation>Czas połączenia</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/client_list_model.cc" line="150"/>
+        <location filename="../client/desktop/management/client_list_model.cc" line="151"/>
         <source>Version</source>
         <translation>Wersja</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/client_list_model.cc" line="153"/>
+        <location filename="../client/desktop/management/client_list_model.cc" line="154"/>
         <source>Architecture</source>
         <translation>Architektura</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/client_list_model.cc" line="156"/>
+        <location filename="../client/desktop/management/client_list_model.cc" line="157"/>
         <source>Operating System</source>
         <translation>System operacyjny</translation>
     </message>
@@ -1156,17 +1156,17 @@
         <translation>Sesja rozpoczęta.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="599"/>
+        <location filename="../client/desktop/client_window.cc" line="602"/>
         <source>The specified router is unavailable.</source>
         <translation>Podany router jest niedostępny.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="601"/>
+        <location filename="../client/desktop/client_window.cc" line="604"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>Dane routera są uszkodzone. Edytuj router i wprowadź je ponownie.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="603"/>
+        <location filename="../client/desktop/client_window.cc" line="606"/>
         <source>The specified router is offline.</source>
         <translation>Podany router jest offline.</translation>
     </message>
@@ -1196,17 +1196,17 @@
         <translation>Wersja hosta jest nowsza niż wersja klienta (%1 &gt; %2). Zaktualizuj aplikację.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="610"/>
+        <location filename="../client/desktop/client_window.cc" line="613"/>
         <source>Requesting connection to the host...</source>
         <translation>Żądanie połączenia z hostem...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="618"/>
+        <location filename="../client/desktop/client_window.cc" line="621"/>
         <source>Connection offer received.</source>
         <translation>Otrzymano ofertę połączenia.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/client_window.cc" line="635"/>
+        <location filename="../client/desktop/client_window.cc" line="638"/>
         <source>Error requesting connection via router.</source>
         <translation>Błąd żądania połączenia przez router.</translation>
     </message>
@@ -4999,7 +4999,7 @@ Zaimportowane dane logowania: %5</translation>
     </message>
     <message>
         <location filename="../client/desktop/main_window.ui" line="20"/>
-        <location filename="../client/desktop/main_window.cc" line="923"/>
+        <location filename="../client/desktop/main_window.cc" line="962"/>
         <source>Aspia Client</source>
         <translation>Klient Aspia</translation>
     </message>
@@ -5074,98 +5074,103 @@ Zaimportowane dane logowania: %5</translation>
         <translation>Zawsze na wierzchu</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="129"/>
+        <location filename="../client/desktop/main_window.cc" line="130"/>
         <source>Search...</source>
         <translation>Szukaj...</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="216"/>
+        <location filename="../client/desktop/main_window.cc" line="217"/>
         <source>Unable to turn on the MCP connector.</source>
         <translation>Nie można włączyć konektora MCP.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="234"/>
+        <location filename="../client/desktop/main_window.cc" line="235"/>
         <source>Management</source>
         <translation>Zarządzanie</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="280"/>
+        <location filename="../client/desktop/main_window.cc" line="281"/>
         <source>Invalid link &quot;%1&quot;.</source>
         <translation>Nieprawidłowy link &quot;%1&quot;.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="303"/>
+        <location filename="../client/desktop/main_window.cc" line="304"/>
         <source>The router referenced by the link is not among the saved routers.</source>
         <translation>Router wskazywany przez link nie znajduje się wśród zapisanych routerów.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="352"/>
+        <location filename="../client/desktop/main_window.cc" line="353"/>
         <source>The host referenced by the link is not among the saved hosts.</source>
         <translation>Host wskazywany przez link nie znajduje się wśród zapisanych hostów.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="890"/>
+        <location filename="../client/desktop/main_window.cc" line="415"/>
+        <source>A host named by its address has no record of it in the address book, and there are no stored credentials to use. Give the user name and the password with --username and --password.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/main_window.cc" line="929"/>
         <source>Close all sessions to lock the application.</source>
         <translation>Zamknij wszystkie sesje, aby zablokować aplikację.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="896"/>
+        <location filename="../client/desktop/main_window.cc" line="935"/>
         <source>Close all dialogs to lock the application.</source>
         <translation>Zamknij wszystkie okna dialogowe, aby zablokować aplikację.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="919"/>
+        <location filename="../client/desktop/main_window.cc" line="958"/>
         <source>Connect to a host by its ID from the command line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="920"/>
+        <location filename="../client/desktop/main_window.cc" line="959"/>
         <source>The icon of the screen of all the monitors at once</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1019"/>
+        <location filename="../client/desktop/main_window.cc" line="1058"/>
         <source>Connection by ID is specified in the properties of the host, but the router is not configured. Check the parameters of the router in the properties of the host.</source>
         <translation>We właściwościach hosta określono połączenie przez ID, ale router nie jest skonfigurowany. Sprawdź parametry routera we właściwościach hosta.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1286"/>
+        <location filename="../client/desktop/main_window.cc" line="1325"/>
         <source>Unknown application</source>
         <translation>Nieznana aplikacja</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1289"/>
+        <location filename="../client/desktop/main_window.cc" line="1328"/>
         <source>MCP Connector. Connected: %1</source>
         <translation>Konektor MCP. Połączone: %1</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1290"/>
+        <location filename="../client/desktop/main_window.cc" line="1329"/>
         <source>%1 - AI is connected</source>
         <translation>%1 - połączono z AI</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="364"/>
+        <location filename="../client/desktop/main_window.cc" line="365"/>
         <source>The router associated with this host has been deleted. Edit the host to select another router or switch to direct connection.</source>
         <translation>Router powiązany z tym hostem został usunięty. Edytuj hosta, aby wybrać inny router lub przełączyć się na połączenie bezpośrednie.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="311"/>
-        <location filename="../client/desktop/main_window.cc" line="363"/>
+        <location filename="../client/desktop/main_window.cc" line="312"/>
+        <location filename="../client/desktop/main_window.cc" line="364"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>Dane routera są uszkodzone. Edytuj router i wprowadź je ponownie.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="351"/>
+        <location filename="../client/desktop/main_window.cc" line="352"/>
         <source>The data of the host is damaged. Edit the host and enter it again.</source>
         <translation>Dane hosta są uszkodzone. Edytuj hosta i wprowadź je ponownie.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="849"/>
+        <location filename="../client/desktop/main_window.cc" line="888"/>
         <source>Credentials</source>
         <translation>Dane logowania</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="880"/>
+        <location filename="../client/desktop/main_window.cc" line="919"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
@@ -5219,7 +5224,7 @@ Zaimportowane dane logowania: %5</translation>
     </message>
     <message>
         <location filename="../client/desktop/management_tab.ui" line="137"/>
-        <location filename="../client/desktop/management_tab.cc" line="2019"/>
+        <location filename="../client/desktop/management_tab.cc" line="2028"/>
         <source>Delete Host</source>
         <translation>Usuń hosta</translation>
     </message>
@@ -5356,34 +5361,34 @@ Zaimportowane dane logowania: %5</translation>
         <translation>Automatyczne odświeżanie stanu</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1131"/>
+        <location filename="../client/desktop/management_tab.cc" line="1140"/>
         <source>(copy)</source>
         <translation>(kopia)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1099"/>
-        <location filename="../client/desktop/management_tab.cc" line="1176"/>
-        <location filename="../client/desktop/management_tab.cc" line="2304"/>
+        <location filename="../client/desktop/management_tab.cc" line="1108"/>
+        <location filename="../client/desktop/management_tab.cc" line="1185"/>
+        <location filename="../client/desktop/management_tab.cc" line="2313"/>
         <source>Failed to retrieve host information from the local database.</source>
         <translation>Nie udało się pobrać informacji o hoście z lokalnej bazy danych.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="905"/>
+        <location filename="../client/desktop/management_tab.cc" line="914"/>
         <source>The &quot;%1&quot; session type is not available for Quick Support.</source>
         <translation>Typ sesji &quot;%1&quot; nie jest dostępny dla Szybkiej pomocy.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1136"/>
+        <location filename="../client/desktop/management_tab.cc" line="1145"/>
         <source>Failed to add the host to the local database.</source>
         <translation>Nie udało się dodać hosta do lokalnej bazy danych.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1194"/>
+        <location filename="../client/desktop/management_tab.cc" line="1203"/>
         <source>Are you sure you want to delete host &quot;%1&quot;?</source>
         <translation>Czy na pewno chcesz usunąć hosta &quot;%1&quot;?</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/management_tab.cc" line="1196"/>
+        <location filename="../client/desktop/management_tab.cc" line="1205"/>
         <source>Are you sure you want to delete %n hosts?</source>
         <translation>
             <numerusform>Czy na pewno chcesz usunąć %n hosta?</numerusform>
@@ -5392,12 +5397,12 @@ Zaimportowane dane logowania: %5</translation>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1222"/>
+        <location filename="../client/desktop/management_tab.cc" line="1231"/>
         <source>Unable to remove host</source>
         <translation>Nie można usunąć hosta</translation>
     </message>
     <message numerus="yes">
-        <location filename="../client/desktop/management_tab.cc" line="1224"/>
+        <location filename="../client/desktop/management_tab.cc" line="1233"/>
         <source>Failed to delete %n of the selected hosts.</source>
         <translation>
             <numerusform>Nie udało się usunąć %n z wybranych hostów.</numerusform>
@@ -5406,109 +5411,109 @@ Zaimportowane dane logowania: %5</translation>
         </translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1292"/>
-        <location filename="../client/desktop/management_tab.cc" line="1369"/>
-        <location filename="../client/desktop/management_tab.cc" line="1402"/>
+        <location filename="../client/desktop/management_tab.cc" line="1301"/>
+        <location filename="../client/desktop/management_tab.cc" line="1378"/>
+        <location filename="../client/desktop/management_tab.cc" line="1411"/>
         <source>Copy Row</source>
         <translation>Kopiuj wiersz</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1293"/>
-        <location filename="../client/desktop/management_tab.cc" line="1370"/>
-        <location filename="../client/desktop/management_tab.cc" line="1403"/>
+        <location filename="../client/desktop/management_tab.cc" line="1302"/>
+        <location filename="../client/desktop/management_tab.cc" line="1379"/>
+        <location filename="../client/desktop/management_tab.cc" line="1412"/>
         <source>Copy Value</source>
         <translation>Kopiuj wartość</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1644"/>
+        <location filename="../client/desktop/management_tab.cc" line="1653"/>
         <source>Failed to delete the group.</source>
         <translation>Nie udało się usunąć grupy.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1683"/>
-        <location filename="../client/desktop/management_tab.cc" line="1740"/>
+        <location filename="../client/desktop/management_tab.cc" line="1692"/>
+        <location filename="../client/desktop/management_tab.cc" line="1749"/>
         <source>The database is not available.</source>
         <translation>Baza danych jest niedostępna.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1689"/>
+        <location filename="../client/desktop/management_tab.cc" line="1698"/>
         <source>Create Backup</source>
         <translation>Utwórz kopię zapasową</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1706"/>
+        <location filename="../client/desktop/management_tab.cc" line="1715"/>
         <source>There is nothing to save.</source>
         <translation>Nie ma nic do zapisania.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2078"/>
+        <location filename="../client/desktop/management_tab.cc" line="2087"/>
         <source>Delete Hosts</source>
         <translation>Usuń hosty</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2299"/>
+        <location filename="../client/desktop/management_tab.cc" line="2308"/>
         <source>The data of the host is damaged. Edit the host and enter it again.</source>
         <translation>Dane hosta są uszkodzone. Edytuj hosta i wprowadź je ponownie.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2320"/>
+        <location filename="../client/desktop/management_tab.cc" line="2329"/>
         <source>The data of the router is damaged. Edit the router and enter it again.</source>
         <translation>Dane routera są uszkodzone. Edytuj router i wprowadź je ponownie.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1718"/>
+        <location filename="../client/desktop/management_tab.cc" line="1727"/>
         <source>Failed to create the backup.</source>
         <translation>Nie udało się utworzyć kopii zapasowej.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1746"/>
-        <location filename="../client/desktop/management_tab.cc" line="1772"/>
+        <location filename="../client/desktop/management_tab.cc" line="1755"/>
+        <location filename="../client/desktop/management_tab.cc" line="1781"/>
         <source>Restore from Backup</source>
         <translation>Przywróć z kopii zapasowej</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1755"/>
+        <location filename="../client/desktop/management_tab.cc" line="1764"/>
         <source>Everything stored now is deleted and replaced with what the backup holds. Continue?</source>
         <translation>Wszystko, co jest obecnie zapisane, zostanie usunięte i zastąpione zawartością kopii zapasowej. Kontynuować?</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1774"/>
+        <location filename="../client/desktop/management_tab.cc" line="1783"/>
         <source>The backup was made on another installation. Enter the master password used there.</source>
         <translation>Kopia zapasowa została utworzona w innej instalacji. Wprowadź użyte tam hasło główne.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1799"/>
+        <location filename="../client/desktop/management_tab.cc" line="1808"/>
         <source>The backup carries no data, so nothing was changed.</source>
         <translation>Kopia zapasowa nie zawiera danych, więc nic nie zostało zmienione.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1807"/>
+        <location filename="../client/desktop/management_tab.cc" line="1816"/>
         <source>The file is not a valid backup.</source>
         <translation>Plik nie jest prawidłową kopią zapasową.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1811"/>
+        <location filename="../client/desktop/management_tab.cc" line="1820"/>
         <source>Failed to restore from the backup.</source>
         <translation>Nie udało się przywrócić z kopii zapasowej.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1690"/>
-        <location filename="../client/desktop/management_tab.cc" line="1747"/>
+        <location filename="../client/desktop/management_tab.cc" line="1699"/>
+        <location filename="../client/desktop/management_tab.cc" line="1756"/>
         <source>Aspia Backup (*.aspia-backup);;All files (*)</source>
         <translation>Kopia zapasowa Aspia (*.aspia-backup);;Wszystkie pliki (*)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1710"/>
+        <location filename="../client/desktop/management_tab.cc" line="1719"/>
         <source>Unable to write the file.</source>
         <translation>Nie można zapisać pliku.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1803"/>
+        <location filename="../client/desktop/management_tab.cc" line="1812"/>
         <source>Unable to read the file.</source>
         <translation>Nie można odczytać pliku.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1723"/>
+        <location filename="../client/desktop/management_tab.cc" line="1732"/>
         <source>Export completed successfully.
 Routers exported: %1
 Groups exported: %2
@@ -5523,37 +5528,37 @@ Wyeksportowane zapisane hasła: %4
 Wyeksportowane dane logowania: %5</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1504"/>
+        <location filename="../client/desktop/management_tab.cc" line="1513"/>
         <source>Are you sure you want to delete space &quot;%1&quot;?</source>
         <translation>Czy na pewno chcesz usunąć przestrzeń &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1524"/>
+        <location filename="../client/desktop/management_tab.cc" line="1533"/>
         <source>Failed to delete the space.</source>
         <translation>Nie udało się usunąć przestrzeni.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1626"/>
+        <location filename="../client/desktop/management_tab.cc" line="1635"/>
         <source>Are you sure you want to delete the group &quot;%1&quot;? Hosts assigned to this group or its subgroups will be moved to the space root.</source>
         <translation>Czy na pewno chcesz usunąć grupę &quot;%1&quot;? Hosty przypisane do tej grupy lub jej podgrup zostaną przeniesione do katalogu głównego przestrzeni.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1714"/>
+        <location filename="../client/desktop/management_tab.cc" line="1723"/>
         <source>Some records of the database are damaged. Fix or delete them and try again.</source>
         <translation>Niektóre rekordy są uszkodzone. Napraw je lub usuń i spróbuj ponownie.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1791"/>
+        <location filename="../client/desktop/management_tab.cc" line="1800"/>
         <source>Unable to decrypt the file with the specified password.</source>
         <translation>Nie można odszyfrować pliku podanym hasłem.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1795"/>
+        <location filename="../client/desktop/management_tab.cc" line="1804"/>
         <source>Unsupported file format version.</source>
         <translation>Nieobsługiwana wersja formatu pliku.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="1816"/>
+        <location filename="../client/desktop/management_tab.cc" line="1825"/>
         <source>Import completed successfully.
 Routers imported: %1
 Groups imported: %2
@@ -5568,29 +5573,29 @@ Zaimportowane zapisane hasła: %4
 Zaimportowane dane logowania: %5</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2227"/>
-        <location filename="../client/desktop/management_tab.cc" line="2258"/>
+        <location filename="../client/desktop/management_tab.cc" line="2236"/>
+        <location filename="../client/desktop/management_tab.cc" line="2267"/>
         <source>Copy Link</source>
         <translation>Kopiuj link</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2246"/>
-        <location filename="../client/desktop/management_tab.cc" line="2280"/>
+        <location filename="../client/desktop/management_tab.cc" line="2255"/>
+        <location filename="../client/desktop/management_tab.cc" line="2289"/>
         <source>Unable to create a link for this host.</source>
         <translation>Nie można utworzyć linku dla tego hosta.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2321"/>
+        <location filename="../client/desktop/management_tab.cc" line="2330"/>
         <source>The router associated with this host has been deleted. Edit the host to select another router or switch to direct connection.</source>
         <translation>Router powiązany z tym hostem został usunięty. Edytuj hosta, aby wybrać inny router lub przełączyć się na połączenie bezpośrednie.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2328"/>
+        <location filename="../client/desktop/management_tab.cc" line="2337"/>
         <source>The host has an invalid host ID.</source>
         <translation>Host ma nieprawidłowe ID hosta.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management_tab.cc" line="2337"/>
+        <location filename="../client/desktop/management_tab.cc" line="2346"/>
         <source>The host has an incorrect address.</source>
         <translation>Host ma nieprawidłowy adres.</translation>
     </message>
@@ -6377,37 +6382,37 @@ Zaimportowane dane logowania: %5</translation>
 <context>
     <name>RelayListModel</name>
     <message>
-        <location filename="../client/desktop/management/relay_list_model.cc" line="141"/>
+        <location filename="../client/desktop/management/relay_list_model.cc" line="142"/>
         <source>Address</source>
         <translation>Adres</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/relay_list_model.cc" line="144"/>
+        <location filename="../client/desktop/management/relay_list_model.cc" line="145"/>
         <source>Connect Time</source>
         <translation>Czas połączenia</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/relay_list_model.cc" line="147"/>
+        <location filename="../client/desktop/management/relay_list_model.cc" line="148"/>
         <source>Pool Size</source>
         <translation>Rozmiar puli</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/relay_list_model.cc" line="150"/>
+        <location filename="../client/desktop/management/relay_list_model.cc" line="151"/>
         <source>Version</source>
         <translation>Wersja</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/relay_list_model.cc" line="153"/>
+        <location filename="../client/desktop/management/relay_list_model.cc" line="154"/>
         <source>Computer Name</source>
         <translation>Nazwa komputera</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/relay_list_model.cc" line="156"/>
+        <location filename="../client/desktop/management/relay_list_model.cc" line="157"/>
         <source>Architecture</source>
         <translation>Architektura</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/relay_list_model.cc" line="159"/>
+        <location filename="../client/desktop/management/relay_list_model.cc" line="160"/>
         <source>Operating System</source>
         <translation>System operacyjny</translation>
     </message>
@@ -6469,17 +6474,17 @@ Zaimportowane dane logowania: %5</translation>
 <context>
     <name>RouterClientsWidget</name>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="225"/>
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="226"/>
         <source>Save File</source>
         <translation>Zapisz plik</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="225"/>
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="226"/>
         <source>JSON files (*.json)</source>
         <translation>Pliki JSON (*.json)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_clients_widget.cc" line="236"/>
+        <location filename="../client/desktop/management/router_clients_widget.cc" line="237"/>
         <source>Could not open file for writing.</source>
         <translation>Nie można otworzyć pliku do zapisu.</translation>
     </message>
@@ -7251,17 +7256,17 @@ Zaimportowane dane logowania: %5</translation>
 <context>
     <name>RouterRelaysWidget</name>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="238"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="239"/>
         <source>Save File</source>
         <translation>Zapisz plik</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="238"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="239"/>
         <source>JSON files (*.json)</source>
         <translation>Pliki JSON (*.json)</translation>
     </message>
     <message>
-        <location filename="../client/desktop/management/router_relays_widget.cc" line="249"/>
+        <location filename="../client/desktop/management/router_relays_widget.cc" line="250"/>
         <source>Could not open file for writing.</source>
         <translation>Nie można otworzyć pliku do zapisu.</translation>
     </message>

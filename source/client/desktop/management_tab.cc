@@ -537,6 +537,15 @@ void ManagementTab::connectRouterHost(const HostConfig& host, proto::peer::Sessi
 }
 
 //--------------------------------------------------------------------------------------------------
+void ManagementTab::connectDirectHost(const HostConfig& host, proto::peer::SessionType session_type)
+{
+    // A host that is in no book and is named by its address: there is no record of it, and so
+    // there is no connect time to remember either.
+    if (validateHostForConnect(host))
+        emit sig_connectRequested(host, session_type);
+}
+
+//--------------------------------------------------------------------------------------------------
 void ManagementTab::onSwitchContent(SidebarItem::Type type)
 {
     switch (type)

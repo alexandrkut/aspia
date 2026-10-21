@@ -34,9 +34,12 @@
 //   aspia-client --connect=3
 //   aspia-client 3
 //
-// The identifier is the record ID of the address book entry of a host, and nothing else is taken
-// from the command line: the login and the password are the ones stored in that record, so a
-// script that starts the client never carries credentials of its own.
+// The identifier is the record ID of the address book entry of a host, or the address of a host
+// that is connected to directly. For a record of the address book nothing else is taken from the
+// command line: the login and the password are the ones stored in that record, so a script that
+// starts the client never carries credentials of its own. A host named by its address has no
+// record of it, and there are no stored credentials to take, so the login and the password have
+// to be given with --username and --password.
 //
 // --session-type names the kind of the session to open (desktop, file, info, chat, terminal, or
 // the numeric value behind those names). Without it the session type of the settings is used.
@@ -103,6 +106,10 @@ public:
     // The name a --session-type value may carry. Returns SESSION_TYPE_UNKNOWN when the name names
     // no session, or is a number that is not one of the values below.
     static proto::peer::SessionType sessionTypeFromName(const QString& name);
+
+    // Whether |str| names a host by its address and not by its ID. A number is always an ID, for
+    // an address is never a number.
+    static bool isHostAddress(const QString& str);
 
 private:
     QString identifier_;

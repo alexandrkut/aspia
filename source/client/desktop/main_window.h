@@ -64,10 +64,12 @@ public slots:
     void connectToUrl(const QString& url);
 
     // Connects to the address book record |identifier| names, which is a record ID (digits) or the
-    // ID of a host. Called for the --connect argument of the command line, both for the instance
+    // ID of a host, or to the host |identifier| names by its address, which is connected to
+    // directly. Called for the --connect argument of the command line, both for the instance
     // that was started with it and for the one another instance forwarded the request to. The
     // credentials of the record are used unless |username| and |password| carry a pair of their
-    // own, which is what --username and --password produce. |session_type| is a
+    // own, which is what --username and --password produce. A host named by its address has no
+    // record and no stored credentials, so the pair is required for it. |session_type| is a
     // proto::peer::SessionType value.
     void connectToLocalHost(const QString& identifier, int session_type, const QString& username,
                             const QString& password);
@@ -78,17 +80,23 @@ signals:
 
 private:
     // What an identifier of the command line was resolved to: a record of the local address book,
-    // or a host that lives only in the book of a router and has no record of its own here.
+    // a host that lives only in the book of a router and has no record of its own here, or a host
+    // that is in no book at all and is named by its address.
     struct ConnectTarget
     {
         qint64 entry_id = 0;
         qint64 router_id = 0;
         HostId host_id = kInvalidHostId;
         QString name;
+
+        // The address of a host that is connected to directly. Empty when the identifier named
+        // a record or a host of a router.
+        QString address;
     };
 
     // Finds what |identifier| names, looking first for a record ID of the address book and then
-    // for a host ID - in the local book first and in the books of the routers after it.
+    // for a host ID - in the local book first and in the books of the routers after it. An
+    // identifier that is an address names a host that is in no book and is connected to directly.
     bool resolveTarget(const QString& identifier, ConnectTarget* target) const;
 
     // Asks the routers whether one of them has a host with the ID of the command line, and opens

@@ -23,8 +23,9 @@
 #include <QCoreApplication>
 #include <QStringLiteral>
 
+#include "base/build_config.h"
 #include "base/crypto/secure_string.h"
-#include "base/peer/host_id.h"
+#include "base/net/address.h"
 #include "client/host_url.h"
 
 namespace {
@@ -47,11 +48,11 @@ constexpr SessionTypeName kSessionTypes[] = {
     { "terminal", proto::peer::SESSION_TYPE_TERMINAL }};
 
 //--------------------------------------------------------------------------------------------------
-// What identifies a saved host on the command line. It is always a number, and which of the two it
-// is can only be told by looking: a record ID is a small autoincrement, a host ID is a number the
-// host was given. The value is not checked against the database here - the client may be starting
-// before it was unlocked - so only its shape is checked, and a misspelt identifier is refused with a
-// reason instead of being looked up in vain.
+// What identifies a host on the command line. It is either a number, which is a record ID of the
+// address book or a host ID, or an address, which names a host that is connected to directly. The
+// value is not checked against the database here - the client may be starting before it was
+// unlocked - so only its shape is checked, and a misspelt identifier is refused with a reason
+// instead of being looked up in vain.
 std::optional<QString> identifierFromString(const QString& str)
 {
     const QString trimmed = str.trimmed();
@@ -59,13 +60,36 @@ std::optional<QString> identifierFromString(const QString& str)
     if (trimmed.isEmpty())
         return std::nullopt;
 
-    bool number_ok = false;
-    const qulonglong identifier = trimmed.toULongLong(&number_ok);
+    // A number is the ID of a record of the address book or of a host, and a number is never an
+    // address: a host that is in no book is named by its address, and an address is never a number.
+    bool number = true;
 
-    if (!number_ok || identifier == 0)
-        return std::nullopt;
+    for (const QChar character : trimmed)
+    {
+        if (!character.isDigit())
+        {
+            number = false;
+            break;
+        }
+    }
 
-    return trimmed;
+    if (number)
+    {
+        bool number_ok = false;
+        const qulonglong identifier = trimmed.toULongLong(&number_ok);
+
+        if (!number_ok || identifier == 0)
+            return std::nullopt;
+
+        return trimmed;
+    }
+
+    // Everything else is an address, and the client connects to such a host directly, the way it
+    // does for a host of the address book that has no router of its own.
+    if (ConnectRequest::isHostAddress(trimmed))
+        return trimmed;
+
+    return std::nullopt;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -125,7 +149,8 @@ bool ConnectRequest::parse(const QStringList& arguments, ConnectRequest* request
                 {
                     *error = connect.value ?
                         QCoreApplication::translate(
-                            "Client", "\"%1\" is neither a host ID nor a record ID.").arg(*connect.value) :
+                            "Client", "\"%1\" is neither a host ID nor a record ID nor a host "
+                                       "address.").arg(*connect.value) :
                         QCoreApplication::translate(
                             "Client", "The host ID of --connect is missing.");
                 }
@@ -215,7 +240,8 @@ bool ConnectRequest::parse(const QStringList& arguments, ConnectRequest* request
             if (error)
             {
                 *error = QCoreApplication::translate(
-                    "Client", "\"%1\" is neither an aspia:// link nor a host ID.").arg(argument);
+                    "Client", "\"%1\" is neither an aspia:// link nor a host ID nor a host "
+                               "address.").arg(argument);
             }
             return false;
         }
@@ -258,6 +284,36 @@ bool ConnectRequest::parse(const QStringList& arguments, ConnectRequest* request
         *url = start_url;
 
     return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ConnectRequest::isHostAddress(const QString& str)
+{
+    const QString trimmed = str.trimmed();
+
+    if (trimmed.isEmpty())
+        return false;
+
+    // A number is always an ID and never an address.
+    bool number = true;
+
+    for (const QChar character : trimmed)
+    {
+        if (!character.isDigit())
+        {
+            number = false;
+            break;
+        }
+    }
+
+    if (number)
+        return false;
+
+    // The name of a host cannot begin with a hyphen, so a negative number is not an address
+    // either, and a name that reads as no address at all is not one.
+    const Address address = Address::fromString(trimmed, kDefaultHostTcpPort);
+
+    return address.isValid() && !address.host().startsWith('-');
 }
 
 //--------------------------------------------------------------------------------------------------

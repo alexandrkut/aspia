@@ -238,7 +238,8 @@ int main(int argc, char* argv[])
         { QStringLiteral("connect"), QStringLiteral("c") },
         QApplication::translate("Client",
             "Connect to the host of the address book with this record ID or host ID, using the "
-            "login and the password stored in it."),
+            "login and the password stored in it, or connect directly to a host by its address, "
+            "which needs the login and the password given with --username and --password."),
         QApplication::translate("Client", "id"));
 
     const QCommandLineOption session_type_option(

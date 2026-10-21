@@ -38,6 +38,7 @@
 #include "base/logging.h"
 #include "base/peer/host_id.h"
 #include "base/update/update_info.h"
+#include "client/connect_request.h"
 #include "client/database.h"
 #include "client/host_url.h"
 #include "client/router_controller.h"
@@ -403,6 +404,36 @@ void MainWindow::connectToLocalHost(const QString& identifier, int session_type,
 
     const proto::peer::SessionType type = static_cast<proto::peer::SessionType>(session_type);
 
+    if (!target.address.isEmpty())
+    {
+        // A host that is in no book and is named by its address: the client connects to it
+        // directly, the way it does for a host of the address book that has no router of its own.
+        // There is no record of it here, and so there are no stored credentials to take: the
+        // login and the password have to be given on the command line.
+        if (username.isEmpty())
+        {
+            LOG(ERROR) << "The host at the address" << target.address
+                       << "has no stored credentials, and none were given on the command line";
+
+            MsgBox::warning(this, tr("A host named by its address has no record of it in the "
+                                      "address book, and there are no stored credentials to use. "
+                                      "Give the user name and the password with --username and "
+                                      "--password."));
+            return;
+        }
+
+        HostConfig host;
+        host.setAddress(target.address);
+        host.setUsername(username);
+        host.setPassword(SecureString(password));
+        host.setForcedCredentials(true);
+
+        if (ManagementTab* management_tab = managementTab())
+            management_tab->connectDirectHost(host, type);
+
+        return;
+    }
+
     if (target.entry_id > 0)
     {
         LocalHostConfig entry;
@@ -503,6 +534,17 @@ bool MainWindow::resolveTarget(const QString& identifier, ConnectTarget* target)
             target->host_id = host.hostId();
             return true;
         }
+    }
+
+    // A host that is in no book at all can still be named by its address: the client connects to
+    // it directly, the way it does for a host of the address book that has no router of its own.
+    if (ConnectRequest::isHostAddress(identifier))
+    {
+        LOG(INFO) << "Connecting to the host at the address" << identifier << "directly";
+
+        *target = ConnectTarget();
+        target->address = identifier;
+        return true;
     }
 
     LOG(ERROR) << "No local record and no router host holds the ID" << identifier;
