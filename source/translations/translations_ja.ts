@@ -4927,7 +4927,7 @@ Credentials imported: %5</source>
     <name>MainWindow</name>
     <message>
         <location filename="../client/desktop/main_window.ui" line="20"/>
-        <location filename="../client/desktop/main_window.cc" line="962"/>
+        <location filename="../client/desktop/main_window.cc" line="1005"/>
         <source>Aspia Client</source>
         <translation>Aspia クライアント</translation>
     </message>
@@ -5058,47 +5058,52 @@ Credentials imported: %5</source>
         <translation>リンクが参照するホストは保存済みのホストに含まれていません。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="415"/>
+        <location filename="../client/desktop/main_window.cc" line="418"/>
         <source>A host named by its address has no record of it in the address book, and there are no stored credentials to use. Give the user name and the password with --username and --password.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="929"/>
+        <location filename="../client/desktop/main_window.cc" line="686"/>
+        <source>The host with the ID %1 is not found: it is in neither the address book nor the book of a router.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/main_window.cc" line="972"/>
         <source>Close all sessions to lock the application.</source>
         <translation>アプリケーションをロックするには、すべてのセッションを閉じてください。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="935"/>
+        <location filename="../client/desktop/main_window.cc" line="978"/>
         <source>Close all dialogs to lock the application.</source>
         <translation>アプリケーションをロックするには、すべてのダイアログを閉じてください。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="958"/>
+        <location filename="../client/desktop/main_window.cc" line="1001"/>
         <source>Connect to a host by its ID from the command line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="959"/>
+        <location filename="../client/desktop/main_window.cc" line="1002"/>
         <source>The icon of the screen of all the monitors at once</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1058"/>
+        <location filename="../client/desktop/main_window.cc" line="1101"/>
         <source>Connection by ID is specified in the properties of the host, but the router is not configured. Check the parameters of the router in the properties of the host.</source>
         <translation>ホストのプロパティで ID による接続が指定されていますが、ルーターが構成されていません。ホストのプロパティでルーターのパラメーターを確認してください。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1325"/>
+        <location filename="../client/desktop/main_window.cc" line="1368"/>
         <source>Unknown application</source>
         <translation>不明なアプリケーション</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1328"/>
+        <location filename="../client/desktop/main_window.cc" line="1371"/>
         <source>MCP Connector. Connected: %1</source>
         <translation>MCP コネクタ。接続済み: %1</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1329"/>
+        <location filename="../client/desktop/main_window.cc" line="1372"/>
         <source>%1 - AI is connected</source>
         <translation>%1 - AI が接続されています</translation>
     </message>
@@ -5119,12 +5124,17 @@ Credentials imported: %5</source>
         <translation>ホストのデータが破損しています。ホストを編集してもう一度入力してください。</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="888"/>
+        <location filename="../client/desktop/main_window.cc" line="680"/>
+        <source>The host with the ID %1 is not found: it is in neither the address book nor the book of a router, and the router did not answer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/main_window.cc" line="931"/>
         <source>Credentials</source>
         <translation>資格情報</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="919"/>
+        <location filename="../client/desktop/main_window.cc" line="962"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>

@@ -4999,7 +4999,7 @@ Zaimportowane dane logowania: %5</translation>
     </message>
     <message>
         <location filename="../client/desktop/main_window.ui" line="20"/>
-        <location filename="../client/desktop/main_window.cc" line="962"/>
+        <location filename="../client/desktop/main_window.cc" line="1005"/>
         <source>Aspia Client</source>
         <translation>Klient Aspia</translation>
     </message>
@@ -5104,47 +5104,52 @@ Zaimportowane dane logowania: %5</translation>
         <translation>Host wskazywany przez link nie znajduje się wśród zapisanych hostów.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="415"/>
+        <location filename="../client/desktop/main_window.cc" line="418"/>
         <source>A host named by its address has no record of it in the address book, and there are no stored credentials to use. Give the user name and the password with --username and --password.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="929"/>
+        <location filename="../client/desktop/main_window.cc" line="686"/>
+        <source>The host with the ID %1 is not found: it is in neither the address book nor the book of a router.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/main_window.cc" line="972"/>
         <source>Close all sessions to lock the application.</source>
         <translation>Zamknij wszystkie sesje, aby zablokować aplikację.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="935"/>
+        <location filename="../client/desktop/main_window.cc" line="978"/>
         <source>Close all dialogs to lock the application.</source>
         <translation>Zamknij wszystkie okna dialogowe, aby zablokować aplikację.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="958"/>
+        <location filename="../client/desktop/main_window.cc" line="1001"/>
         <source>Connect to a host by its ID from the command line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="959"/>
+        <location filename="../client/desktop/main_window.cc" line="1002"/>
         <source>The icon of the screen of all the monitors at once</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1058"/>
+        <location filename="../client/desktop/main_window.cc" line="1101"/>
         <source>Connection by ID is specified in the properties of the host, but the router is not configured. Check the parameters of the router in the properties of the host.</source>
         <translation>We właściwościach hosta określono połączenie przez ID, ale router nie jest skonfigurowany. Sprawdź parametry routera we właściwościach hosta.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1325"/>
+        <location filename="../client/desktop/main_window.cc" line="1368"/>
         <source>Unknown application</source>
         <translation>Nieznana aplikacja</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1328"/>
+        <location filename="../client/desktop/main_window.cc" line="1371"/>
         <source>MCP Connector. Connected: %1</source>
         <translation>Konektor MCP. Połączone: %1</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="1329"/>
+        <location filename="../client/desktop/main_window.cc" line="1372"/>
         <source>%1 - AI is connected</source>
         <translation>%1 - połączono z AI</translation>
     </message>
@@ -5165,12 +5170,17 @@ Zaimportowane dane logowania: %5</translation>
         <translation>Dane hosta są uszkodzone. Edytuj hosta i wprowadź je ponownie.</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="888"/>
+        <location filename="../client/desktop/main_window.cc" line="680"/>
+        <source>The host with the ID %1 is not found: it is in neither the address book nor the book of a router, and the router did not answer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/desktop/main_window.cc" line="931"/>
         <source>Credentials</source>
         <translation>Dane logowania</translation>
     </message>
     <message>
-        <location filename="../client/desktop/main_window.cc" line="919"/>
+        <location filename="../client/desktop/main_window.cc" line="962"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>

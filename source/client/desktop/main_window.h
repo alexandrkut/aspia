@@ -105,17 +105,26 @@ private:
     void connectToRouterHost(const QString& identifier, proto::peer::SessionType session_type,
                              const QString& username, const SecureString& password);
 
-    // The message of a host that is nowhere to be found.
-    void reportUnknownHost();
+    // The message of a host that is nowhere to be found. |router_offline| tells that the router
+    // that could have had it did not come online, so the host is not known to be missing there.
+    void reportUnknownHost(const QString& identifier, bool router_offline = false);
 
     // Runs |action| once the router is online, or right away when it already is or when the host
     // needs no router at all. A request from the command line arrives before any router connection
-    // exists, and a session opened then is only told the router is offline.
-    void runWhenRouterOnline(qint64 router_id, std::function<void()> action);
+    // exists, and a session opened then is only told the router is offline. |on_timeout| is called
+    // when the router does not come online in time: the request is left without an answer then,
+    // and the caller is told about it.
+    void runWhenRouterOnline(qint64 router_id, std::function<void()> action,
+                             std::function<void()> on_timeout = std::function<void()>());
 
     // How long a connection asked for on the command line waits for the router of the host before
     // it is given up on.
     static constexpr int kRouterWaitTimeout = 60000;
+
+    // How long a router is given to answer whether it has the host that was asked for. A router
+    // that says nothing is counted as one that has no host, for a request of the command line is
+    // not to hang with nothing to report.
+    static constexpr int kRouterSearchTimeout = 30000;
 
 protected:
     // QMainWindow implementation.

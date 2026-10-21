@@ -565,7 +565,7 @@ void MainWindow::connectToRouterHost(const QString& identifier, proto::peer::Ses
     if (Database::instance().routerList(&routers) != Database::ReadResult::OK || routers.isEmpty())
     {
         LOG(ERROR) << "No router to ask for the host" << identifier;
-        reportUnknownHost();
+        reportUnknownHost(identifier);
         return;
     }
 
@@ -574,27 +574,30 @@ void MainWindow::connectToRouterHost(const QString& identifier, proto::peer::Ses
 
     auto pending = std::make_shared<int>(static_cast<int>(routers.size()));
     auto answered = std::make_shared<bool>(false);
+    auto router_offline = std::make_shared<bool>(false);
+
+    // Every router has answered and none of them has the host: the request is over. A router that
+    // did not come online in time is counted as one that has no host, for nothing else is to come
+    // of waiting for it any longer.
+    auto none_found = [this, identifier, pending, answered, router_offline]
+    {
+        if (*answered)
+            return;
+
+        if (--(*pending) == 0)
+        {
+            LOG(ERROR) << "No router has a host with the ID" << identifier;
+            reportUnknownHost(identifier, *router_offline);
+        }
+    };
 
     for (const RouterConfig& router : std::as_const(routers))
     {
         const qint64 router_id = router.routerId();
 
         runWhenRouterOnline(router_id, [this, router_id, identifier, session_type, username, password,
-                                       pending, answered]
+                                       pending, answered, none_found, router_offline]
         {
-            auto none_found = [this, identifier, pending, answered]
-            {
-                if (*answered)
-                    return;
-
-                // Every router has answered and none of them has the host: the request is over.
-                if (--(*pending) == 0)
-                {
-                    LOG(ERROR) << "No router has a host with the ID" << identifier;
-                    reportUnknownHost();
-                }
-            };
-
             RouterSession* session = RouterController::session(router_id);
 
             if (!session)
@@ -606,10 +609,28 @@ void MainWindow::connectToRouterHost(const QString& identifier, proto::peer::Ses
                 return;
             }
 
+            // The router may not answer at all, and the request is not to hang with nothing to
+            // report: a router that says nothing is counted as one that has no host.
+            auto replied = std::make_shared<bool>(false);
+
+            QTimer::singleShot(kRouterSearchTimeout, this, [replied, none_found, router_offline]()
+            {
+                if (*replied)
+                    return;
+
+                *replied = true;
+                *router_offline = true;
+
+                LOG(ERROR) << "The router did not answer the request for the host";
+                none_found();
+            });
+
             session->searchHosts(identifier, 0, proto::router::kMaxHostPageSize,
                 { this, [this, router_id, identifier, session_type, username, password, answered,
-                         none_found](const RouterHostList& list)
+                         replied, none_found](const RouterHostList& list)
             {
+                *replied = true;
+
                 if (*answered)
                     return;
 
@@ -640,21 +661,35 @@ void MainWindow::connectToRouterHost(const QString& identifier, proto::peer::Ses
                 LOG(INFO) << "Router" << router_id << "has no host with the ID" << identifier;
                 none_found();
             } });
+        },
+        [this, identifier, none_found, router_offline]
+        {
+            // The router did not come online, so the host it could have had is not found here
+            // either: there is nothing to wait for any longer.
+            *router_offline = true;
+            none_found();
         });
     }
 }
 
 //--------------------------------------------------------------------------------------------------
-void MainWindow::reportUnknownHost()
+void MainWindow::reportUnknownHost(const QString& identifier, bool router_offline)
 {
-    // The record read that follows is what produces the message the user sees, the same one a
-    // record that is not there gives.
-    if (ManagementTab* management_tab = managementTab())
-        management_tab->connectLocalHost(-1, proto::peer::SESSION_TYPE_DESKTOP);
+    if (router_offline)
+    {
+        MsgBox::warning(this, tr("The host with the ID %1 is not found: it is in neither the "
+                                  "address book nor the book of a router, and the router did not "
+                                  "answer.").arg(identifier));
+        return;
+    }
+
+    MsgBox::warning(this, tr("The host with the ID %1 is not found: it is in neither the address "
+                              "book nor the book of a router.").arg(identifier));
 }
 
 //--------------------------------------------------------------------------------------------------
-void MainWindow::runWhenRouterOnline(qint64 router_id, std::function<void()> action)
+void MainWindow::runWhenRouterOnline(qint64 router_id, std::function<void()> action,
+                                     std::function<void()> on_timeout)
 {
     // A host of no router is reached directly and needs nothing but itself.
     if (router_id <= 0 || RouterController::status(router_id) == RouterStatus::ONLINE)
@@ -674,13 +709,18 @@ void MainWindow::runWhenRouterOnline(qint64 router_id, std::function<void()> act
 
     // The wait gives up on its own: a router that never comes online leaves the host as it was
     // rather than a request hanging with nothing to report.
-    QTimer::singleShot(kRouterWaitTimeout, this, [router_id, done]()
+    QTimer::singleShot(kRouterWaitTimeout, this, [router_id, done, on_timeout]()
     {
         if (*done)
             return;
 
         LOG(ERROR) << "Router" << router_id << "did not come online, the host is left unconnected";
         *done = true;
+
+        // The caller is told about it, for a request of the command line is left with nothing
+        // else to show for the wait.
+        if (on_timeout)
+            on_timeout();
     });
 
     QObject::connect(&RouterController::instance(), &RouterController::sig_statusChanged, this,
