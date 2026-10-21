@@ -588,6 +588,34 @@ bool replaceCabinet(MSIHANDLE database, const QString& cabinet_path)
 }
 
 //--------------------------------------------------------------------------------------------------
+bool setReinstallProperties(MSIHANDLE database)
+{
+    // The exported package carries the code of the product of the host, so the installer sees
+    // that the product is already installed and offers to repair or to remove it. The
+    // properties of the reinstall say that the product is to be reinstalled, and the installer
+    // does it right away.
+    //
+    // The properties are in the property table, and the ones on the command line have priority
+    // over them, so a person who wants to control the installation still can.
+    ScopedMsiHandle record(pfn_MsiCreateRecord(2));
+    setRecordString(record, 1, QStringLiteral("REINSTALL"));
+    setRecordString(record, 2, QStringLiteral("ALL"));
+
+    if (!executeQuery(database,
+            QString("INSERT INTO `Property` (`Property`, `Value`) VALUES (?, ?)"), record))
+    {
+        return false;
+    }
+
+    ScopedMsiHandle mode_record(pfn_MsiCreateRecord(2));
+    setRecordString(mode_record, 1, QStringLiteral("REINSTALLMODE"));
+    setRecordString(mode_record, 2, QStringLiteral("vamus"));
+
+    return executeQuery(database,
+        QString("INSERT INTO `Property` (`Property`, `Value`) VALUES (?, ?)"), mode_record);
+}
+
+//--------------------------------------------------------------------------------------------------
 bool updatePackageCode(MSIHANDLE database)
 {
     // The exported package keeps the code of the product of the host, so that it is installed
@@ -653,9 +681,14 @@ MsiPackage::Result embedSettings(const QString& package_path, const QString& set
     // as an update of it. A package with a code of its own and the upgrade code of the host
     // is refused by the installer when the host is already installed: another version of the
     // same product is already there, and continuing the installation is impossible.
+    //
+    // The properties of the reinstall tell the installer to reinstall the product right away.
+    // Without them the installer sees that the product is installed and asks the person at
+    // the keyboard whether to repair or to remove it.
     if (!executeQuery(database,
             QString("UPDATE `File` SET `FileSize`=? WHERE `File`='%1'").arg(kSettingsFile), size_row) ||
-        !replaceCabinet(database, cabinet_path) || !updatePackageCode(database))
+        !replaceCabinet(database, cabinet_path) || !updatePackageCode(database) ||
+        !setReinstallProperties(database))
     {
         return MsiPackage::Result::FAILED;
     }
