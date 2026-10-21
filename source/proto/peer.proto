@@ -52,6 +52,10 @@ message Version
     uint32 minor    = 2;
     uint32 patch    = 3;
     uint32 revision = 4;
+
+    // The number of the build of the line of the versions. The programs of the upstream do not
+    // send it, and they do not read it, and the version they show has no fourth number.
+    uint32 build    = 5;
 }
 
 // Direct connection: the client connects to one of the host's addresses (LAN / no NAT) or to an

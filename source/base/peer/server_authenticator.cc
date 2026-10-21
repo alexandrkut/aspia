@@ -592,7 +592,11 @@ void ServerAuthenticator::doSessionChallenge()
     version->set_major(ASPIA_VERSION_MAJOR);
     version->set_minor(ASPIA_VERSION_MINOR);
     version->set_patch(ASPIA_VERSION_PATCH);
-    version->set_revision(ASPIA_VERSION_BUILD);
+
+    // The revision is left empty on purpose: the programs of the upstream do not know the
+    // fourth number of the version, and the version they show has none. The number of the
+    // build of the line of the versions goes into its own field, which they ignore as well.
+    version->set_build(ASPIA_VERSION_BUILD);
 
     session_challenge.set_os_name(SysInfo::operatingSystemName().toStdString());
     session_challenge.set_computer_name(SysInfo::computerName().toStdString());
@@ -647,7 +651,7 @@ void ServerAuthenticator::onSessionResponse(const QByteArray& buffer)
                 << "arch:" << peerArch() << "display_name:" << peerDisplayName()
                 << "probe:" << is_probe_ << ")";
 
-    if (peerVersion() < kMinimumSupportedVersion)
+    if (compatibilityVersion(peerVersion()) < kMinimumSupportedVersion)
     {
         finish(FROM_HERE, ErrorCode::VERSION_ERROR);
         return;
