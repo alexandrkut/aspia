@@ -25,6 +25,7 @@
 #include "base/crypto/stream_decryptor.h"
 #include "base/crypto/stream_encryptor.h"
 #include "base/peer/authenticator.h"
+#include "proto/key_exchange.h"
 
 namespace {
 
@@ -75,10 +76,11 @@ const quint32 TcpChannel::kMaxMessageSize = 5 * 1024 * 1024; // 5 MB
 const quint32 TcpChannel::kMaxAuthMessageSize = 16 * 1024; // 16 KB
 
 //--------------------------------------------------------------------------------------------------
-TcpChannel::TcpChannel(Type type, Authenticator* authenticator, QObject* parent)
+TcpChannel::TcpChannel(Type type, Authenticator* authenticator, QObject* parent, Protocol protocol)
     : QObject(parent),
       instance_id_(makeInstanceId()),
       type_(type),
+      protocol_(protocol),
       authenticator_(authenticator)
 {
     init();
@@ -90,6 +92,67 @@ TcpChannel::~TcpChannel()
     // Mark guard so that any pending ASIO handlers (already completed but not yet dispatched)
     // will see the object is gone.
     io_->alive = false;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool TcpChannel::VariableSizeReader::addByte(quint8 byte)
+{
+    DCHECK_LT(pos_, sizeof(buffer_));
+
+    buffer_[pos_++] = byte;
+
+    // The highest bit of the byte means that the number continues in the next byte. The number is
+    // at most four bytes long.
+    return (pos_ == sizeof(buffer_)) || !(byte & 0x80);
+}
+
+//--------------------------------------------------------------------------------------------------
+size_t TcpChannel::VariableSizeReader::messageSize() const
+{
+    size_t result = buffer_[0] & 0x7F;
+
+    if (pos_ >= 2)
+        result += static_cast<size_t>(buffer_[1] & 0x7F) << 7;
+
+    if (pos_ >= 3)
+        result += static_cast<size_t>(buffer_[2] & 0x7F) << 14;
+
+    if (pos_ >= 4)
+        result += static_cast<size_t>(buffer_[3]) << 21;
+
+    return result;
+}
+
+//--------------------------------------------------------------------------------------------------
+const QByteArray& TcpChannel::VariableSizeWriter::variableSize(size_t size)
+{
+    quint8 bytes[4] = { 0 };
+    size_t length = 1;
+
+    bytes[0] = static_cast<quint8>(size & 0x7F);
+
+    if (size > 0x7F) // 127 bytes
+    {
+        bytes[0] |= 0x80;
+        bytes[length++] = static_cast<quint8>(size >> 7 & 0x7F);
+
+        if (size > 0x3FFF) // 16383 bytes
+        {
+            bytes[1] |= 0x80;
+            bytes[length++] = static_cast<quint8>(size >> 14 & 0x7F);
+
+            if (size > 0x1FFFF) // 2097151 bytes
+            {
+                bytes[2] |= 0x80;
+                bytes[length++] = static_cast<quint8>(size >> 21 & 0xFF);
+            }
+        }
+    }
+
+    buffer_.clear();
+    buffer_.append(reinterpret_cast<const char*>(bytes), static_cast<qsizetype>(length));
+
+    return buffer_;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -196,12 +259,28 @@ void TcpChannel::setPaused(bool enable)
         startKeepAliveInterval();
 
     // We already have an incomplete read operation.
-    if (state_ == ReadState::READ_HEADER || state_ == ReadState::READ_DATA)
+    if (state_ == ReadState::READ_HEADER || state_ == ReadState::READ_DATA ||
+        state_ == ReadState::READ_SIZE || state_ == ReadState::READ_SERVICE_HEADER ||
+        state_ == ReadState::READ_SERVICE_DATA)
+    {
         return;
+    }
 
     // If we have a message that was received before the pause command.
     if (state_ == ReadState::PENDING)
-        onMessageReceived();
+    {
+        if (protocol_ == Protocol::LEGACY)
+        {
+            if (legacy_pending_service_)
+                onLegacyServiceMessageReceived();
+            else
+                onLegacyMessageReceived();
+        }
+        else
+        {
+            onMessageReceived();
+        }
+    }
 
     doReadHeader();
 }
@@ -252,7 +331,16 @@ void TcpChannel::tick(TimePoint now)
         // Channel is idle. Send a PING and require a PONG within kKeepAliveTimeout.
         keep_alive_state_ = KeepAliveState::WAIT_PONG;
         keep_alive_deadline_ = now + kKeepAliveTimeout;
-        addWriteTask(KEEP_ALIVE, KEEP_ALIVE_PING, keep_alive_counter_, true);
+
+        if (protocol_ == Protocol::LEGACY)
+        {
+            // The keep-alive of the previous version of the protocol is a service message.
+            sendKeepAlive(KEEP_ALIVE_PING, keep_alive_counter_.constData(), keep_alive_counter_.size());
+        }
+        else
+        {
+            addWriteTask(KEEP_ALIVE, KEEP_ALIVE_PING, keep_alive_counter_, true);
+        }
     }
     else
     {
@@ -337,6 +425,12 @@ void TcpChannel::onReadCompleted(const std::error_code& error_code, size_t bytes
     }
 
     addRxBytes(bytes_transferred); // Update RX statistics.
+
+    if (protocol_ == Protocol::LEGACY)
+    {
+        onLegacyReadCompleted(bytes_transferred);
+        return;
+    }
 
     if (state_ == ReadState::READ_HEADER)
     {
@@ -475,12 +569,42 @@ void TcpChannel::init()
 
     connect(authenticator_, &Authenticator::sig_keyChanged, this, [this]()
     {
+        // The current version of the protocol always uses AES-256-GCM and rotates the working key
+        // from time to time. A session with a peer of the previous version uses the algorithm the
+        // peers have agreed on during the handshake and keeps a single key for the whole session.
+        const bool legacy = (protocol_ == Protocol::LEGACY);
+
+        CipherType type = CipherType::AES256_GCM;
+
+        if (legacy)
+        {
+            switch (authenticator_->encryption())
+            {
+                case proto::key_exchange::ENCRYPTION_AES256_GCM:
+                    type = CipherType::AES256_GCM;
+                    break;
+
+                case proto::key_exchange::ENCRYPTION_CHACHA20_POLY1305:
+                    type = CipherType::CHACHA20_POLY1305;
+                    break;
+
+                default:
+                    CLOG(ERROR) << "Unknown encryption:" << authenticator_->encryption();
+                    onErrorOccurred(FROM_HERE, ErrorCode::INVALID_PROTOCOL);
+                    return;
+            }
+        }
+
         encryptor_ = StreamEncryptor::create(
+            type,
             authenticator_->sessionKey(Authenticator::Direction::ENCRYPT),
-            authenticator_->iv(Authenticator::Direction::ENCRYPT));
+            authenticator_->iv(Authenticator::Direction::ENCRYPT),
+            !legacy);
         decryptor_ = StreamDecryptor::create(
+            type,
             authenticator_->sessionKey(Authenticator::Direction::DECRYPT),
-            authenticator_->iv(Authenticator::Direction::DECRYPT));
+            authenticator_->iv(Authenticator::Direction::DECRYPT),
+            !legacy);
 
         if (!encryptor_ || !decryptor_)
         {
@@ -522,6 +646,14 @@ void TcpChannel::init()
         user_name_     = authenticator_->userName();
         user_id_       = authenticator_->userId();
         session_type_  = authenticator_->sessionType();
+
+        // The peers of the previous version of the protocol do not send the channel id until the
+        // handshake is over.
+        if (protocol_ == Protocol::LEGACY)
+        {
+            CLOG(INFO) << "Support for channel id is enabled";
+            channel_id_supported_ = true;
+        }
 
         authenticator_->disconnect();
         authenticated_ = true;
@@ -655,6 +787,268 @@ void TcpChannel::onMessageReceived()
 }
 
 //--------------------------------------------------------------------------------------------------
+void TcpChannel::onLegacyReadCompleted(size_t bytes_transferred)
+{
+    if (state_ == ReadState::READ_SIZE)
+    {
+        // The size of a frame is written as a variable length integer, one byte at a time.
+        if (!io_->size_reader.addByte(size_byte_))
+        {
+            doReadLegacySize();
+            return;
+        }
+
+        const size_t message_size = io_->size_reader.messageSize();
+        io_->size_reader.reset();
+
+        const size_t max_size = authenticated_ ? kMaxMessageSize : kMaxAuthMessageSize;
+        if (message_size > max_size)
+        {
+            CLOG(ERROR) << "Too big incoming message:" << message_size << "(limit:" << max_size << ")";
+            onErrorOccurred(FROM_HERE, ErrorCode::INVALID_PROTOCOL);
+            return;
+        }
+
+        // A size of zero means that a service message follows.
+        if (!message_size)
+        {
+            doReadLegacyServiceHeader();
+            return;
+        }
+
+        resizeBuffer(&io_->read_buffer, static_cast<qint64>(message_size));
+
+        state_ = ReadState::READ_DATA;
+        readTransport(io_->read_buffer.data(), io_->read_buffer.size());
+        return;
+    }
+
+    if (state_ == ReadState::READ_SERVICE_HEADER)
+    {
+        CDCHECK_EQ(io_->read_buffer.size(), sizeof(ServiceHeader));
+        CDCHECK_EQ(bytes_transferred, io_->read_buffer.size());
+
+        const ServiceHeader* header = reinterpret_cast<const ServiceHeader*>(io_->read_buffer.data());
+
+        const size_t max_size = authenticated_ ? kMaxMessageSize : kMaxAuthMessageSize;
+        if (header->length > max_size)
+        {
+            CLOG(ERROR) << "Too big service message:" << header->length << "(limit:" << max_size << ")";
+            onErrorOccurred(FROM_HERE, ErrorCode::INVALID_PROTOCOL);
+            return;
+        }
+
+        if (header->type == SERVICE_KEEP_ALIVE && !header->length)
+        {
+            // A keep-alive message must always contain the data.
+            onErrorOccurred(FROM_HERE, ErrorCode::INVALID_PROTOCOL);
+            return;
+        }
+
+        doReadLegacyServiceData(header->length);
+        return;
+    }
+
+    if (state_ == ReadState::READ_DATA)
+    {
+        CDCHECK_EQ(bytes_transferred, io_->read_buffer.size());
+
+        if (paused_)
+        {
+            state_ = ReadState::PENDING;
+            legacy_pending_service_ = false;
+            return;
+        }
+
+        onLegacyMessageReceived();
+
+        if (paused_)
+        {
+            state_ = ReadState::IDLE;
+            return;
+        }
+
+        doReadLegacySize();
+        return;
+    }
+
+    CDCHECK(state_ == ReadState::READ_SERVICE_DATA);
+
+    if (paused_)
+    {
+        state_ = ReadState::PENDING;
+        legacy_pending_service_ = true;
+        return;
+    }
+
+    onLegacyServiceMessageReceived();
+
+    if (paused_)
+    {
+        state_ = ReadState::IDLE;
+        return;
+    }
+
+    doReadLegacySize();
+}
+
+//--------------------------------------------------------------------------------------------------
+void TcpChannel::onLegacyMessageReceived()
+{
+    char* read_data = io_->read_buffer.data();
+    size_t read_size = io_->read_buffer.size();
+
+    quint8 channel_id = 0;
+
+    // The peers of the previous version of the protocol do not send the channel id until the
+    // handshake is over.
+    if (channel_id_supported_)
+    {
+        if (read_size < sizeof(UserDataHeader))
+        {
+            onErrorOccurred(FROM_HERE, ErrorCode::INVALID_PROTOCOL);
+            return;
+        }
+
+        UserDataHeader header;
+        memcpy(&header, read_data, sizeof(header));
+
+        read_data += sizeof(header);
+        read_size -= sizeof(header);
+
+        channel_id = header.channel_id;
+    }
+
+    if (!read_size)
+    {
+        onErrorOccurred(FROM_HERE, ErrorCode::INVALID_PROTOCOL);
+        return;
+    }
+
+    QByteArray message;
+
+    if (decryptor_)
+    {
+        resizeBuffer(&decrypt_buffer_, decryptor_->decryptedDataSize(read_size));
+
+        if (!decryptor_->decrypt(read_data, read_size, decrypt_buffer_.data()))
+        {
+            onErrorOccurred(FROM_HERE, ErrorCode::CRYPTO_ERROR);
+            return;
+        }
+
+        message = decrypt_buffer_;
+    }
+    else
+    {
+        message = QByteArray::fromRawData(read_data, read_size);
+    }
+
+    // Until the handshake is over all the messages belong to the authenticator.
+    if (!authenticated_)
+    {
+        if (!authenticator_)
+        {
+            onErrorOccurred(FROM_HERE, ErrorCode::INVALID_PROTOCOL);
+            return;
+        }
+
+        authenticator_->onIncomingMessage(message);
+        return;
+    }
+
+    // Any successfully decrypted message proves the peer is alive.
+    rx_since_last_check_ = true;
+
+    emit sig_messageReceived(channel_id, message);
+}
+
+//--------------------------------------------------------------------------------------------------
+void TcpChannel::onLegacyServiceMessageReceived()
+{
+    const ServiceHeader* header = reinterpret_cast<const ServiceHeader*>(io_->read_buffer.data());
+
+    if (header->type != SERVICE_KEEP_ALIVE)
+    {
+        // Ignore the unknown service messages.
+        return;
+    }
+
+    const char* data = io_->read_buffer.data() + sizeof(ServiceHeader);
+
+    if (header->flags & KEEP_ALIVE_PING)
+    {
+        // The pong must contain the same data as the ping.
+        sendKeepAlive(KEEP_ALIVE_PONG, data, header->length);
+        return;
+    }
+
+    if (header->length != keep_alive_counter_.size() ||
+        memcmp(data, keep_alive_counter_.constData(), keep_alive_counter_.size()) != 0)
+    {
+        onErrorOccurred(FROM_HERE, ErrorCode::INVALID_PROTOCOL);
+        return;
+    }
+
+    // Increase the counter of sent packets.
+    largeNumberIncrement(&keep_alive_counter_);
+
+    // PONG received - switch back to the interval cycle.
+    startKeepAliveInterval();
+}
+
+//--------------------------------------------------------------------------------------------------
+void TcpChannel::sendKeepAlive(quint8 flags, const void* data, size_t size)
+{
+    ServiceHeader header;
+    memset(&header, 0, sizeof(header));
+
+    header.type   = SERVICE_KEEP_ALIVE;
+    header.flags  = flags;
+    header.length = static_cast<quint32>(size);
+
+    QByteArray buffer;
+    buffer.resize(static_cast<qsizetype>(sizeof(quint8) + sizeof(header) + size));
+
+    // The first byte set to 0 indicates that this is a service message.
+    buffer[0] = 0;
+
+    memcpy(buffer.data() + sizeof(quint8), &header, sizeof(header));
+    memcpy(buffer.data() + sizeof(quint8) + sizeof(header), data, size);
+
+    const bool schedule_write = io_->write_queue.isEmpty();
+    io_->write_queue.emplace_back(std::move(buffer));
+    if (schedule_write)
+        doWrite();
+}
+
+//--------------------------------------------------------------------------------------------------
+void TcpChannel::doReadLegacySize()
+{
+    state_ = ReadState::READ_SIZE;
+    readTransport(&size_byte_, sizeof(size_byte_));
+}
+
+//--------------------------------------------------------------------------------------------------
+void TcpChannel::doReadLegacyServiceHeader()
+{
+    resizeBuffer(&io_->read_buffer, sizeof(ServiceHeader));
+
+    state_ = ReadState::READ_SERVICE_HEADER;
+    readTransport(io_->read_buffer.data(), io_->read_buffer.size());
+}
+
+//--------------------------------------------------------------------------------------------------
+void TcpChannel::doReadLegacyServiceData(size_t length)
+{
+    io_->read_buffer.resize(io_->read_buffer.size() + static_cast<qsizetype>(length));
+
+    state_ = ReadState::READ_SERVICE_DATA;
+    readTransport(io_->read_buffer.data() + sizeof(ServiceHeader),
+                  io_->read_buffer.size() - sizeof(ServiceHeader));
+}
+
+//--------------------------------------------------------------------------------------------------
 void TcpChannel::addWriteTask(quint8 type, quint8 param, const QByteArray& data, bool encrypted)
 {
     if (data.isEmpty())
@@ -675,6 +1069,12 @@ void TcpChannel::addWriteTask(quint8 type, quint8 param, const QByteArray& data,
     if (encrypted && !encryptor_)
     {
         onErrorOccurred(FROM_HERE, ErrorCode::CRYPTO_ERROR);
+        return;
+    }
+
+    if (protocol_ == Protocol::LEGACY)
+    {
+        addLegacyWriteTask(type, param, data, encrypted);
         return;
     }
 
@@ -735,6 +1135,87 @@ void TcpChannel::addWriteTask(quint8 type, quint8 param, const QByteArray& data,
 }
 
 //--------------------------------------------------------------------------------------------------
+void TcpChannel::addLegacyWriteTask(quint8 type, quint8 param, const QByteArray& data, bool encrypted)
+{
+    if (type == KEEP_ALIVE)
+    {
+        // The keep-alive of the previous version of the protocol is a service message, it is
+        // never encrypted.
+        sendKeepAlive(param, data.constData(), data.size());
+        return;
+    }
+
+    const qint64 target_data_size = encrypted ?
+        encryptor_->encryptedDataSize(data.size()) : data.size();
+
+    // The channel id is a part of the frame only after the handshake is over: the peers of the
+    // previous version of the protocol do not understand it before that.
+    const bool with_channel_id = (type == USER_DATA) && channel_id_supported_;
+
+    const qint64 total_size = target_data_size +
+        (with_channel_id ? static_cast<qint64>(sizeof(UserDataHeader)) : 0);
+
+    const qint64 max_size = (type == AUTH_DATA && !authenticated_) ?
+        kMaxAuthMessageSize : kMaxMessageSize;
+
+    if (total_size > max_size)
+    {
+        CLOG(ERROR) << "Too big outgoing message:" << total_size << "(limit:" << max_size << ")";
+        onErrorOccurred(FROM_HERE, ErrorCode::INVALID_PROTOCOL);
+        return;
+    }
+
+    const QByteArray& size = size_writer_.variableSize(static_cast<size_t>(total_size));
+
+    QByteArray write_buffer;
+
+    if (!write_pool_.isEmpty())
+    {
+        write_buffer = std::move(write_pool_.front());
+        write_pool_.pop_front();
+
+        if (write_buffer.capacity() < size.size() + total_size)
+            write_buffer.reserve(size.size() + total_size);
+    }
+
+    write_buffer.resize(size.size() + total_size);
+
+    // Copy the size of the message to the buffer.
+    memcpy(write_buffer.data(), size.constData(), size.size());
+
+    char* payload = write_buffer.data() + size.size();
+
+    if (with_channel_id)
+    {
+        UserDataHeader header;
+        header.channel_id = param;
+        header.reserved = 0;
+
+        // Copy the channel id to the buffer.
+        memcpy(payload, &header, sizeof(header));
+        payload += sizeof(header);
+    }
+
+    if (encrypted)
+    {
+        if (!encryptor_->encrypt(data.data(), data.size(), payload))
+        {
+            onErrorOccurred(FROM_HERE, ErrorCode::CRYPTO_ERROR);
+            return;
+        }
+    }
+    else
+    {
+        memcpy(payload, data.data(), data.size());
+    }
+
+    const bool schedule_write = io_->write_queue.isEmpty();
+    io_->write_queue.emplace_back(std::move(write_buffer));
+    if (schedule_write)
+        doWrite();
+}
+
+//--------------------------------------------------------------------------------------------------
 void TcpChannel::doWrite()
 {
     const QByteArray& buffer = io_->write_queue.front();
@@ -744,6 +1225,12 @@ void TcpChannel::doWrite()
 //--------------------------------------------------------------------------------------------------
 void TcpChannel::doReadHeader()
 {
+    if (protocol_ == Protocol::LEGACY)
+    {
+        doReadLegacySize();
+        return;
+    }
+
     state_ = ReadState::READ_HEADER;
     readTransport(&io_->read_header, sizeof(Header));
 }

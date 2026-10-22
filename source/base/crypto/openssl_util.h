@@ -67,12 +67,27 @@ using EVP_MD_CTX_ptr = std::unique_ptr<evp_md_ctx_st, EVP_MD_CTX_Deleter>;
 using EVP_PKEY_CTX_ptr = std::unique_ptr<evp_pkey_ctx_st, EVP_PKEY_CTX_Deleter>;
 using EVP_PKEY_ptr = std::unique_ptr<evp_pkey_st, EVP_PKEY_Deleter>;
 
+// The algorithm used to encrypt the traffic of a session. Peers of the current version always
+// use AES-256-GCM. Peers of the previous version (2.x) only understand ChaCha20-Poly1305, so
+// the algorithm of a session is the one the peers have agreed on during the handshake.
+enum class CipherType
+{
+    AES256_GCM,
+    CHACHA20_POLY1305
+};
+
 enum class CipherMode
 {
     ENCRYPT,
     DECRYPT
 };
 
-EVP_CIPHER_CTX_ptr createCipher(CipherMode mode, const SecureByteArray& key, int iv_size);
+EVP_CIPHER_CTX_ptr createCipher(CipherType type, CipherMode mode, const SecureByteArray& key, int iv_size);
+
+// The algorithm of the current version of the protocol.
+inline EVP_CIPHER_CTX_ptr createCipher(CipherMode mode, const SecureByteArray& key, int iv_size)
+{
+    return createCipher(CipherType::AES256_GCM, mode, key, iv_size);
+}
 
 #endif // BASE_CRYPTO_OPENSSL_UTIL_H

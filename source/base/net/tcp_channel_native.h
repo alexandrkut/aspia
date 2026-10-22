@@ -29,7 +29,8 @@ class TcpChannelNative final : public TcpChannel
 
 public:
     // Constructor available for client.
-    TcpChannelNative(Type type, Authenticator* authenticator, QObject* parent = nullptr);
+    TcpChannelNative(Type type, Authenticator* authenticator, QObject* parent = nullptr,
+                     Protocol protocol = Protocol::MODERN);
     ~TcpChannelNative() final;
 
     // TcpChannel implementation.
@@ -41,7 +42,8 @@ protected:
     friend class TcpServer;
 
     // Constructor available for server. An already connected socket is being moved.
-    TcpChannelNative(Type type, asio::ip::tcp::socket&& socket, Authenticator* authenticator, QObject* parent);
+    TcpChannelNative(Type type, asio::ip::tcp::socket&& socket, Authenticator* authenticator,
+                     QObject* parent, Protocol protocol = Protocol::MODERN);
 
     // TcpChannel implementation.
     void readTransport(void* data, size_t size) final;

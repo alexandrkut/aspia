@@ -34,13 +34,23 @@ public:
 
     static std::unique_ptr<StreamEncryptor> create(const SecureByteArray& key, const QByteArray& iv);
 
+    // The algorithm of the session. Peers of the current version always use AES-256-GCM, a peer
+    // of the previous version only understands ChaCha20-Poly1305. |ratchet| enables the periodic
+    // change of the working key: the current version of the protocol uses it, the previous one
+    // keeps a single key for the whole session.
+    static std::unique_ptr<StreamEncryptor> create(CipherType type, const SecureByteArray& key,
+                                                    const QByteArray& iv, bool ratchet);
+
     qint64 encryptedDataSize(qint64 in_size);
     bool encrypt(const void* in, qint64 in_size, void* out);
     bool encrypt(const void* in, qint64 in_size, const void* aad, qint64 aad_size, void* out);
 
 private:
-    StreamEncryptor(EVP_CIPHER_CTX_ptr ctx, const SecureByteArray& key, const QByteArray& iv);
+    StreamEncryptor(CipherType type, EVP_CIPHER_CTX_ptr ctx, const SecureByteArray& key,
+                     const QByteArray& iv, bool ratchet);
 
+    CipherType type_;
+    bool ratchet_ = true;
     EVP_CIPHER_CTX_ptr ctx_;
     SecureByteArray key_;
     QByteArray iv_;

@@ -37,8 +37,11 @@ constexpr quint64 kRatchetInterval = 256;
 } // namespace
 
 //--------------------------------------------------------------------------------------------------
-StreamDecryptor::StreamDecryptor(EVP_CIPHER_CTX_ptr ctx, const SecureByteArray& key, const QByteArray& iv)
-    : ctx_(std::move(ctx)),
+StreamDecryptor::StreamDecryptor(CipherType type, EVP_CIPHER_CTX_ptr ctx,
+    const SecureByteArray& key, const QByteArray& iv, bool ratchet)
+    : type_(type),
+      ratchet_(ratchet),
+      ctx_(std::move(ctx)),
       key_(key),
       iv_(iv)
 {
@@ -50,20 +53,28 @@ StreamDecryptor::StreamDecryptor(EVP_CIPHER_CTX_ptr ctx, const SecureByteArray& 
 // static
 std::unique_ptr<StreamDecryptor> StreamDecryptor::create(const SecureByteArray& key, const QByteArray& iv)
 {
+    return create(CipherType::AES256_GCM, key, iv, true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// static
+std::unique_ptr<StreamDecryptor> StreamDecryptor::create(CipherType type, const SecureByteArray& key,
+    const QByteArray& iv, bool ratchet)
+{
     if (key.size() != kKeySize || iv.size() != kIVSize)
     {
         LOG(ERROR) << "Key size:" << key.size() << "IV size:" << iv.size();
         return nullptr;
     }
 
-    EVP_CIPHER_CTX_ptr ctx = createCipher(CipherMode::DECRYPT, key, kIVSize);
+    EVP_CIPHER_CTX_ptr ctx = createCipher(type, CipherMode::DECRYPT, key, kIVSize);
     if (!ctx)
     {
         LOG(ERROR) << "createCipher failed";
         return nullptr;
     }
 
-    return std::unique_ptr<StreamDecryptor>(new StreamDecryptor(std::move(ctx), key, iv));
+    return std::unique_ptr<StreamDecryptor>(new StreamDecryptor(type, std::move(ctx), key, iv, ratchet));
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -130,14 +141,14 @@ bool StreamDecryptor::decrypt(const void* in, qint64 in_size, const void* aad, q
 
     largeNumberIncrement(&iv_);
 
-    if (++msg_count_ >= kRatchetInterval)
+    if (ratchet_ && ++msg_count_ >= kRatchetInterval)
     {
         GenericHash hash(GenericHash::BLAKE2s256);
         hash.addData(key_);
         hash.addData(QByteArrayLiteral("aspia/v1/ratchet"));
         SecureByteArray new_key(hash.result());
 
-        EVP_CIPHER_CTX_ptr new_ctx = createCipher(CipherMode::DECRYPT, new_key, kIVSize);
+        EVP_CIPHER_CTX_ptr new_ctx = createCipher(type_, CipherMode::DECRYPT, new_key, kIVSize);
         if (!new_ctx)
         {
             LOG(ERROR) << "ratchet: createCipher failed";

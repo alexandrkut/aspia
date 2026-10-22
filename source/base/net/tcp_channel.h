@@ -43,7 +43,20 @@ public:
     enum class Type { DIRECT, RELAY };
     Q_ENUM(Type)
 
-    TcpChannel(Type type, Authenticator* authenticator, QObject* parent);
+    // The format of the frames the channel sends and receives.
+    //
+    // MODERN is the format of the current version of the protocol: every frame starts with an
+    // 8-byte header, the channel id is a part of it.
+    //
+    // LEGACY is the format of the previous version of the protocol (Aspia 2.x): the frame starts
+    // with the size of the payload, the channel id is a separate 2-byte field that older peers
+    // do not understand until the handshake is over, and the service messages (keep-alive) are
+    // not encrypted.
+    enum class Protocol { MODERN, LEGACY };
+    Q_ENUM(Protocol)
+
+    TcpChannel(Type type, Authenticator* authenticator, QObject* parent,
+               Protocol protocol = Protocol::MODERN);
     ~TcpChannel() override;
 
     static const quint32 kMaxMessageSize;
@@ -142,6 +155,7 @@ public:
 
     quint32 instanceId() const { return instance_id_; }
     Type type() const { return type_; }
+    Protocol protocol() const { return protocol_; }
     qint64 totalRx() const { return total_rx_; }
     qint64 totalTx() const { return total_tx_; }
     int speedRx();
@@ -178,12 +192,48 @@ protected:
         quint32 length;
     };
 
+    // The size of a frame of the legacy protocol is written as a variable length integer: one to
+    // four bytes, seven bits each, the highest bit set means that the next byte continues the
+    // number.
+    class VariableSizeReader
+    {
+    public:
+        VariableSizeReader() = default;
+
+        // Adds a byte to the number and returns true when the number is complete.
+        bool addByte(quint8 byte);
+
+        // The size of the frame. Only valid after addByte() returned true.
+        size_t messageSize() const;
+
+        void reset() { memset(buffer_, 0, sizeof(buffer_)); pos_ = 0; }
+
+    private:
+        quint8 buffer_[4] = { 0 };
+        size_t pos_ = 0;
+    };
+
+    class VariableSizeWriter
+    {
+    public:
+        VariableSizeWriter() = default;
+
+        // Writes the number into the internal buffer and returns it.
+        const QByteArray& variableSize(size_t size);
+
+    private:
+        QByteArray buffer_;
+    };
+
     struct IoState
     {
         bool alive = true;
         Header read_header;
         QByteArray read_buffer;
         QQueue<QByteArray> write_queue;
+
+        // Legacy: the state of the size of the frame being read.
+        VariableSizeReader size_reader;
     };
 
     // The transport of the subclass. A read completes once |size| bytes are read and a write once all
@@ -218,10 +268,13 @@ protected:
 private:
     enum class ReadState
     {
-        IDLE,        // No reads are in progress right now.
-        READ_HEADER, // Reading the contents of the header.
-        READ_DATA,   // Reading the contents of the data.
-        PENDING      // There is a message about which we did not notify.
+        IDLE,             // No reads are in progress right now.
+        READ_HEADER,      // Reading the contents of the header.
+        READ_DATA,        // Reading the contents of the data.
+        READ_SIZE,        // Legacy: reading the size of the next frame.
+        READ_SERVICE_HEADER, // Legacy: reading the contents of the service header.
+        READ_SERVICE_DATA,   // Legacy: reading the contents of the service data.
+        PENDING           // There is a message about which we did not notify.
     };
 
     enum MessageType
@@ -237,6 +290,29 @@ private:
         KEEP_ALIVE_PING = 1
     };
 
+    // The header of a service message of the legacy protocol.
+    struct ServiceHeader
+    {
+        quint8 type;      // Type of the service message (see ServiceMessageType).
+        quint8 flags;     // Flags bitmask (depends on the type).
+        quint8 reserved1; // Reserved.
+        quint8 reserved2; // Reserved.
+        quint32 length;   // Size of the data that follows the header.
+    };
+
+    // The header of a user message of the legacy protocol. Peers of version 2.x do not send it
+    // until the handshake is over, so it is optional.
+    struct UserDataHeader
+    {
+        quint8 channel_id;
+        quint8 reserved;
+    };
+
+    enum ServiceMessageType
+    {
+        SERVICE_KEEP_ALIVE = 1
+    };
+
     // Keep-alive state machine driven by the owner through tick().
     enum class KeepAliveState
     {
@@ -248,16 +324,35 @@ private:
     void init();
     void setDisconnected();
     void onMessageReceived();
+    void onLegacyMessageReceived();
+    void onLegacyServiceMessageReceived();
     void addWriteTask(quint8 type, quint8 param, const QByteArray& data, bool encrypted);
+    void addLegacyWriteTask(quint8 type, quint8 param, const QByteArray& data, bool encrypted);
     void doWrite();
     void doReadHeader();
     void doReadData();
+    void doReadLegacySize();
+    void doReadLegacyServiceHeader();
+    void doReadLegacyServiceData(size_t length);
+    void onLegacyReadCompleted(size_t bytes_transferred);
+    void sendKeepAlive(quint8 flags, const void* data, size_t size);
     void startKeepAliveInterval();
     void addTxBytes(size_t bytes_count);
     void addRxBytes(size_t bytes_count);
 
     const quint32 instance_id_;
     const Type type_;
+    const Protocol protocol_;
+
+    // Legacy: the peers of version 2.x do not send the channel id until the handshake is over.
+    bool channel_id_supported_ = false;
+    VariableSizeWriter size_writer_;
+
+    // Legacy: the byte of the size of the frame being read.
+    quint8 size_byte_ = 0;
+
+    // Legacy: the message that waits for the unpause is a service message.
+    bool legacy_pending_service_ = false;
 
     std::string address_;
     QVersionNumber version_;

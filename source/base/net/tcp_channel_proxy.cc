@@ -161,8 +161,9 @@ const char* proxyAuthName(long auth)
 
 //--------------------------------------------------------------------------------------------------
 TcpChannelProxy::TcpChannelProxy(
-    Type type, const ProxySettings& settings, Authenticator* authenticator, QObject* parent)
-    : TcpChannel(type, authenticator, parent),
+    Type type, const ProxySettings& settings, Authenticator* authenticator, QObject* parent,
+    Protocol protocol)
+    : TcpChannel(type, authenticator, parent, protocol),
       io_context_(AsioEventDispatcher::ioContext()),
       resolver_(io_context_),
       connect_timer_(io_context_),
@@ -184,12 +185,12 @@ TcpChannelProxy::~TcpChannelProxy()
 //--------------------------------------------------------------------------------------------------
 // static
 TcpChannel* TcpChannelProxy::create(Type type, const ProxySettings& settings, Authenticator* authenticator,
-                                    QObject* parent)
+                                    QObject* parent, Protocol protocol)
 {
     if (!settings.enabled)
-        return new TcpChannelNative(type, authenticator, parent);
+        return new TcpChannelNative(type, authenticator, parent, protocol);
 
-    return new TcpChannelProxy(type, settings, authenticator, parent);
+    return new TcpChannelProxy(type, settings, authenticator, parent, protocol);
 }
 
 //--------------------------------------------------------------------------------------------------

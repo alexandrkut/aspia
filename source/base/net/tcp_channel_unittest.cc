@@ -22,6 +22,7 @@
 #include <QPair>
 
 #include <asio/ip/tcp.hpp>
+#include <asio/read.hpp>
 #include <asio/write.hpp>
 
 #include <condition_variable>
@@ -31,8 +32,11 @@
 
 #include "base/shared_pointer.h"
 #include "base/crypto/secure_string.h"
+#include "base/crypto/stream_encryptor.h"
+#include "base/location.h"
 #include "base/net/tcp_channel_native.h"
 #include "base/net/tcp_server.h"
+#include "base/peer/authenticator.h"
 #include "base/peer/client_authenticator.h"
 #include "base/peer/user.h"
 #include "base/peer/user_list.h"
@@ -49,6 +53,9 @@ const char kPassword[] = "Password1234!";
 // checks that the one asked for is among those the user is allowed to open.
 constexpr quint32 kAllowedSessionType = 1;
 constexpr quint32 kDeniedSessionType = 2;
+
+// The size of the initialization vector of the test authenticator.
+constexpr int kTestIVSize = 12;
 
 // The loopback port range the tests probe. A fixed range keeps the test independent of the ability
 // to read back the port the acceptor bound to.
@@ -751,4 +758,341 @@ TEST_F(TcpChannelTest, PeerDisappearanceIsReported)
 
     ASSERT_TRUE(server_error_.wait(1, kWaitTimeout));
     EXPECT_EQ(server_error_code_, TcpChannel::ErrorCode::REMOTE_HOST_CLOSED);
+}
+
+//--------------------------------------------------------------------------------------------------
+// A test authenticator that completes the handshake before it starts: the tests below are about
+// the framing of the channel, not about the cryptography of the handshake.
+class TestAuthenticator final : public Authenticator
+{
+public:
+    TestAuthenticator()
+        : Authenticator(nullptr)
+    {
+        // Nothing
+    }
+
+protected:
+    bool onStarted() override
+    {
+        encryption_ = proto::key_exchange::ENCRYPTION_CHACHA20_POLY1305;
+
+        encrypt_iv_ = QByteArray(kTestIVSize, '\x11');
+        decrypt_iv_ = QByteArray(kTestIVSize, '\x22');
+
+        setSessionKeyReady();
+        finish(FROM_HERE, ErrorCode::SUCCESS);
+
+        return true;
+    }
+
+    void onReceived(const QByteArray&) override { /* Nothing */ }
+
+    QByteArray keyLabel(Direction direction) const override
+    {
+        return direction == Direction::ENCRYPT ? QByteArrayLiteral("test-encrypt")
+                                               : QByteArrayLiteral("test-decrypt");
+    }
+};
+
+//--------------------------------------------------------------------------------------------------
+// A channel of the previous version of the protocol talks to a peer that is not a channel at all:
+// the test speaks the framing of that version by hand and checks that the channel understands it
+// and produces exactly the frames the peers of that version expect.
+class LegacyTcpChannelTest : public testing::Test
+{
+protected:
+    void SetUp() override
+    {
+        std::unique_ptr<NetWorker> worker = std::make_unique<NetWorker>();
+        worker_ = worker.get();
+
+        workers_.add(std::move(worker));
+        workers_.start();
+    }
+
+    void TearDown() override
+    {
+        // Everything was created in the worker thread and must go away there, before the thread
+        // itself does.
+        worker_->invoke([this]()
+        {
+            delete client_channel_;
+            client_channel_ = nullptr;
+
+            socket_.reset();
+            acceptor_.reset();
+        });
+    }
+
+    // Starts a raw listener on the loopback interface. Returns the port it listens on, or zero.
+    quint16 startListener()
+    {
+        quint16 port = 0;
+
+        worker_->invoke([&]()
+        {
+            acceptor_ = std::make_unique<asio::ip::tcp::acceptor>(AsioEventDispatcher::ioContext());
+
+            for (quint16 candidate = kFirstPort; candidate < kFirstPort + kPortCount; ++candidate)
+            {
+                const asio::ip::tcp::endpoint endpoint(asio::ip::make_address("127.0.0.1"), candidate);
+
+                std::unique_ptr<asio::ip::tcp::acceptor> candidate_acceptor =
+                    std::make_unique<asio::ip::tcp::acceptor>(AsioEventDispatcher::ioContext());
+
+                std::error_code error_code;
+                candidate_acceptor->open(endpoint.protocol(), error_code);
+                if (error_code)
+                    continue;
+
+                candidate_acceptor->set_option(asio::ip::tcp::acceptor::reuse_address(true), error_code);
+                candidate_acceptor->bind(endpoint, error_code);
+                if (error_code)
+                    continue;
+
+                candidate_acceptor->listen(1, error_code);
+                if (error_code)
+                    continue;
+
+                acceptor_ = std::move(candidate_acceptor);
+                port = candidate;
+                break;
+            }
+        });
+
+        return port;
+    }
+
+    void acceptConnection()
+    {
+        worker_->invoke([this]()
+        {
+            socket_ = std::make_unique<asio::ip::tcp::socket>(AsioEventDispatcher::ioContext());
+
+            acceptor_->async_accept(*socket_, [this](const std::error_code& error_code)
+            {
+                if (!error_code)
+                    accepted_.signal();
+            });
+        });
+    }
+
+    void connectClient(quint16 port)
+    {
+        worker_->invoke([&]()
+        {
+            auto* authenticator = new TestAuthenticator();
+
+            client_channel_ = new TcpChannelNative(TcpChannel::Type::DIRECT, authenticator, nullptr,
+                                                   TcpChannel::Protocol::LEGACY);
+
+            QObject::connect(client_channel_, &TcpChannel::sig_authenticated, client_channel_,
+                             [this]() { authenticated_.signal(); });
+
+            QObject::connect(client_channel_, &TcpChannel::sig_messageReceived, client_channel_,
+                             [this](quint8 channel_id, const QByteArray& buffer)
+            {
+                client_messages_.append(qMakePair(channel_id, buffer));
+                message_.signal();
+            });
+
+            client_channel_->connectTo("127.0.0.1", port, Seconds(10));
+        });
+    }
+
+    // Reads exactly |size| bytes from the raw socket.
+    void readRaw(size_t size)
+    {
+        worker_->invoke([this, size]()
+        {
+            raw_buffer_.resize(static_cast<qsizetype>(size));
+
+            asio::async_read(*socket_, asio::buffer(raw_buffer_.data(), raw_buffer_.size()),
+                             [this](const std::error_code& error_code, size_t)
+            {
+                if (!error_code)
+                    raw_read_.signal();
+            });
+        });
+    }
+
+    void writeRaw(const QByteArray& bytes)
+    {
+        worker_->invoke([this, bytes]()
+        {
+            std::error_code error_code;
+            asio::write(*socket_, asio::buffer(bytes.constData(), bytes.size()), error_code);
+            ASSERT_FALSE(error_code);
+        });
+    }
+
+    void sendFromClient(quint8 channel_id, const QByteArray& buffer)
+    {
+        worker_->invoke([&]() { client_channel_->send(channel_id, buffer); });
+    }
+
+    // The key and the initialization vector the peer of the previous version uses.
+    SecureByteArray peerKey(Authenticator::Direction direction)
+    {
+        TestAuthenticator authenticator;
+        authenticator.start();
+
+        return authenticator.sessionKey(direction);
+    }
+
+    QByteArray peerIv(Authenticator::Direction direction)
+    {
+        TestAuthenticator authenticator;
+        authenticator.start();
+
+        return authenticator.iv(direction);
+    }
+
+    // A frame of the previous version of the protocol: the size of the payload as a variable length
+    // integer, the channel id, the reserved byte and the payload itself.
+    static QByteArray legacyFrame(quint8 channel_id, const QByteArray& payload)
+    {
+        const quint32 size = static_cast<quint32>(payload.size() + 2);
+
+        QByteArray frame;
+
+        if (size > 0x7F)
+        {
+            frame.append(static_cast<char>(size & 0x7F | 0x80));
+            frame.append(static_cast<char>(size >> 7 & 0x7F));
+        }
+        else
+        {
+            frame.append(static_cast<char>(size));
+        }
+
+        frame.append(static_cast<char>(channel_id));
+        frame.append(static_cast<char>(0));
+
+        frame.append(payload);
+
+        return frame;
+    }
+
+    std::unique_ptr<asio::ip::tcp::acceptor> acceptor_;
+    std::unique_ptr<asio::ip::tcp::socket> socket_;
+    QByteArray raw_buffer_;
+
+    TcpChannel* client_channel_ = nullptr;
+    QList<QPair<quint8, QByteArray>> client_messages_;
+
+    Latch accepted_;
+    Latch authenticated_;
+    Latch message_;
+    Latch raw_read_;
+
+    WorkerManager workers_;
+    NetWorker* worker_ = nullptr;
+};
+
+//--------------------------------------------------------------------------------------------------
+// A frame of the previous version of the protocol must have the size of the payload, the channel id
+// and the reserved byte in front of it. The peers of that version read the frame exactly this way.
+TEST_F(LegacyTcpChannelTest, ClientWritesTheFrameOfThePreviousVersion)
+{
+    const quint16 port = startListener();
+    ASSERT_NE(port, 0);
+
+    acceptConnection();
+    connectClient(port);
+
+    ASSERT_TRUE(accepted_.wait(1, kWaitTimeout));
+    ASSERT_TRUE(authenticated_.wait(1, kWaitTimeout));
+
+    const QByteArray plaintext = QByteArrayLiteral("hello");
+
+    sendFromClient(3, plaintext);
+
+    // The size of the payload, the channel id, the reserved byte and the encrypted payload: the tag
+    // of the cipher is 16 bytes long.
+    readRaw(1 + 2 + plaintext.size() + 16);
+    ASSERT_TRUE(raw_read_.wait(1, kWaitTimeout));
+
+    EXPECT_EQ(static_cast<quint8>(raw_buffer_.at(0)),
+              static_cast<quint8>(plaintext.size() + 2 + 16));
+    EXPECT_EQ(static_cast<quint8>(raw_buffer_.at(1)), 3);
+    EXPECT_EQ(static_cast<quint8>(raw_buffer_.at(2)), 0);
+}
+
+//--------------------------------------------------------------------------------------------------
+// A frame of the previous version of the protocol must be understood by the channel, and the channel
+// id of the frame must reach the owner of the channel.
+TEST_F(LegacyTcpChannelTest, ClientReadsTheFrameOfThePreviousVersion)
+{
+    const quint16 port = startListener();
+    ASSERT_NE(port, 0);
+
+    acceptConnection();
+    connectClient(port);
+
+    ASSERT_TRUE(accepted_.wait(1, kWaitTimeout));
+    ASSERT_TRUE(authenticated_.wait(1, kWaitTimeout));
+
+    const QByteArray plaintext = QByteArrayLiteral("hello");
+
+    auto encryptor = StreamEncryptor::create(CipherType::CHACHA20_POLY1305,
+                                              peerKey(Authenticator::Direction::DECRYPT),
+                                              peerIv(Authenticator::Direction::DECRYPT),
+                                              false);
+    ASSERT_TRUE(encryptor);
+
+    QByteArray ciphertext(encryptor->encryptedDataSize(plaintext.size()), '\0');
+    ASSERT_TRUE(encryptor->encrypt(plaintext.constData(), plaintext.size(), ciphertext.data()));
+
+    writeRaw(legacyFrame(5, ciphertext));
+
+    ASSERT_TRUE(message_.wait(1, kWaitTimeout));
+    ASSERT_EQ(client_messages_.size(), 1);
+    EXPECT_EQ(client_messages_.first().first, quint8(5));
+    EXPECT_EQ(client_messages_.first().second, plaintext);
+}
+
+//--------------------------------------------------------------------------------------------------
+// The keep-alive of the previous version of the protocol is a service message: the size of zero, the
+// header of the service message and the data. The service messages are never encrypted.
+TEST_F(LegacyTcpChannelTest, ClientAnswersTheKeepAliveOfThePreviousVersion)
+{
+    const quint16 port = startListener();
+    ASSERT_NE(port, 0);
+
+    acceptConnection();
+    connectClient(port);
+
+    ASSERT_TRUE(accepted_.wait(1, kWaitTimeout));
+    ASSERT_TRUE(authenticated_.wait(1, kWaitTimeout));
+
+    QByteArray frame;
+
+    // The size of zero marks a service message.
+    frame.append(static_cast<char>(0));
+
+    QByteArray header(8, '\0');
+    header[0] = 1; // The type of the service message: the keep-alive.
+    header[1] = 1; // The flags: the ping.
+
+    const quint32 length = 4;
+    memcpy(header.data() + 4, &length, sizeof(length));
+
+    frame.append(header);
+    frame.append(QByteArray(4, '\x33'));
+
+    writeRaw(frame);
+
+    // The answer is a service message with the pong.
+    readRaw(1 + 8 + 4);
+    ASSERT_TRUE(raw_read_.wait(1, kWaitTimeout));
+
+    EXPECT_EQ(static_cast<quint8>(raw_buffer_.at(0)), 0);
+    EXPECT_EQ(static_cast<quint8>(raw_buffer_.at(1)), 1);
+    EXPECT_EQ(static_cast<quint8>(raw_buffer_.at(2)), 0);
+
+    quint32 pong_length = 0;
+    memcpy(&pong_length, raw_buffer_.constData() + 5, sizeof(pong_length));
+    EXPECT_EQ(pong_length, 4u);
 }

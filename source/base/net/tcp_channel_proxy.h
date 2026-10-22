@@ -37,7 +37,7 @@ public:
 
     // A channel through the proxy when |settings| is enabled, or a direct one otherwise.
     static TcpChannel* create(Type type, const ProxySettings& settings, Authenticator* authenticator,
-                              QObject* parent = nullptr);
+                              QObject* parent = nullptr, Protocol protocol = Protocol::MODERN);
 
     // TcpChannel implementation.
     void connectTo(const QString& address, quint16 port, Seconds timeout) final;
@@ -52,7 +52,8 @@ protected:
 
 private:
     // Private, so a channel never goes through a proxy the user turned off.
-    TcpChannelProxy(Type type, const ProxySettings& settings, Authenticator* authenticator, QObject* parent);
+    TcpChannelProxy(Type type, const ProxySettings& settings, Authenticator* authenticator,
+                    QObject* parent, Protocol protocol);
 
     struct CurlSocket
     {
