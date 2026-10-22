@@ -178,31 +178,38 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 # libwebm headers cross-include via "common/webmids.h", so we need
 # <prefix>/include/webm on the search path in addition to <prefix>/include.
-get_target_property(_libwebm_inc_dirs unofficial::libwebm::libwebm INTERFACE_INCLUDE_DIRECTORIES)
-set(_libwebm_extra_includes)
-foreach(_dir IN LISTS _libwebm_inc_dirs)
-    list(APPEND _libwebm_extra_includes "${_dir}/webm")
-endforeach()
-set_property(TARGET unofficial::libwebm::libwebm APPEND PROPERTY
-             INTERFACE_INCLUDE_DIRECTORIES ${_libwebm_extra_includes})
+if (NOT ASPIA_ROUTER_ONLY)
+    get_target_property(_libwebm_inc_dirs unofficial::libwebm::libwebm INTERFACE_INCLUDE_DIRECTORIES)
+    set(_libwebm_extra_includes)
+    foreach(_dir IN LISTS _libwebm_inc_dirs)
+        list(APPEND _libwebm_extra_includes "${_dir}/webm")
+    endforeach()
+    set_property(TARGET unofficial::libwebm::libwebm APPEND PROPERTY
+                 INTERFACE_INCLUDE_DIRECTORIES ${_libwebm_extra_includes})
+endif()
 
 enable_testing()
 add_subdirectory(source)
 
-file(GLOB TS_FILES_LIST "source/translations/*.ts")
-get_target_property(LUPDATE_PATH Qt::lupdate IMPORTED_LOCATION)
-set(SOURCE_FILES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/source")
+if (NOT ASPIA_ROUTER_ONLY)
+    # The translations are compiled into the client and the host. The router says nothing
+    # to the user, and the tools that make the translation files live in the same module
+    # as the ones that draw, so none of it is built for a router alone.
+    file(GLOB TS_FILES_LIST "source/translations/*.ts")
+    get_target_property(LUPDATE_PATH Qt::lupdate IMPORTED_LOCATION)
+    set(SOURCE_FILES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
-add_custom_target(update_translations
-    COMMAND ${LUPDATE_PATH} -I ${SOURCE_FILES_DIR} -extensions ui,cc,cpp,h ${SOURCE_FILES_DIR} -ts ${TS_FILES_LIST}
-    WORKING_DIRECTORY "${SOURCE_FILES_DIR}"
-    SOURCES ${TS_FILES_LIST}
-    VERBATIM
-    COMMAND_EXPAND_LISTS)
+    add_custom_target(update_translations
+        COMMAND ${LUPDATE_PATH} -I ${SOURCE_FILES_DIR} -extensions ui,cc,cpp,h ${SOURCE_FILES_DIR} -ts ${TS_FILES_LIST}
+        WORKING_DIRECTORY "${SOURCE_FILES_DIR}"
+        SOURCES ${TS_FILES_LIST}
+        VERBATIM
+        COMMAND_EXPAND_LISTS)
 
-qt_add_translation(QM_FILES_LIST ${TS_FILES_LIST})
-qt_add_resources(aspia_common "common_translations" PREFIX "tr" BASE "${CMAKE_CURRENT_BINARY_DIR}" FILES "${QM_FILES_LIST}")
+    qt_add_translation(QM_FILES_LIST ${TS_FILES_LIST})
+    qt_add_resources(aspia_common "common_translations" PREFIX "tr" BASE "${CMAKE_CURRENT_BINARY_DIR}" FILES "${QM_FILES_LIST}")
 
-message(STATUS "Source files: ${SOURCE_FILES_DIR}")
-message(STATUS "TS files: ${TS_FILES_LIST}")
-message(STATUS "QM files: ${QM_FILES_LIST}")
+    message(STATUS "Source files: ${SOURCE_FILES_DIR}")
+    message(STATUS "TS files: ${TS_FILES_LIST}")
+    message(STATUS "QM files: ${QM_FILES_LIST}")
+endif()

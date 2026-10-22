@@ -253,30 +253,34 @@ if (APPLE)
     set(BASE_TESTS_PLATFORM_LIBS ${FOUNDATION_LIB})
 endif()
 
-add_executable(aspia_base_tests
-    ${SOURCE_BASE_TESTS}
-    ${SOURCE_BASE_CODEC_TESTS}
-    ${SOURCE_BASE_CRYPTO_TESTS}
-    ${SOURCE_BASE_DESKTOP_TESTS}
-    ${SOURCE_BASE_FILES_TESTS}
-    ${SOURCE_BASE_NET_TESTS}
-    ${SOURCE_BASE_PEER_TESTS}
-    ${SOURCE_BASE_SQL_TESTS}
-    ${SOURCE_BASE_THREADING_TESTS}
-    ${SOURCE_BASE_UPDATE_TESTS}
-    ${SOURCE_BASE_WIN_TESTS})
-target_link_libraries(aspia_base_tests PRIVATE
-    aspia_base
-    aspia_proto
-    GTest::gtest
-    Qt6::Test
-    ${BASE_TESTS_PLATFORM_LIBS}
-    ${THIRD_PARTY_LIBS}
-    ${QT_COMMON_LIBS}
-    ${QT_PLATFORM_LIBS})
-set_property(TARGET aspia_base_tests PROPERTY AUTOMOC ON)
-set_property(TARGET aspia_base_tests PROPERTY AUTOUIC ON)
-set_property(TARGET aspia_base_tests PROPERTY AUTORCC ON)
-qt_import_plugins(aspia_base_tests INCLUDE "" EXCLUDE "" INCLUDE_BY_TYPE "" EXCLUDE_BY_TYPE imageformats)
+if (NOT ASPIA_ROUTER_ONLY)
+    # The tests need the test framework of Qt and of Google, and they cover the parts of
+    # the code that a router alone does not have.
+    add_executable(aspia_base_tests
+        ${SOURCE_BASE_TESTS}
+        ${SOURCE_BASE_CODEC_TESTS}
+        ${SOURCE_BASE_CRYPTO_TESTS}
+        ${SOURCE_BASE_DESKTOP_TESTS}
+        ${SOURCE_BASE_FILES_TESTS}
+        ${SOURCE_BASE_NET_TESTS}
+        ${SOURCE_BASE_PEER_TESTS}
+        ${SOURCE_BASE_SQL_TESTS}
+        ${SOURCE_BASE_THREADING_TESTS}
+        ${SOURCE_BASE_UPDATE_TESTS}
+        ${SOURCE_BASE_WIN_TESTS})
+    target_link_libraries(aspia_base_tests PRIVATE
+        aspia_base
+        aspia_proto
+        GTest::gtest
+        Qt6::Test
+        ${BASE_TESTS_PLATFORM_LIBS}
+        ${THIRD_PARTY_LIBS}
+        ${QT_COMMON_LIBS}
+        ${QT_PLATFORM_LIBS})
+    set_property(TARGET aspia_base_tests PROPERTY AUTOMOC ON)
+    set_property(TARGET aspia_base_tests PROPERTY AUTOUIC ON)
+    set_property(TARGET aspia_base_tests PROPERTY AUTORCC ON)
+    qt_import_plugins(aspia_base_tests INCLUDE "" EXCLUDE "" INCLUDE_BY_TYPE "" EXCLUDE_BY_TYPE imageformats)
 
-add_test(NAME aspia_base_tests COMMAND aspia_base_tests)
+    add_test(NAME aspia_base_tests COMMAND aspia_base_tests)
+endif()
