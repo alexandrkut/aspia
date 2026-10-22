@@ -73,7 +73,13 @@ void RelayPeer::start(const proto::router::ConnectionOffer& offer, const ProxySe
     preamble.append(reinterpret_cast<const char*>(&message_size), sizeof(message_size));
     preamble.append(message);
 
-    pending_channel_ = TcpChannelProxy::create(TcpChannel::Type::RELAY, proxy, authenticator_.release(), this);
+    // The router tells the client if the host speaks the protocol of the previous version of the
+    // program. The channel of that protocol has another frame format and another handshake.
+    const TcpChannel::Protocol protocol = connection_offer_.peer_info().is_legacy() ?
+        TcpChannel::Protocol::LEGACY : TcpChannel::Protocol::MODERN;
+
+    pending_channel_ = TcpChannelProxy::create(TcpChannel::Type::RELAY, proxy,
+                                               authenticator_.release(), this, protocol);
     pending_channel_->setPreamble(std::move(preamble));
 
     connect(pending_channel_, &TcpChannel::sig_connected, this, [this]()

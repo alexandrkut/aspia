@@ -24,6 +24,7 @@
 #include "base/net/tcp_channel_proxy.h"
 #include "base/net/udp_channel.h"
 #include "base/peer/client_authenticator.h"
+#include "base/peer/client_authenticator_legacy.h"
 #include "base/peer/relay_peer.h"
 #include "client/database.h"
 #include "client/udp_attempt.h"
@@ -225,6 +226,24 @@ void NetworkWorker::onTcpConnected()
 //--------------------------------------------------------------------------------------------------
 void NetworkWorker::onTcpErrorOccurred(TcpChannel::ErrorCode error_code)
 {
+    // The host of the previous version of the program does not know the handshake of the current
+    // version and closes the connection. The connection is continued in the compatibility mode.
+    if (error_code == TcpChannel::ErrorCode::REMOTE_HOST_CLOSED && !is_legacy_mode_ &&
+        !session_state_->isConnectionByHostId() && tcp_channel_ && !tcp_channel_->isAuthenticated())
+    {
+        LOG(INFO) << "Host may be out of date. Trying to connect in legacy mode";
+        emit sig_statusChanged(Status::LEGACY_HOST);
+
+        // The channel is deleted later: it is the sender of the signal we are handling now.
+        tcp_channel_->disconnect();
+        tcp_channel_->deleteLater();
+        tcp_channel_ = nullptr;
+
+        is_legacy_mode_ = true;
+        startConnection();
+        return;
+    }
+
     connectionLost(error_code);
 }
 
@@ -421,6 +440,22 @@ void NetworkWorker::startConnection()
         auth->setDisplayName(session_state_->displayName());
     };
 
+    // The authenticator of the protocol of the previous version of the program. The peers of that
+    // version have another handshake and another derivation of the session key.
+    auto createAuthenticator = [this, &setupAuthenticator](bool legacy) -> Authenticator*
+    {
+        if (legacy)
+        {
+            auto* authenticator = new ClientAuthenticatorLegacy();
+            setupAuthenticator(authenticator);
+            return authenticator;
+        }
+
+        auto* authenticator = new ClientAuthenticator();
+        setupAuthenticator(authenticator);
+        return authenticator;
+    };
+
     if (session_state_->isConnectionByHostId())
     {
         LOG(INFO) << "Starting RELAY connection";
@@ -438,6 +473,16 @@ void NetworkWorker::startConnection()
             return;
         }
 
+        // The router knows the version of the host and tells the client if the host speaks the
+        // protocol of the previous version of the program.
+        const bool legacy = offer.peer_info().is_legacy();
+
+        if (legacy)
+        {
+            LOG(INFO) << "Host speaks the protocol of the previous version of the program";
+            is_legacy_mode_ = true;
+        }
+
         if (!session_state_->isReconnecting())
         {
             // Show the status window.
@@ -452,9 +497,7 @@ void NetworkWorker::startConnection()
             return;
         }
 
-        auto* authenticator = new ClientAuthenticator();
-        setupAuthenticator(authenticator);
-        relay_peer_ = new RelayPeer(authenticator, this);
+        relay_peer_ = new RelayPeer(createAuthenticator(legacy), this);
 
         connect(relay_peer_, &RelayPeer::sig_connectionError,
                 this, &NetworkWorker::onRelayConnectionError);
@@ -481,9 +524,11 @@ void NetworkWorker::startConnection()
             return;
         }
 
-        auto* authenticator = new ClientAuthenticator();
-        setupAuthenticator(authenticator);
-        tcp_channel_ = TcpChannelProxy::create(TcpChannel::Type::DIRECT, proxy.settings(), authenticator, this);
+        const TcpChannel::Protocol protocol = is_legacy_mode_ ?
+            TcpChannel::Protocol::LEGACY : TcpChannel::Protocol::MODERN;
+
+        tcp_channel_ = TcpChannelProxy::create(TcpChannel::Type::DIRECT, proxy.settings(),
+                                               createAuthenticator(is_legacy_mode_), this, protocol);
 
         connect(tcp_channel_, &TcpChannel::sig_authenticated, this, &NetworkWorker::onTcpConnected);
         connect(tcp_channel_, &TcpChannel::sig_errorOccurred, this, &NetworkWorker::onTcpErrorOccurred);

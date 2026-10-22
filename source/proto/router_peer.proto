@@ -31,10 +31,19 @@ message StunServerInfo
     uint32 port    = 3;
 }
 
+message PeerInfo
+{
+    // If the opposite peer is outdated (version less than 3.0.0), then it is set to true. The
+    // peer speaks the protocol of the previous version and the client has to use the
+    // compatibility mode with it.
+    bool is_legacy = 1;
+}
+
 message ConnectionOffer
 {
     int64 request_id         = 1;
     string error_code        = 2;
     RelayCredentials relay   = 3;
     StunServerInfo stun_info = 4;
+    PeerInfo peer_info       = 5;
 }

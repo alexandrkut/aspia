@@ -59,7 +59,11 @@ public:
         HOST_DISCONNECTED,
         WAIT_FOR_HOST,
         VERSION_MISMATCH,
-        RELAY_ERROR
+        RELAY_ERROR,
+
+        // The host speaks the protocol of the previous version of the program, the connection
+        // continues in the compatibility mode.
+        LEGACY_HOST
     };
     Q_ENUM(Status)
 
@@ -165,6 +169,10 @@ private:
     // Receive-rate reporting (see onTimer).
     TimePoint receive_rate_time_;
     qint64 receive_rate_last_total_ = 0;
+
+    // The host speaks the protocol of the previous version of the program. The connection to such
+    // a host runs in the compatibility mode.
+    bool is_legacy_mode_ = false;
 
     Q_DISABLE_COPY_MOVE(NetworkWorker)
 };
