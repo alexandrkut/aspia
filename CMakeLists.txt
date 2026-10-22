@@ -34,6 +34,18 @@ set(ASPIA_VERSION_MAJOR 3)
 set(ASPIA_VERSION_MINOR 0)
 set(ASPIA_VERSION_PATCH 37)
 
+# The fourth number of the version: the number of the build of this line of the versions. It
+# starts at one with every new line and is raised by hand with every release. Unlike the number
+# of the commits it does not depend on the depth of the clone, so the packages built from the
+# same sources carry the same number on every machine.
+set(ASPIA_VERSION_BUILD 1)
+
+# A mark of a build that is not the released one: the version on the screen reads
+# "3.0.37.1-mod" so that this executable is never mistaken for the stock binary. It is only a
+# suffix of the printed version - the numeric ASPIA_VERSION the code compares stays 3.0.37, so
+# nothing that checks the version of a peer or of an update breaks.
+set(ASPIA_VERSION_SUFFIX "-mod")
+
 # On CI installed dir could be outside of vcpkg root
 if ("$ENV{VCPKG_INSTALLED_DIR}" STREQUAL "")
     set(VCPKG_INSTALLED_DIR $ENV{VCPKG_ROOT}/installed)
@@ -48,7 +60,13 @@ message(STATUS "VCPKG_HOST_TRIPLET: ${VCPKG_HOST_TRIPLET}")
 
 add_definitions(-DASPIA_VERSION_MAJOR=${ASPIA_VERSION_MAJOR}
                 -DASPIA_VERSION_MINOR=${ASPIA_VERSION_MINOR}
-                -DASPIA_VERSION_PATCH=${ASPIA_VERSION_PATCH})
+                -DASPIA_VERSION_PATCH=${ASPIA_VERSION_PATCH}
+                -DASPIA_VERSION_BUILD=${ASPIA_VERSION_BUILD})
+
+# The suffix is a string, so the quotes are part of the definition: without them the compiler
+# would read "-mod" as the difference of two names. An empty suffix disappears from the printed
+# version.
+add_definitions(-DASPIA_VERSION_SUFFIX=\"${ASPIA_VERSION_SUFFIX}\")
 
 if (ANDROID)
     message(STATUS "Android detected")
