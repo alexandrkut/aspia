@@ -21,6 +21,8 @@ collect_sources(SOURCE_BASE_PEER
     authenticator.h
     client_authenticator.cc
     client_authenticator.h
+    client_authenticator_legacy.cc
+    client_authenticator_legacy.h
     host_id.cc
     host_id.h
     relay_peer.cc
@@ -31,6 +33,8 @@ collect_sources(SOURCE_BASE_PEER
     router_user.h
     server_authenticator.cc
     server_authenticator.h
+    server_authenticator_legacy.cc
+    server_authenticator_legacy.h
     stun_peer.cc
     stun_peer.h
     user.cc
@@ -38,6 +42,7 @@ collect_sources(SOURCE_BASE_PEER
     user_list.h)
 
 collect_sources(SOURCE_BASE_PEER_TESTS
+    authenticator_legacy_unittest.cc
     host_id_unittest.cc
     router_user_unittest.cc
     user_unittest.cc)

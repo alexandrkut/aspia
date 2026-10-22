@@ -43,7 +43,17 @@ class Authenticator : public QObject
     Q_OBJECT
 
 public:
-    explicit Authenticator(QObject* parent);
+    // The protocol of the session. The peers of the previous version of the protocol (Aspia 2.x)
+    // use another transcript hash and another derivation of the session key, so that the peers of
+    // that version can read the traffic.
+    enum class Protocol
+    {
+        LEGACY,
+        NG
+    };
+    Q_ENUM(Protocol)
+
+    Authenticator(Protocol protocol, QObject* parent);
     virtual ~Authenticator() override;
 
     enum class State
@@ -93,8 +103,9 @@ public:
     // Key for the requested direction. Channels read it after sig_keyChanged(). Returns an empty
     // array until setSessionKeyReady() has been called, so accidental reads before the handshake
     // has finalized the master fail early instead of silently producing a partial-state digest.
-    // The key is SHA-256(master || keyLabel()), which gives cryptographically independent c2s and
-    // s2c keys.
+    // If the derived class returns an empty keyLabel() for the direction, the raw master is
+    // returned (the mode of the previous version of the protocol). Otherwise the key is
+    // SHA-256(master || keyLabel()), which gives cryptographically independent c2s and s2c keys.
     [[nodiscard]] SecureByteArray sessionKey(Direction direction) const;
     [[nodiscard]] const QByteArray& iv(Direction direction) const;
 
@@ -113,12 +124,15 @@ protected:
     virtual void onReceived(const QByteArray& buffer) = 0;
 
     // Returns a per-direction label that gets mixed with the master to produce direction-specific
-    // keys.
+    // keys. Return an empty array to get the raw master (the mode of the previous version of the
+    // protocol).
     [[nodiscard]] virtual QByteArray keyLabel(Direction direction) const = 0;
 
     // Feeds key material (handshake bytes and/or raw shared secrets) into the running transcript
-    // accumulator that produces the session key. Order must match on both peers. Subclasses feed
-    // the handshake messages and the secrets, so the key is bound to the full transcript.
+    // accumulator that produces the session key. Order must match on both peers. Subclasses that
+    // bind the full transcript feed handshake messages plus secrets; the subclasses of the previous
+    // version of the protocol feed only raw secrets so that the resulting key matches the wire
+    // compatibility of that version.
     void appendTranscript(const QByteArray& data);
 
     // Marks the transcript as finalized: subsequent sessionKey() calls return real keys, and the

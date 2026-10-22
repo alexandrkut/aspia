@@ -767,7 +767,7 @@ class TestAuthenticator final : public Authenticator
 {
 public:
     TestAuthenticator()
-        : Authenticator(nullptr)
+        : Authenticator(Protocol::LEGACY, nullptr)
     {
         // Nothing
     }

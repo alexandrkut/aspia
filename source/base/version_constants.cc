@@ -19,7 +19,13 @@
 #include "base/version_constants.h"
 
 const QVersionNumber kCurrentVersion(ASPIA_VERSION_MAJOR, ASPIA_VERSION_MINOR, ASPIA_VERSION_PATCH);
-const QVersionNumber kMinimumSupportedVersion(3, 0, 0);
+
+// The oldest version of the program the current one can talk to. The hosts of the versions below
+// 3.0.0 speak the protocol of the previous version, the program talks to them in the compatibility
+// mode.
+const QVersionNumber kMinimumSupportedVersion(2, 6, 0);
+const QVersionNumber kVersion_2_6_0(2, 6, 0);
+const QVersionNumber kVersion_2_7_0(2, 7, 0);
 const QVersionNumber kVersion_3_0_0(3, 0, 0);
 const QVersionNumber kVersion_3_0_34(3, 0, 34);
 
