@@ -98,6 +98,7 @@ void Settings::reset()
     setHostPort(kDefaultRouterHostTcpPort);
     setClientPort(kDefaultRouterClientTcpPort);
     setRelayPort(kDefaultRouterRelayTcpPort);
+    setLegacyHostPort(kDefaultRouterLegacyHostTcpPort);
     setClientListenInterface(QString());
     setHostListenInterface(QString());
     setRelayListenInterface(QString());
@@ -110,15 +111,27 @@ void Settings::reset()
     setEnableStun(true);
     setStunPort(kDefaultStunPort);
 
-  setTwoFactorForAdmin(true);
-  setTwoFactorForManager(true);
-  setTwoFactorForOperator(true);
+    setTwoFactorForAdmin(true);
+    setTwoFactorForManager(true);
+    setTwoFactorForOperator(true);
 }
 
 //--------------------------------------------------------------------------------------------------
 bool Settings::sync()
 {
     return ini_.sync();
+}
+
+//--------------------------------------------------------------------------------------------------
+void Settings::setLegacyHostPort(quint16 port)
+{
+    ini_.setUInt16Value(kHostSection, "legacy_port", port);
+}
+
+//--------------------------------------------------------------------------------------------------
+quint16 Settings::legacyHostPort() const
+{
+    return ini_.uint16Value(kHostSection, "legacy_port", kDefaultRouterLegacyHostTcpPort);
 }
 
 //--------------------------------------------------------------------------------------------------

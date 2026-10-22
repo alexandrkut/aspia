@@ -39,6 +39,9 @@ public:
     void reset();
     bool sync();
 
+    void setLegacyHostPort(quint16 port);
+    quint16 legacyHostPort() const;
+
     void setHostPort(quint16 port);
     quint16 hostPort() const;
 
