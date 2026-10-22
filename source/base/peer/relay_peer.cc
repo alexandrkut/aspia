@@ -158,11 +158,18 @@ QByteArray RelayPeer::authenticationMessage(const proto::router::RelayKey& key, 
         return QByteArray();
     }
 
-    if (key.encryption() != proto::router::RelayKey::ENCRYPTION_AES256_GCM)
+    if (key.encryption() != proto::router::RelayKey::ENCRYPTION_AES256_GCM &&
+        key.encryption() != proto::router::RelayKey::ENCRYPTION_CHACHA20_POLY1305)
     {
         CLOG(ERROR) << "Unsupported encryption type:" << key.encryption();
         return QByteArray();
     }
+
+    // The peers of the previous version of the program only understand ChaCha20-Poly1305, and the
+    // key of the session with the relay is derived another way for them: the bare shared secret
+    // instead of the one bound to both public keys. The algorithm of the offer tells which way it
+    // is.
+    const bool is_aes256_gcm = (key.encryption() == proto::router::RelayKey::ENCRYPTION_AES256_GCM);
 
     if (key.public_key().empty())
     {
@@ -198,15 +205,28 @@ QByteArray RelayPeer::authenticationMessage(const proto::router::RelayKey& key, 
         return QByteArray();
     }
 
-    GenericHash hash(GenericHash::Type::SHA256);
-    hash.addData(shared_secret);
-    hash.addData(relay_public_key);
-    hash.addData(key_pair.publicKey());
+    SecureByteArray session_key;
 
-    SecureByteArray session_key(hash.result());
+    if (is_aes256_gcm)
+    {
+        GenericHash hash(GenericHash::Type::SHA256);
+        hash.addData(shared_secret);
+        hash.addData(relay_public_key);
+        hash.addData(key_pair.publicKey());
+
+        session_key = SecureByteArray(hash.result());
+    }
+    else
+    {
+        session_key = SecureByteArray(GenericHash::hash(GenericHash::Type::BLAKE2s256,
+                                                          shared_secret.toByteArray()));
+    }
 
     std::unique_ptr<StreamEncryptor> encryptor =
-        StreamEncryptor::create(session_key, QByteArray::fromStdString(key.iv()));
+        StreamEncryptor::create(is_aes256_gcm ? CipherType::AES256_GCM : CipherType::CHACHA20_POLY1305,
+                                session_key,
+                                QByteArray::fromStdString(key.iv()),
+                                is_aes256_gcm);
     if (!encryptor)
     {
         CLOG(ERROR) << "Failed to create encryptor";
@@ -225,7 +245,9 @@ QByteArray RelayPeer::authenticationMessage(const proto::router::RelayKey& key, 
     message.set_key_id(key.key_id());
     message.set_public_key(key_pair.publicKey().toStdString());
     message.set_data(std::move(encrypted_secret));
-    message.set_encryption(proto::relay::PeerToRelay::ENCRYPTION_AES256_GCM);
+    message.set_encryption(is_aes256_gcm ?
+                               proto::relay::PeerToRelay::ENCRYPTION_AES256_GCM :
+                               proto::relay::PeerToRelay::ENCRYPTION_CHACHA20_POLY1305);
 
     return serialize(message);
 }

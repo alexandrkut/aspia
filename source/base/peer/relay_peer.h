@@ -67,6 +67,8 @@ private:
     // connected state before it reports an error, so the peer keeps this one.
     bool relay_connected_ = false;
 
+    friend class RelayPeerTestPeer;
+
     TcpChannel* pending_channel_ = nullptr;
 
     LOG_DECLARE_CONTEXT(RelayPeer);

@@ -44,5 +44,6 @@ collect_sources(SOURCE_BASE_PEER
 collect_sources(SOURCE_BASE_PEER_TESTS
     authenticator_legacy_unittest.cc
     host_id_unittest.cc
+    relay_peer_unittest.cc
     router_user_unittest.cc
     user_unittest.cc)
