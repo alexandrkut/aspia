@@ -183,6 +183,14 @@ void ClientWindow::onErrorOccurred(const QString& message)
 }
 
 //--------------------------------------------------------------------------------------------------
+void ClientWindow::onLegacyHostDetected()
+{
+    is_legacy_mode_ = true;
+    status_overlay_->setProgress(tr("The host runs an older version of the program. "
+                                    "Connecting in compatibility mode..."));
+}
+
+//--------------------------------------------------------------------------------------------------
 void ClientWindow::addWorker(std::unique_ptr<Worker> worker)
 {
     worker_manager_->add(std::move(worker));
@@ -300,8 +308,11 @@ void ClientWindow::onStatusChanged(NetworkWorker::Status status, const QVariant&
         break;
 
         case NetworkWorker::Status::HOST_CONNECTED:
-            status_overlay_->hide();
-            reconnect_timeout_timer_->stop();
+            status_overlay_->hide();            reconnect_timeout_timer_->stop();
+            break;
+
+        case NetworkWorker::Status::LEGACY_HOST:
+            onLegacyHostDetected();
             break;
 
         case NetworkWorker::Status::HOST_DISCONNECTED:

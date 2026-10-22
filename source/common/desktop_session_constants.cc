@@ -39,3 +39,7 @@ const char kFlagTaskManager[] = "task_manager";
 const char kFlagFileClipboard[] = "file_clipboard";
 const char kFlagPortable[] = "portable";
 const char kFlagElevated[] = "elevated";
+
+// The names of the extensions of the previous version of the program.
+const char kSelectScreenExtension[] = "select_screen";
+const char kPowerControlExtension[] = "power_control";

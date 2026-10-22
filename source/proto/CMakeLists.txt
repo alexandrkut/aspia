@@ -26,6 +26,7 @@ list(APPEND SOURCE_PROTO
     desktop_file.proto
     desktop_input.proto
     desktop_internal.proto
+    desktop_legacy.proto
     desktop_power.proto
     desktop_screen.proto
     desktop_tools.proto

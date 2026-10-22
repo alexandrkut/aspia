@@ -129,6 +129,10 @@ void VideoWorker::onPrepare()
         // Audio channel (CHANNEL_ID_AUDIO == 7); parsed only while recording, to mux into the file.
         connect(network_worker, &NetworkWorker::sig_channel_7, this, &VideoWorker::onAudioMessage,
                 Qt::QueuedConnection);
+        // The session of the previous version of the program has one channel for everything, and
+        // the video, the audio and the cursor are parts of the message of the session.
+        connect(network_worker, &NetworkWorker::sig_channel_0, this, &VideoWorker::onLegacyMessage,
+                Qt::QueuedConnection);
         connect(this, &VideoWorker::sig_sendMessage, network_worker, &NetworkWorker::onSendMessage,
                 Qt::QueuedConnection);
     }
@@ -224,6 +228,34 @@ void VideoWorker::onCursorMessage(const QByteArray& buffer)
         readCursorShape(message->shape());
     else if (message->has_position())
         readCursorPosition(message->position());
+}
+
+//--------------------------------------------------------------------------------------------------
+void VideoWorker::onLegacyMessage(const QByteArray& buffer)
+{
+    proto::legacy::SessionToClient* message = incoming_message_.parse<proto::legacy::SessionToClient>(buffer);
+    if (!message)
+    {
+        LOG(ERROR) << "Unable to parse legacy session message";
+        return;
+    }
+
+    if (message->has_video_packet())
+    {
+        decodePacket(message->video_packet());
+    }
+    else if (message->has_cursor_shape())
+    {
+        readCursorShape(message->cursor_shape());
+    }
+    else if (message->has_cursor_position())
+    {
+        readCursorPosition(message->cursor_position());
+    }
+    else if (message->has_audio_packet() && writer_)
+    {
+        writer_->addAudioPacket(message->audio_packet());
+    }
 }
 
 //--------------------------------------------------------------------------------------------------

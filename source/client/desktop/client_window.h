@@ -55,6 +55,10 @@ public:
     proto::peer::SessionType sessionType() const { return session_type_; }
     const StatusOverlay* statusOverlay() const { return status_overlay_; }
 
+    // The host speaks the protocol of the previous version of the program. The session with such
+    // a host runs in the compatibility mode.
+    bool isLegacy() const { return is_legacy_mode_; }
+
     // Notifies the session that it has been embedded in a tab (tabbed=true) or detached into a
     // top-level window (tabbed=false). Subclasses override to hide their own session-level
     // toolbars while in tabbed mode, since their actions are exposed via tabActionGroups().
@@ -165,6 +169,9 @@ private:
     void fetchConnectionOffer();
     void startNewSession();
 
+    // The host speaks the protocol of the previous version of the program.
+    void onLegacyHostDetected();
+
     // Builds session_connect_actions_ for every session type except session_type_.
     void createSessionConnectActions();
 
@@ -180,6 +187,9 @@ private:
     QPointer<NetworkWorker> network_worker_;
     SessionKeeper* session_keeper_ = nullptr;
     bool credentials_saved_ = false;
+
+    // The host speaks the protocol of the previous version of the program.
+    bool is_legacy_mode_ = false;
 };
 
 #endif // CLIENT_DESKTOP_CLIENT_WINDOW_H

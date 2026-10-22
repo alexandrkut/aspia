@@ -43,6 +43,13 @@ namespace proto::audio {
 class Packet;
 } // namespace proto::audio
 
+namespace proto::legacy {
+class Capabilities;
+class ClipboardEvent;
+class ClientToSession;
+class Extension;
+} // namespace proto::legacy
+
 namespace proto::video {
 class Packet;
 } // namespace proto::video
@@ -112,6 +119,10 @@ private slots:
     void onFileMessage(const QByteArray& buffer);
     void onToolsMessage(const QByteArray& buffer);
 
+    // The messages of the session of the previous version of the program. All of them travel in
+    // one channel, so the message of the video, the audio and the cursor are parts of it.
+    void onLegacyMessage(const QByteArray& buffer);
+
     // Video worker feedback.
     void onFrameError(proto::video::ErrorCode error_code);
     void onFrameChanged(const QSize& screen_size, SharedFrame frame);
@@ -151,6 +162,13 @@ private:
     void readCapabilities(const proto::control::Capabilities& capabilities);
     void readClipboardEvent(const proto::clipboard::Event& event);
     void readCredentialsRequest(const proto::control::CredentialsRequest& credentials_request);
+
+    // The session of the previous version of the program.
+    void sendLegacyMessage(const proto::legacy::ClientToSession& message);
+    void sendLegacyConfig(const proto::control::Config& config);
+    void readLegacyClipboardEvent(const proto::legacy::ClipboardEvent& clipboard_event);
+    void readLegacyCapabilities(const proto::legacy::Capabilities& legacy_capabilities);
+    void readLegacyExtension(const proto::legacy::Extension& extension);
     void onCapabilitiesChanged(const proto::control::Capabilities& capabilities);
     void onScreenListChanged(const proto::screen::ScreenList& screen_list);
     void onSessionListChanged(const proto::control::SessionList& sessions);

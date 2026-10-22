@@ -55,6 +55,7 @@
 #include "proto/desktop_control.h"
 #include "proto/desktop_cursor.h"
 #include "proto/desktop_input.h"
+#include "proto/desktop_legacy.h"
 #include "proto/desktop_screen.h"
 #include "proto/desktop_tools.h"
 #include "proto/desktop_user.h"
@@ -348,6 +349,10 @@ void DesktopWindow::onRegisterWorkers()
     connect(network_worker, &NetworkWorker::sig_channel_12, this, &DesktopWindow::onToolsMessage,
             Qt::QueuedConnection);
 
+    // The messages of the session of the previous version of the program travel in one channel.
+    connect(network_worker, &NetworkWorker::sig_channel_0, this, &DesktopWindow::onLegacyMessage,
+            Qt::QueuedConnection);
+
     connect(this, &DesktopWindow::sig_cursorConfig, video_worker_, &VideoWorker::onCursorConfig,
             Qt::QueuedConnection);
 
@@ -412,6 +417,17 @@ void DesktopWindow::onSessionStarted()
     }
 
     emit sig_showRequested();
+
+    if (isLegacy())
+    {
+        // The session of the previous version of the program has no chat, no terminal, no system
+        // information and no capabilities of the client.
+        toolbar_->enableTextChat(false);
+        toolbar_->enableTerminal(false);
+        toolbar_->enableSystemInfo(false);
+        return;
+    }
+
     toolbar_->enableTextChat(true);
     toolbar_->enableTerminal(true);
     toolbar_->enableSystemInfo(true);
@@ -663,6 +679,191 @@ McpController::SignInResult DesktopWindow::mcpSignIn()
 }
 
 //--------------------------------------------------------------------------------------------------
+void DesktopWindow::onLegacyMessage(const QByteArray& buffer)
+{
+    // The media workers pick out the video, the audio and the cursor updates from this channel
+    // themselves; the GUI thread handles only the clipboard and the capabilities.
+    proto::legacy::SessionToClient message;
+    if (!parse(buffer, &message))
+    {
+        LOG(ERROR) << "Invalid session message from host";
+        return;
+    }
+
+    if (message.has_clipboard_event())
+    {
+        readLegacyClipboardEvent(message.clipboard_event());
+    }
+    else if (message.has_capabilities())
+    {
+        readLegacyCapabilities(message.capabilities());
+    }
+    else if (message.has_extension())
+    {
+        readLegacyExtension(message.extension());
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void DesktopWindow::readLegacyExtension(const proto::legacy::Extension& extension)
+{
+    if (extension.name() == kSelectScreenExtension)
+    {
+        proto::screen::ScreenList screen_list;
+        if (!screen_list.ParseFromString(extension.data()))
+        {
+            LOG(ERROR) << "Unable to parse select screen extension data";
+            return;
+        }
+
+        LOG(INFO) << "Screen list receive:" << screen_list;
+        onScreenListChanged(screen_list);
+    }
+    else
+    {
+        LOG(ERROR) << "Unknown extension:" << extension.name();
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void DesktopWindow::readLegacyClipboardEvent(const proto::legacy::ClipboardEvent& clipboard_event)
+{
+    proto::clipboard::Event event;
+    Clipboard::addFormat(&event, clipboard_event.mime_type(), clipboard_event.data());
+    readClipboardEvent(event);
+}
+
+//--------------------------------------------------------------------------------------------------
+void DesktopWindow::readLegacyCapabilities(const proto::legacy::Capabilities& legacy_capabilities)
+{
+    LOG(INFO) << "Received:" << legacy_capabilities;
+
+    proto::control::Capabilities capabilities;
+
+    auto add_flag = [&capabilities](const char* name, bool value)
+    {
+        proto::control::Capabilities::Flag* flag = capabilities.add_flag();
+        flag->set_name(name);
+        flag->set_value(value);
+    };
+
+    switch (legacy_capabilities.os_type())
+    {
+        case proto::legacy::Capabilities::OS_TYPE_WINDOWS:
+            add_flag(kFlagOSWindows, true);
+            break;
+
+        case proto::legacy::Capabilities::OS_TYPE_LINUX:
+            add_flag(kFlagOSLinux, true);
+            break;
+
+        case proto::legacy::Capabilities::OS_TYPE_MACOSX:
+            add_flag(kFlagOSMacOS, true);
+            break;
+    }
+
+    const quint32 video_encodings = legacy_capabilities.video_encodings();
+    if (video_encodings & proto::video::ENCODING_VP8)
+        add_flag(kFlagVideoVP8, true);
+    if (video_encodings & proto::video::ENCODING_VP9)
+        add_flag(kFlagVideoVP9, true);
+
+    const quint32 audio_encodings = legacy_capabilities.audio_encodings();
+    if (audio_encodings & proto::audio::ENCODING_OPUS)
+        add_flag(kFlagAudioOpus, true);
+
+    // The flags of the previous version of the program are the opposite of the current ones: they
+    // say what must not be done. A flag that is not in the message means that the feature is on.
+    bool paste_as_keystrokes = true;
+    bool clipboard = true;
+    bool cursor_shape = true;
+    bool cursor_position = true;
+    bool desktop_effects = true;
+    bool desktop_wallpaper = true;
+    bool lock_at_disconnect = true;
+    bool block_input = true;
+
+    for (int i = 0; i < legacy_capabilities.flag_size(); ++i)
+    {
+        const proto::legacy::Capabilities::Flag& flag = legacy_capabilities.flag(i);
+        const std::string& name = flag.name();
+        const bool value = flag.value();
+
+        if (name == "disable_paste_as_keystrokes")
+            paste_as_keystrokes = !value;
+        else if (name == "disable_clipboard")
+            clipboard = !value;
+        else if (name == "disable_cursor_shape")
+            cursor_shape = !value;
+        else if (name == "disable_cursor_position")
+            cursor_position = !value;
+        else if (name == "disable_desktop_effects")
+            desktop_effects = !value;
+        else if (name == "disable_desktop_wallpaper")
+            desktop_wallpaper = !value;
+        else if (name == "disable_lock_at_disconnect")
+            lock_at_disconnect = !value;
+        else if (name == "block_remote_input")
+            block_input = value;
+    }
+
+    add_flag(kFlagPasteAsKeystrokes, paste_as_keystrokes);
+    add_flag(kFlagClipboard, clipboard);
+    add_flag(kFlagCursorShape, cursor_shape);
+    add_flag(kFlagCursorPosition, cursor_position);
+    add_flag(kFlagDesktopEffects, desktop_effects);
+    add_flag(kFlagDesktopWallpaper, desktop_wallpaper);
+    add_flag(kFlagLockAtDisconnect, lock_at_disconnect);
+    add_flag(kFlagBlockInput, block_input);
+
+    // The extensions of the previous version of the program are a list of names.
+    const QStringList extensions =
+        QString::fromStdString(legacy_capabilities.extensions()).split(';', Qt::SkipEmptyParts);
+
+    add_flag(kFlagSelectScreen, extensions.contains(QLatin1String(kSelectScreenExtension)));
+    add_flag(kFlagPowerControl, extensions.contains(QLatin1String(kPowerControlExtension)));
+
+    onCapabilitiesChanged(capabilities);
+    sendLegacyConfig(desktop_config_);
+}
+
+//--------------------------------------------------------------------------------------------------
+void DesktopWindow::sendLegacyMessage(const proto::legacy::ClientToSession& message)
+{
+    sendMessage(proto::desktop::CHANNEL_ID_LEGACY, serialize(message));
+}
+
+//--------------------------------------------------------------------------------------------------
+void DesktopWindow::sendLegacyConfig(const proto::control::Config& config)
+{
+    proto::legacy::ClientToSession message;
+    proto::legacy::Config* legacy_config = message.mutable_config();
+
+    quint32 flags = 0;
+
+    if (config.cursor_shape())
+        flags |= proto::legacy::ENABLE_CURSOR_SHAPE;
+    if (config.clipboard())
+        flags |= proto::legacy::ENABLE_CLIPBOARD;
+    if (!config.effects())
+        flags |= proto::legacy::DISABLE_EFFECTS;
+    if (!config.wallpaper())
+        flags |= proto::legacy::DISABLE_WALLPAPER;
+    if (config.block_input())
+        flags |= proto::legacy::BLOCK_REMOTE_INPUT;
+    if (config.lock_at_disconnect())
+        flags |= proto::legacy::LOCK_AT_DISCONNECT;
+    if (config.cursor_position())
+        flags |= proto::legacy::CURSOR_POSITION;
+
+    legacy_config->set_flags(flags);
+    legacy_config->set_video_encoding(proto::video::ENCODING_VP8);
+    legacy_config->set_audio_encoding(proto::audio::ENCODING_OPUS);
+
+    sendLegacyMessage(message);
+}
+
+//--------------------------------------------------------------------------------------------------
 void DesktopWindow::onScreenMessage(const QByteArray& buffer)
 {
     proto::screen::HostToClient message;
@@ -822,6 +1023,16 @@ void DesktopWindow::onCurrentScreenChanged(const proto::screen::Screen& screen)
 {
     LOG(INFO) << "Current screen changed:" << screen.id();
 
+    if (isLegacy())
+    {
+        proto::legacy::ClientToSession message;
+        proto::legacy::Extension* extension = message.mutable_extension();
+        extension->set_name(kSelectScreenExtension);
+        extension->set_data(screen.SerializeAsString());
+        sendLegacyMessage(message);
+        return;
+    }
+
     proto::screen::ClientToHost message;
     message.mutable_screen()->CopyFrom(screen);
     sendMessage(proto::desktop::CHANNEL_ID_SCREEN, serialize(message));
@@ -903,11 +1114,23 @@ void DesktopWindow::onClipboardEvent(const proto::clipboard::Event& event)
         return;
     }
 
+    if (isLegacy())
+    {
+        // The previous version of the program has one format of the clipboard, so the first one is
+        // the one that goes to the host.
+        const proto::clipboard::Event::Format& format = event.format(0);
+
+        proto::legacy::ClientToSession message;
+        message.mutable_clipboard_event()->set_mime_type(format.mime_type());
+        message.mutable_clipboard_event()->set_data(format.data());
+        sendLegacyMessage(message);
+        return;
+    }
+
     proto::clipboard::ClientToHost message;
     message.mutable_event()->CopyFrom(event);
     sendMessage(proto::desktop::CHANNEL_ID_CLIPBOARD, serialize(message));
 }
-
 //--------------------------------------------------------------------------------------------------
 void DesktopWindow::onClipboardLocalFileListChanged(const QVector<LocalFileEntry>& files)
 {
@@ -1094,6 +1317,14 @@ void DesktopWindow::onMouseFlushTimer()
 void DesktopWindow::onKeyEvent(const proto::input::KeyEvent& event)
 {
     ++send_key_count_;
+
+    if (isLegacy())
+    {
+        proto::legacy::ClientToSession message;
+        message.mutable_key_event()->CopyFrom(event);
+        sendLegacyMessage(message);
+        return;
+    }
 
     proto::input::ClientToHost& message = outgoing_message_.newMessage<proto::input::ClientToHost>();
     message.mutable_key()->CopyFrom(event);
@@ -1309,6 +1540,12 @@ void DesktopWindow::sendConfig(const proto::control::Config& config)
 {
     LOG(INFO) << "Send:" << config;
 
+    if (isLegacy())
+    {
+        sendLegacyConfig(config);
+        return;
+    }
+
     proto::control::ClientToHost message;
     message.mutable_config()->CopyFrom(desktop_config_);
     sendMessage(proto::desktop::CHANNEL_ID_CONTROL, serialize(message));
@@ -1357,6 +1594,14 @@ void DesktopWindow::sendMouseEvent(const proto::input::MouseEvent& event)
 
     ++send_mouse_count_;
 
+    if (isLegacy())
+    {
+        proto::legacy::ClientToSession message;
+        message.mutable_mouse_event()->CopyFrom(event);
+        sendLegacyMessage(message);
+        return;
+    }
+
     proto::input::ClientToHost& message = outgoing_message_.newMessage<proto::input::ClientToHost>();
     message.mutable_mouse()->CopyFrom(event);
     sendMessage(proto::desktop::CHANNEL_ID_INPUT,
@@ -1367,6 +1612,14 @@ void DesktopWindow::sendMouseEvent(const proto::input::MouseEvent& event)
 void DesktopWindow::sendText(const QString& text)
 {
     ++send_text_count_;
+
+    if (isLegacy())
+    {
+        proto::legacy::ClientToSession message;
+        message.mutable_text_event()->set_text(text.toStdString());
+        sendLegacyMessage(message);
+        return;
+    }
 
     proto::input::ClientToHost& message = outgoing_message_.newMessage<proto::input::ClientToHost>();
     message.mutable_text()->set_text(text.toStdString());

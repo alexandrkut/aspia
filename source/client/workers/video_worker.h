@@ -31,6 +31,7 @@
 #include "proto/desktop_audio.h"
 #include "proto/desktop_channel.h"
 #include "proto/desktop_cursor.h"
+#include "proto/desktop_legacy.h"
 #include "proto/desktop_video.h"
 
 class CursorDecoder;
@@ -88,6 +89,9 @@ private slots:
     void onVideoMessage(const QByteArray& buffer);
     void onCursorMessage(const QByteArray& buffer);
     void onAudioMessage(const QByteArray& buffer);
+
+    // The session of the previous version of the program has one channel for everything.
+    void onLegacyMessage(const QByteArray& buffer);
     void onEncodeTimer();
 
 private:
@@ -105,7 +109,8 @@ private:
 
     Parser<proto::video::HostToClient,
            proto::cursor::HostToClient,
-           proto::audio::HostToClient> incoming_message_;
+           proto::audio::HostToClient,
+           proto::legacy::SessionToClient> incoming_message_;
 
     std::unique_ptr<VideoDecoder> decoder_;
     proto::video::Encoding encoding_ = proto::video::ENCODING_UNKNOWN;

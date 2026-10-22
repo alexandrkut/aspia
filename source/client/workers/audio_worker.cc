@@ -57,6 +57,10 @@ void AudioWorker::onPrepare()
         // Audio channel (CHANNEL_ID_AUDIO == 7).
         connect(network_worker, &NetworkWorker::sig_channel_7, this, &AudioWorker::onAudioMessage,
                 Qt::QueuedConnection);
+        // The session of the previous version of the program has one channel for everything, and
+        // the audio is a part of the message of the session.
+        connect(network_worker, &NetworkWorker::sig_channel_0, this, &AudioWorker::onLegacyMessage,
+                Qt::QueuedConnection);
     }
     else
     {
@@ -100,6 +104,20 @@ void AudioWorker::onAudioMessage(const QByteArray& buffer)
     }
 
     decodePacket(message->packet());
+}
+
+//--------------------------------------------------------------------------------------------------
+void AudioWorker::onLegacyMessage(const QByteArray& buffer)
+{
+    proto::legacy::SessionToClient* message = incoming_message_.parse<proto::legacy::SessionToClient>(buffer);
+    if (!message)
+    {
+        LOG(ERROR) << "Unable to parse legacy session message";
+        return;
+    }
+
+    if (message->has_audio_packet())
+        decodePacket(message->audio_packet());
 }
 
 //--------------------------------------------------------------------------------------------------
