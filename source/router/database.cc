@@ -235,10 +235,27 @@ QStringList tableColumns(SqlDatabase& db, const char* table)
     return columns;
 }
 
-// Whether the table has the column.
-bool hasColumn(SqlDatabase& db, const char* table, const char* column)
+// Whether the table has the column. A table that is not there at all does not have it.
+bool hasColumn(SqlDatabase& db, std::string_view table, std::string_view column)
 {
-    return tableColumns(db, table).contains(QLatin1String(column));
+    SqlQuery query(db, "SELECT 1 FROM pragma_table_info(?) WHERE name=?");
+    query.addText(table);
+    query.addText(column);
+
+    if (!query.isValid())
+    {
+        LOG(ERROR) << "Unable to query table info:" << db.lastError();
+        return true; // Pessimistic: pretend it exists, do not attempt ALTER.
+    }
+
+    const SqlQuery::StepResult step = query.next();
+    if (step == SqlQuery::StepResult::FAILED)
+    {
+        LOG(ERROR) << "Unable to query table info:" << db.lastError();
+        return true; // A failed check must not trigger an ALTER.
+    }
+
+    return step == SqlQuery::StepResult::ROW;
 }
 
 // The database of an older version of the program keeps its rows, and the ids of the hosts among
@@ -247,17 +264,11 @@ bool hasColumn(SqlDatabase& db, const char* table, const char* column)
 // comes back with the id it had.
 bool addMissingColumns(SqlDatabase& db, const char* table, const Column* columns, size_t count)
 {
-    const QStringList existing = tableColumns(db, table);
-
-    // The table does not exist yet - it is created with the current schema below.
-    if (existing.isEmpty())
-        return true;
-
     bool result = true;
 
     for (size_t i = 0; i < count; ++i)
     {
-        if (existing.contains(QLatin1String(columns[i].name)))
+        if (hasColumn(db, table, columns[i].name))
             continue;
 
         const QString sql =
@@ -328,35 +339,6 @@ bool ensureSchema(SqlDatabase& db)
     // |otp_counter| is the highest TOTP step already consumed; the server refuses any
     // subsequent code whose step is less-than-or-equal to it (replay protection, per RFC 6238
     // section 5.2).
-    //
-    // The tables of an older version of the program keep their rows, and the ids of the hosts
-    // among them, so the columns they do not have are added before the tables are created.
-    // A users table without the column of the second factor has the layout of the version 2.7. The
-    // manager role did not exist then, so the administrators of such a table lack the bit of that
-    // role their level implies. A table that is not there yet is a new one, not an old one.
-    const QStringList user_columns = tableColumns(db, "users");
-    const bool users_from_2_7 = !user_columns.isEmpty() &&
-                                 !user_columns.contains(QLatin1String("otp_secret"));
-
-    if (!addMissingColumns(db, "hosts", kHostColumns, std::size(kHostColumns)) ||
-        !addMissingColumns(db, "users", kUserColumns, std::size(kUserColumns)))
-    {
-        return false;
-    }
-
-    if (users_from_2_7)
-    {
-        SqlQuery query(db, "UPDATE users SET sessions=sessions|? WHERE (sessions&?)!=0");
-        query.addInt64(proto::router::SESSION_TYPE_MANAGER | proto::router::SESSION_TYPE_OPERATOR);
-        query.addInt64(proto::router::SESSION_TYPE_ADMIN);
-
-        if (!query.exec())
-        {
-            LOG(ERROR) << "Unable to expand the sessions of administrators:" << db.lastError();
-            return false;
-        }
-    }
-
     if (!run("CREATE TABLE IF NOT EXISTS \"users\" ("
              "\"id\" INTEGER UNIQUE,"
              "\"name\" TEXT NOT NULL UNIQUE,"
@@ -497,8 +479,38 @@ bool ensureSchema(SqlDatabase& db)
         return false;
     }
 
+    // The tables of an older version of the program keep their rows, and the ids of the hosts
+    // among them, so the columns they do not have are added with the defaults of the current
+    // version instead of the tables being replaced. A host of an older version finds itself by
+    // the hash of its key, so it comes back with the id it had.
+    //
+    // A users table without the column of the second factor has the layout of the version 2.7.
+    // The manager role did not exist then, so the administrators of such a table lack the bit of
+    // that role their level implies.
+    const bool users_from_2_7 = !hasColumn(db, "users", "otp_secret");
+
+    if (!addMissingColumns(db, "hosts", kHostColumns, std::size(kHostColumns)) ||
+        !addMissingColumns(db, "users", kUserColumns, std::size(kUserColumns)))
+    {
+        return false;
+    }
+
+    if (users_from_2_7)
+    {
+        SqlQuery query(db, "UPDATE users SET sessions=sessions|? WHERE (sessions&?)!=0");
+        query.addInt64(proto::router::SESSION_TYPE_MANAGER | proto::router::SESSION_TYPE_OPERATOR);
+        query.addInt64(proto::router::SESSION_TYPE_ADMIN);
+
+        if (!query.exec())
+        {
+            LOG(ERROR) << "Unable to expand the sessions of administrators:" << db.lastError();
+            return false;
+        }
+    }
+
     // Composite index for the dominant host list/count query (hosts of a given workspace and
-    // group). Without it list-by-group does a full table scan once hosts grows.
+    // group). Without it list-by-group does a full table scan once hosts grows. It follows the
+    // backfill above: on an upgraded database the columns it names exist only from there on.
     if (!run("CREATE INDEX IF NOT EXISTS \"hosts_workspace_group\" "
              "ON \"hosts\"(\"workspace_id\", \"group_id\")"))
     {
