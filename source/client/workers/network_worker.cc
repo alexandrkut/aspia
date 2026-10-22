@@ -227,9 +227,14 @@ void NetworkWorker::onTcpConnected()
 void NetworkWorker::onTcpErrorOccurred(TcpChannel::ErrorCode error_code)
 {
     // The host of the previous version of the program does not know the handshake of the current
-    // version and closes the connection. The connection is continued in the compatibility mode.
-    if (error_code == TcpChannel::ErrorCode::REMOTE_HOST_CLOSED && !is_legacy_mode_ &&
-        !session_state_->isConnectionByHostId() && tcp_channel_ && !tcp_channel_->isAuthenticated())
+    // version. It either closes the connection right away, or it goes through the exchange and
+    // fails to read the answer, because the session key of that version is derived another way.
+    // The connection is continued in the compatibility mode in both cases.
+    const bool host_may_be_old = (error_code == TcpChannel::ErrorCode::REMOTE_HOST_CLOSED ||
+                                  error_code == TcpChannel::ErrorCode::CRYPTO_ERROR);
+
+    if (host_may_be_old && !is_legacy_mode_ && !session_state_->isConnectionByHostId() &&
+        tcp_channel_ && !tcp_channel_->isAuthenticated())
     {
         LOG(INFO) << "Host may be out of date. Trying to connect in legacy mode";
         emit sig_statusChanged(Status::LEGACY_HOST);
@@ -481,6 +486,7 @@ void NetworkWorker::startConnection()
         {
             LOG(INFO) << "Host speaks the protocol of the previous version of the program";
             is_legacy_mode_ = true;
+            emit sig_statusChanged(Status::LEGACY_HOST);
         }
 
         if (!session_state_->isReconnecting())
