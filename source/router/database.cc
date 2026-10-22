@@ -183,6 +183,102 @@ QString databaseDirectory()
     return BasePaths::appDataDir();
 }
 
+namespace {
+
+// A column that the current version of the program needs and an older one did not have.
+struct Column
+{
+    const char* name;
+    const char* definition;
+};
+
+// The columns of the table of the hosts that the versions before 3.0.0 did not have.
+const Column kHostColumns[] =
+{
+    { "hwid",          "BLOB NOT NULL DEFAULT X''" },
+    { "revision",      "INTEGER NOT NULL DEFAULT 1" },
+    { "workspace_id",  "INTEGER NOT NULL DEFAULT 0" },
+    { "group_id",      "INTEGER NOT NULL DEFAULT 0" },
+    { "display_name",  "TEXT NOT NULL DEFAULT ''" },
+    { "computer_name", "TEXT NOT NULL DEFAULT ''" },
+    { "cpu_arch",      "TEXT NOT NULL DEFAULT ''" },
+    { "version",       "TEXT NOT NULL DEFAULT ''" },
+    { "os_name",       "TEXT NOT NULL DEFAULT ''" },
+    { "address",       "TEXT NOT NULL DEFAULT ''" },
+    { "comment",       "TEXT NOT NULL DEFAULT ''" },
+    { "last_connect",  "INTEGER NOT NULL DEFAULT 0" },
+    { "last_modify",   "INTEGER NOT NULL DEFAULT 0" },
+    { "telemetry",     "TEXT NOT NULL DEFAULT ''" },
+};
+
+// The columns of the table of the users that the versions before 3.1.0 did not have.
+const Column kUserColumns[] =
+{
+    { "otp_secret", "BLOB NOT NULL DEFAULT X''" },
+    { "otp_counter", "INTEGER NOT NULL DEFAULT 0" },
+};
+
+// The names of the columns the table has.
+QStringList tableColumns(SqlDatabase& db, const char* table)
+{
+    QStringList columns;
+
+    const std::string sql = "PRAGMA table_info(\"" + std::string(table) + "\")";
+
+    SqlQuery query(db, sql);
+    if (!query.isValid())
+        return columns;
+
+    while (query.next() == SqlQuery::StepResult::ROW)
+        columns.append(query.columnText(1));
+
+    return columns;
+}
+
+// The database of an older version of the program keeps its rows, and the ids of the hosts among
+// them, so the missing columns are added with the defaults of the current version instead of the
+// table being replaced. A host of an older version finds itself by the hash of its key, so it
+// comes back with the id it had.
+bool addMissingColumns(SqlDatabase& db, const char* table, const Column* columns, size_t count)
+{
+    const QStringList existing = tableColumns(db, table);
+
+    // The table does not exist yet - it is created with the current schema below.
+    if (existing.isEmpty())
+        return true;
+
+    bool result = true;
+
+    for (size_t i = 0; i < count; ++i)
+    {
+        if (existing.contains(QLatin1String(columns[i].name)))
+            continue;
+
+        const QString sql =
+            QString("ALTER TABLE \"%1\" ADD COLUMN \"%2\" %3")
+                .arg(QLatin1String(table),
+                     QLatin1String(columns[i].name),
+                     QLatin1String(columns[i].definition));
+
+        const QByteArray utf8 = sql.toUtf8();
+
+        if (!db.exec(utf8.constData()))
+        {
+            LOG(ERROR) << "Unable to add the column" << columns[i].name << "to the table" << table
+                       << ":" << db.lastError();
+            result = false;
+        }
+        else
+        {
+            LOG(INFO) << "Added the column" << columns[i].name << "to the table" << table;
+        }
+    }
+
+    return result;
+}
+
+} // namespace
+
 //--------------------------------------------------------------------------------------------------
 // Reads a RouterUser row. Column order must match the SELECT projections used by userList()
 // and findUser().
@@ -226,6 +322,15 @@ bool ensureSchema(SqlDatabase& db)
     // |otp_counter| is the highest TOTP step already consumed; the server refuses any
     // subsequent code whose step is less-than-or-equal to it (replay protection, per RFC 6238
     // section 5.2).
+    //
+    // The tables of an older version of the program keep their rows, and the ids of the hosts
+    // among them, so the columns they do not have are added before the tables are created.
+    if (!addMissingColumns(db, "hosts", kHostColumns, std::size(kHostColumns)) ||
+        !addMissingColumns(db, "users", kUserColumns, std::size(kUserColumns)))
+    {
+        return false;
+    }
+
     if (!run("CREATE TABLE IF NOT EXISTS \"users\" ("
              "\"id\" INTEGER UNIQUE,"
              "\"name\" TEXT NOT NULL UNIQUE,"

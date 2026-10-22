@@ -1,4 +1,4 @@
-//
+﻿//
 // Aspia Project
 // Copyright (C) 2016-2026 Dmitry Chapyshev <dmitry@aspia.ru>
 //
@@ -26,11 +26,13 @@
 #include <set>
 #include <string>
 
+#include "base/crypto/generic_hash.h"
 #include "base/crypto/random.h"
 #include "base/crypto/secure_string.h"
 #include "base/peer/router_user.h"
 #include "base/peer/user.h"
 #include "base/sql/sql_database.h"
+#include "base/sql/sql_query.h"
 #include "proto/router.h"
 #include "proto/router_client.h"
 #include "proto/router_constants.h"
@@ -1234,3 +1236,69 @@ TEST(RouterDatabaseFreshTest, AddHostBeforeAnyAutoincrementInsert)
     ASSERT_EQ(db.hostId("hash-1", &host_id), proto::router::kErrorOk);
     EXPECT_EQ(host_id, HostId(1));
 }
+
+//--------------------------------------------------------------------------------------------------
+// The database of a router of an older version of the program must be taken over as it is: the
+// hosts it knows keep their ids, so a host of that version comes back with the id it had and the
+// books of the clients that know it stay valid.
+TEST(RouterDatabaseMigrationTest, TheHostsOfAnOldDatabaseKeepTheirIds)
+{
+    QTemporaryDir temp_dir;
+    ASSERT_TRUE(temp_dir.isValid());
+
+    const QString file_path = temp_dir.path() + "/router.db3";
+
+    // The database as a router of an older version of the program left it: the table of the hosts
+    // has nothing but the id and the key.
+    const QByteArray key = QByteArrayLiteral("the-key-the-host-presents");
+    const QByteArray key_hash = GenericHash::hash(GenericHash::Type::BLAKE2b512, key);
+
+    {
+        SqlDatabase db;
+        ASSERT_TRUE(db.open(file_path));
+
+        ASSERT_TRUE(db.exec("CREATE TABLE \"hosts\" ("
+                            "\"id\" INTEGER UNIQUE,"
+                            "\"key\" BLOB NOT NULL UNIQUE,"
+                            "PRIMARY KEY(\"id\" AUTOINCREMENT))"));
+
+        ASSERT_TRUE(db.exec("CREATE TABLE \"users\" ("
+                            "\"id\" INTEGER UNIQUE,"
+                            "\"name\" TEXT NOT NULL UNIQUE,"
+                            "\"group\" TEXT NOT NULL,"
+                            "\"salt\" BLOB NOT NULL,"
+                            "\"verifier\" BLOB NOT NULL,"
+                            "\"sessions\" INTEGER DEFAULT 0,"
+                            "\"flags\" INTEGER DEFAULT 0,"
+                            "PRIMARY KEY(\"id\" AUTOINCREMENT))"));
+
+        SqlQuery insert(db, "INSERT INTO hosts (id, key) VALUES (42, ?)");
+        insert.addBlob(key_hash);
+        ASSERT_TRUE(insert.exec());
+    }
+
+    // The current version of the program takes the database over.
+    Database db;
+    ASSERT_TRUE(db.open(file_path));
+
+    // The host is still there, with the id it had.
+    HostId host_id = kInvalidHostId;
+    ASSERT_EQ(db.hostId(key_hash, &host_id), proto::router::kErrorOk);
+    EXPECT_EQ(host_id, 42u);
+
+    // The columns of the current version are there.
+    {
+        SqlDatabase raw;
+        ASSERT_TRUE(raw.open(file_path));
+
+        SqlQuery query(raw, "SELECT hwid, revision, workspace_id, display_name FROM hosts WHERE id=42");
+        ASSERT_TRUE(query.isValid());
+        ASSERT_EQ(query.next(), SqlQuery::StepResult::ROW);
+        EXPECT_TRUE(query.columnBlob(0).isEmpty());
+        EXPECT_EQ(query.columnInt64(1), 1);
+        EXPECT_EQ(query.columnInt64(2), 0);
+        EXPECT_TRUE(query.columnText(3).isEmpty());
+    }
+}
+
+

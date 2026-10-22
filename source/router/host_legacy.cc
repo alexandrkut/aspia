@@ -27,21 +27,12 @@
 #include "proto/router_peer.h"
 #include "router/database.h"
 #include "router/handlers/host_id_handler.h"
+#include "router/workers/client_worker.h"
 
 namespace {
 
-// The error code of the previous version of the program is an enumeration, the current one is a
-// string.
-proto::router::legacy::HostIdResponse::ErrorCode legacyErrorCode(const std::string& error_code)
-{
-    if (error_code == proto::router::kErrorOk)
-        return proto::router::legacy::HostIdResponse::SUCCESS;
-
-    if (error_code == proto::router::kErrorNotFound)
-        return proto::router::legacy::HostIdResponse::NO_HOST_FOUND;
-
-    return proto::router::legacy::HostIdResponse::UNKNOWN;
-}
+// The size of the key the router hands to a host that is not approved yet.
+constexpr int kMaxIdRequests = 40;
 
 } // namespace
 
@@ -115,75 +106,77 @@ void HostLegacy::sendConnectionOfferMessage(const proto::router::ConnectionOffer
 //--------------------------------------------------------------------------------------------------
 void HostLegacy::readHostIdRequest(const proto::router::legacy::HostIdRequest& host_id_request)
 {
-    HostIdPeer peer;
-    peer.computer_name = computerName();
-    peer.architecture = architecture();
-    peer.version = version().toString().toStdString();
-    peer.os_name = osName();
-    peer.address = address();
-
     ++id_request_count_;
 
-    // The request of the previous version of the program has the same fields as the request of the
-    // current version, so the same handler decides what to answer.
-    proto::router::HostIdRequest request;
-    request.set_type(static_cast<proto::router::HostIdRequest::Type>(host_id_request.type()));
-    request.set_key(host_id_request.key());
-
-    const HostIdResult result =
-        handleHostIdRequest(database(), request, peer, hostId(), static_cast<int>(id_request_count_));
-
-    if (result.action == HostIdResult::Action::SKIP)
-        return;
-
-    if (result.action == HostIdResult::Action::CLOSE)
+    if (id_request_count_ > kMaxIdRequests)
     {
+        CLOG(ERROR) << "Too many host id requests in one connection (" << id_request_count_
+                     << "); disconnecting";
         emit sig_finished(sessionId());
         return;
     }
 
-    proto::router::legacy::RouterToPeer message;
-    proto::router::legacy::HostIdResponse* host_id_response = message.mutable_host_id_response();
+    Database& db = database();
 
-    if (result.action == HostIdResult::Action::ISSUE_TEMP_ID)
+    if (!db.isValid())
     {
-        // The key and the temporary id belong to this connection. The key is random material
-        // handed to the host, and the id is reserved until the connection ends.
-        std::string key = Random::string(kHostKeySize);
-        key_hash_ = GenericHash::hash(GenericHash::Type::BLAKE2b512, key);
-        setHostId(reserveTempHostId());
-
-        host_id_response->set_error_code(proto::router::legacy::HostIdResponse::SUCCESS);
-        host_id_response->set_host_id(hostId());
-        host_id_response->set_key(std::move(key));
-
-        if (!result.removal_pending)
-        {
-            emit sig_hostIdAssigned(hostId());
-            emit sig_notifyChanged(result.notify_flags);
-        }
-
-        sendMessage(0, serialize(message));
+        CLOG(ERROR) << "Failed to connect to database; disconnecting the host";
+        emit sig_finished(sessionId());
         return;
     }
 
-    setHostId(result.host_id);
-    telemetry_ = result.telemetry;
-    host_id_response->set_error_code(legacyErrorCode(result.error_code));
+    const QByteArray key = QByteArray::fromStdString(host_id_request.key());
+    const QByteArray key_hash = GenericHash::hash(GenericHash::Type::BLAKE2b512, key);
 
-    if (hostId() != kInvalidHostId)
-        host_id_response->set_host_id(hostId());
+    proto::router::legacy::RouterToPeer message;
+    proto::router::legacy::HostIdResponse* host_id_response = message.mutable_host_id_response();
+
+    HostId host_id = kInvalidHostId;
+    std::string_view error_code = db.hostId(key_hash, &host_id);
+
+    // The host of the previous version of the program has no hardware id and no approval, so it
+    // goes into the database right away.
+    if (error_code == proto::router::kErrorNotFound &&
+        host_id_request.type() == proto::router::legacy::HostIdRequest::NEW_ID)
+    {
+        // The hash of the key stands for the hardware id: the host has none, and the id of the
+        // record must not change when the host comes back.
+        if (db.addHost(key_hash, key_hash))
+        {
+            error_code = db.hostId(key_hash, &host_id);
+        }
+        else
+        {
+            CLOG(ERROR) << "Failed to add host to database";
+            error_code = proto::router::kErrorInternalError;
+        }
+    }
+
+    if (error_code == proto::router::kErrorOk)
+    {
+        host_id_response->set_error_code(proto::router::legacy::HostIdResponse::SUCCESS);
+        host_id_response->set_host_id(host_id);
+        host_id_response->set_key(host_id_request.key());
+
+        if (!db.updateHostInfo(host_id, key_hash, computerName(), architecture(),
+                               version().toString().toStdString(), osName(), address()))
+        {
+            CLOG(WARNING) << "Failed to update host info for host_id:" << host_id;
+        }
+
+        setHostId(host_id);
+
+        emit sig_hostIdAssigned(host_id);
+        emit sig_notifyChanged(ClientWorker::NOTIFY_HOSTS);
+    }
+    else if (error_code == proto::router::kErrorNotFound)
+    {
+        host_id_response->set_error_code(proto::router::legacy::HostIdResponse::NO_HOST_FOUND);
+    }
+    else
+    {
+        host_id_response->set_error_code(proto::router::legacy::HostIdResponse::UNKNOWN);
+    }
 
     sendMessage(0, serialize(message));
-
-    if (result.removal_pending)
-        sendRemoveCommand();
-
-    if (hostId() != kInvalidHostId)
-    {
-        emit sig_hostIdAssigned(hostId());
-
-        if (!result.removal_pending)
-            emit sig_notifyChanged(result.notify_flags);
-    }
 }
