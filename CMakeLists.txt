@@ -73,29 +73,45 @@ endif()
 
 set(CMAKE_SKIP_BUILD_RPATH ON)
 
-find_package(Qt6 CONFIG REQUIRED Core Gui Network PrintSupport Test Widgets Xml LinguistTools Svg)
-find_package(Qt6DeviceDiscoverySupportPrivate CONFIG REQUIRED)
-find_package(Qt6FbSupportPrivate CONFIG REQUIRED)
+# A build of the router alone. The router draws nothing, so it needs neither QtGui nor the
+# parts of the project that have a window, and none of the dependencies of those parts are
+# built either. The build is much smaller and much faster this way.
+option(ASPIA_ROUTER_ONLY "Build only the router, without the parts that draw" OFF)
+
+if (ASPIA_ROUTER_ONLY)
+    # The router needs the core of Qt and the database bus, and nothing that draws.
+    find_package(Qt6 CONFIG REQUIRED Core Network DBus)
+else()
+    find_package(Qt6 CONFIG REQUIRED Core Gui Network PrintSupport Test Widgets Xml LinguistTools Svg)
+    find_package(Qt6DeviceDiscoverySupportPrivate CONFIG REQUIRED)
+    find_package(Qt6FbSupportPrivate CONFIG REQUIRED)
+endif()
 
 find_package(asio CONFIG REQUIRED)
 find_package(CURL CONFIG REQUIRED)
-find_package(GTest CONFIG REQUIRED)
-find_package(JPEG REQUIRED)
-find_package(libyuv CONFIG REQUIRED)
-find_package(miniupnpc CONFIG REQUIRED)
 find_package(OpenSSL REQUIRED)
-find_package(Opus CONFIG REQUIRED)
 find_package(protobuf CONFIG REQUIRED)
-find_package(unofficial-libvpx CONFIG REQUIRED)
-find_package(unofficial-libwebm CONFIG REQUIRED)
 find_package(unofficial-enet CONFIG REQUIRED)
-find_package(unofficial-nayuki-qr-code-generator CONFIG REQUIRED)
 find_package(unofficial-sqlite3 CONFIG REQUIRED)
 find_package(zstd CONFIG REQUIRED)
 
+if (NOT ASPIA_ROUTER_ONLY)
+    find_package(GTest CONFIG REQUIRED)
+    find_package(JPEG REQUIRED)
+    find_package(libyuv CONFIG REQUIRED)
+    find_package(miniupnpc CONFIG REQUIRED)
+    find_package(Opus CONFIG REQUIRED)
+    find_package(unofficial-libvpx CONFIG REQUIRED)
+    find_package(unofficial-libwebm CONFIG REQUIRED)
+    find_package(unofficial-nayuki-qr-code-generator CONFIG REQUIRED)
+endif()
+
 if (WIN32)
     find_package(Qt6EntryPointPrivate CONFIG REQUIRED)
-    find_package(WDK REQUIRED)
+
+    if (NOT ASPIA_ROUTER_ONLY)
+        find_package(WDK REQUIRED)
+    endif()
 
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
@@ -114,7 +130,10 @@ if (ANDROID)
 endif()
 
 if (LINUX)
-    find_package(Qt6XcbQpaPrivate CONFIG REQUIRED)
+    if (NOT ASPIA_ROUTER_ONLY)
+        find_package(Qt6XcbQpaPrivate CONFIG REQUIRED)
+    endif()
+
     find_package(Qt6DBus CONFIG REQUIRED)
     find_package(ICU REQUIRED COMPONENTS uc)
 endif()
