@@ -40,6 +40,7 @@ protected:
         client_.host_id = kHostId;
         client_.address = "203.0.113.5";
         client_.user_name = "operator";
+        client_.version = kVersion_3_0_0;
     }
 
     void TearDown() override
@@ -157,6 +158,36 @@ TEST_F(ConnectionRequestHandlerTest, CipherIsAes)
 
     EXPECT_EQ(build().offer.relay().key().encryption(),
               proto::router::RelayKey::ENCRYPTION_AES256_GCM);
+}
+
+//--------------------------------------------------------------------------------------------------
+// A host of the previous version of the program only understands ChaCha20-Poly1305, so the offer
+// must not ask for AES. The client has to know about the host too, or it will not speak the
+// protocol of that version to the relay.
+TEST_F(ConnectionRequestHandlerTest, LegacyHostGetsTheCipherOfThePreviousVersion)
+{
+    addHost(kVersion_2_7_0);
+    addRelayKey(42, 7);
+
+    const ConnectionRequestResult result = build();
+
+    EXPECT_EQ(result.offer.relay().key().encryption(),
+              proto::router::RelayKey::ENCRYPTION_CHACHA20_POLY1305);
+    EXPECT_TRUE(result.offer.peer_info().is_legacy());
+}
+
+//--------------------------------------------------------------------------------------------------
+// The client of the previous version of the program speaks that protocol to the relay, so the
+// cipher of the session must be the one of that version even when the host is a new one.
+TEST_F(ConnectionRequestHandlerTest, LegacyClientGetsTheCipherOfThePreviousVersion)
+{
+    addHost(kVersion_3_0_0);
+    addRelayKey(42, 7);
+
+    client_.version = kVersion_2_7_0;
+
+    EXPECT_EQ(build().offer.relay().key().encryption(),
+              proto::router::RelayKey::ENCRYPTION_CHACHA20_POLY1305);
 }
 
 //--------------------------------------------------------------------------------------------------

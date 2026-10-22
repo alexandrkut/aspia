@@ -39,6 +39,7 @@ inline constexpr QLatin1StringView kRelayUpdatePackage("relay");
 inline constexpr QLatin1StringView kRouterUpdatePackage("router");
 
 inline constexpr quint16 kDefaultHostTcpPort         = 8050;
+inline constexpr quint16 kDefaultRouterLegacyHostTcpPort = 8060;
 inline constexpr quint16 kDefaultRouterHostTcpPort   = 8061;
 inline constexpr quint16 kDefaultRouterClientTcpPort = 8062;
 inline constexpr quint16 kDefaultRouterRelayTcpPort  = 8063;

@@ -28,6 +28,7 @@
 #include "base/net/net_utils.h"
 #include "base/net/tcp_channel_native.h"
 #include "base/peer/server_authenticator.h"
+#include "base/peer/server_authenticator_legacy.h"
 #include "base/threading/asio_event_dispatcher.h"
 #include "base/threading/worker.h"
 
@@ -78,6 +79,12 @@ void TcpServer::setAnonymousAccess(
 {
     anonymous_access_ = anonymous_access;
     anonymous_session_types_ = session_types;
+}
+
+//--------------------------------------------------------------------------------------------------
+void TcpServer::setProtocol(TcpChannel::Protocol protocol)
+{
+    protocol_ = protocol;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -281,29 +288,69 @@ void TcpServer::doAccept()
                 }
             }
 
-            ScopedQPointer<ServerAuthenticator> authenticator(new ServerAuthenticator());
-            authenticator->setUserList(user_list_);
+            QPointer<TcpChannel> channel = nullptr;
+            QPointer<ServerAuthenticator> weak_authenticator;
 
-            if (!private_key_.isEmpty())
+            if (protocol_ == TcpChannel::Protocol::LEGACY)
             {
-                if (!authenticator->setPrivateKey(private_key_))
+                // The peers of the previous version of the program speak another protocol: they
+                // have another handshake and another frame format.
+                ScopedQPointer<ServerAuthenticatorLegacy> authenticator(new ServerAuthenticatorLegacy());
+                authenticator->setUserList(user_list_);
+
+                if (!private_key_.isEmpty())
                 {
-                    LOG(ERROR) << "Failed to set private key for authenticator";
-                    doAccept();
-                    return;
+                    if (!authenticator->setPrivateKey(private_key_))
+                    {
+                        LOG(ERROR) << "Failed to set private key for authenticator";
+                        doAccept();
+                        return;
+                    }
+
+                    const ServerAuthenticatorLegacy::AnonymousAccess anonymous_access =
+                        (anonymous_access_ == ServerAuthenticator::AnonymousAccess::ENABLE) ?
+                            ServerAuthenticatorLegacy::AnonymousAccess::ENABLE :
+                            ServerAuthenticatorLegacy::AnonymousAccess::DISABLE;
+
+                    if (!authenticator->setAnonymousAccess(anonymous_access, anonymous_session_types_))
+                    {
+                        LOG(ERROR) << "Failed to set anonymous access settings";
+                        doAccept();
+                        return;
+                    }
                 }
 
-                if (!authenticator->setAnonymousAccess(anonymous_access_, anonymous_session_types_))
-                {
-                    LOG(ERROR) << "Failed to set anonymous access settings";
-                    doAccept();
-                    return;
-                }
+                channel = new TcpChannelNative(
+                    TcpChannel::Type::DIRECT, std::move(socket), authenticator.release(), this,
+                    TcpChannel::Protocol::LEGACY);
             }
+            else
+            {
+                ScopedQPointer<ServerAuthenticator> authenticator(new ServerAuthenticator());
+                authenticator->setUserList(user_list_);
 
-            QPointer<ServerAuthenticator> weak_authenticator = authenticator.get();
-            QPointer<TcpChannel> channel = new TcpChannelNative(
-                TcpChannel::Type::DIRECT, std::move(socket), authenticator.release(), this);
+                if (!private_key_.isEmpty())
+                {
+                    if (!authenticator->setPrivateKey(private_key_))
+                    {
+                        LOG(ERROR) << "Failed to set private key for authenticator";
+                        doAccept();
+                        return;
+                    }
+
+                    if (!authenticator->setAnonymousAccess(anonymous_access_, anonymous_session_types_))
+                    {
+                        LOG(ERROR) << "Failed to set anonymous access settings";
+                        doAccept();
+                        return;
+                    }
+                }
+
+                weak_authenticator = authenticator.get();
+
+                channel = new TcpChannelNative(
+                    TcpChannel::Type::DIRECT, std::move(socket), authenticator.release(), this);
+            }
 
             connect(channel, &TcpChannel::sig_authenticated, this, [this, channel, weak_authenticator]()
             {

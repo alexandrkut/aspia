@@ -48,7 +48,7 @@ qint64 createHostId()
 }
 
 //--------------------------------------------------------------------------------------------------
-HostId reserveTempHostId()
+HostId reserveTempHostIdInternal()
 {
     HostId host_id = kInvalidHostId;
     do
@@ -68,6 +68,12 @@ void releaseTempHostId(HostId host_id)
 }
 
 } // namespace
+
+//--------------------------------------------------------------------------------------------------
+HostId Host::reserveTempHostId()
+{
+    return reserveTempHostIdInternal();
+}
 
 //--------------------------------------------------------------------------------------------------
 Host::Host(Database& database, TcpChannel* channel, QObject* parent)
@@ -154,6 +160,12 @@ const std::string& Host::architecture() const
 //--------------------------------------------------------------------------------------------------
 void Host::sendConnectionOffer(const proto::router::ConnectionOffer& offer)
 {
+    sendConnectionOfferMessage(offer);
+}
+
+//--------------------------------------------------------------------------------------------------
+void Host::sendConnectionOfferMessage(const proto::router::ConnectionOffer& offer)
+{
     proto::router::RouterToHost message;
     message.mutable_connection_offer()->CopyFrom(offer);
     sendMessage(0, serialize(message));
@@ -195,7 +207,13 @@ void Host::onTcpErrorOccurred(TcpChannel::ErrorCode error_code)
 }
 
 //--------------------------------------------------------------------------------------------------
-void Host::onTcpMessageReceived(quint8 /* channel_id */, const QByteArray& buffer)
+void Host::onTcpMessageReceived(quint8 channel_id, const QByteArray& buffer)
+{
+    onSessionMessage(channel_id, buffer);
+}
+
+//--------------------------------------------------------------------------------------------------
+void Host::onSessionMessage(quint8 /* channel_id */, const QByteArray& buffer)
 {
     proto::router::HostToRouter message;
     if (!parse(buffer, &message))

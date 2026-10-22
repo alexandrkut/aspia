@@ -21,6 +21,8 @@
 
 #include <string>
 
+#include <QVersionNumber>
+
 #include "base/peer/host_id.h"
 #include "proto/router_client.h"
 
@@ -40,6 +42,11 @@ struct ConnectionRequestClient
     HostId host_id = kInvalidHostId; // The host it wants to reach.
     std::string address;
     std::string user_name;
+
+    // The version of the client. The peers of the previous version of the program speak another
+    // protocol, and the algorithm of the traffic of the session depends on the versions of both
+    // peers.
+    QVersionNumber version;
 
     // Port of the STUN server of this router (0 - not running). Attached to the offer so the
     // peers can try a direct connection before falling back to the relay.

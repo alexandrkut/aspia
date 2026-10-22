@@ -30,6 +30,7 @@
 #include "base/crypto/secure_byte_array.h"
 #include "base/shared_pointer.h"
 #include "base/time_types.h"
+#include "base/net/tcp_channel.h"
 #include "base/peer/user_list.h"
 #include "base/peer/server_authenticator.h"
 
@@ -52,6 +53,11 @@ public:
 
     void setAnonymousAccess(
         ServerAuthenticator::AnonymousAccess anonymous_access, quint32 session_types);
+
+    // The protocol of the sessions the server accepts. The server accepts the peers of the
+    // previous version of the program in the compatibility mode.
+    void setProtocol(TcpChannel::Protocol protocol);
+    TcpChannel::Protocol protocol() const { return protocol_; }
 
     // Maximum number of handshakes that may be in progress simultaneously. New TCP connections
     // are accepted and immediately closed once the cap is reached. Defaults to 32 - tuned for a
@@ -95,6 +101,8 @@ private:
 
     SharedPointer<UserList> user_list_;
     SecureByteArray private_key_;
+
+    TcpChannel::Protocol protocol_ = TcpChannel::Protocol::MODERN;
 
     ServerAuthenticator::AnonymousAccess anonymous_access_ =
         ServerAuthenticator::AnonymousAccess::DISABLE;

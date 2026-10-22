@@ -20,6 +20,7 @@
 
 #include "base/logging.h"
 #include "base/crypto/random.h"
+#include "base/version_constants.h"
 #include "proto/relay_peer.h"
 #include "proto/router_constants.h"
 #include "router/shared_hosts.h"
@@ -54,6 +55,12 @@ ConnectionRequestResult handleConnectionRequest(SharedHosts& hosts, SharedKeyPoo
 
     result.offer.set_error_code(proto::router::kErrorOk);
 
+    // The host of the previous version of the program speaks another protocol. The client has to
+    // know about it, so it can talk to the host in the compatibility mode.
+    const bool legacy_host = host_info->version < kVersion_3_0_0;
+
+    result.offer.mutable_peer_info()->set_is_legacy(legacy_host);
+
     if (client.stun_port)
     {
         // An empty host string means that the client should use the router's address as the
@@ -69,7 +76,15 @@ ConnectionRequestResult handleConnectionRequest(SharedHosts& hosts, SharedKeyPoo
     offer_credentials->set_host(credentials->peer_host);
     offer_credentials->set_port(credentials->peer_port);
     offer_credentials->mutable_key()->Swap(&credentials->key);
-    offer_credentials->mutable_key()->set_encryption(proto::router::RelayKey::ENCRYPTION_AES256_GCM);
+
+    // AES-256-GCM is used only when both peers support it; the peers of the previous version of
+    // the program only understand ChaCha20-Poly1305. The key material itself is
+    // algorithm-agnostic.
+    const bool aes = !legacy_host && client.version >= kVersion_3_0_0;
+
+    offer_credentials->mutable_key()->set_encryption(aes ?
+        proto::router::RelayKey::ENCRYPTION_AES256_GCM :
+        proto::router::RelayKey::ENCRYPTION_CHACHA20_POLY1305);
 
     // What the relay is told about the pair it is about to serve. Both peers hand it the same
     // blob, which is how the relay matches them; the addresses let it refuse a stranger that
