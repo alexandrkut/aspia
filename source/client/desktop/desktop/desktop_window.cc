@@ -719,6 +719,12 @@ void DesktopWindow::readLegacyExtension(const proto::legacy::Extension& extensio
         LOG(INFO) << "Screen list receive:" << screen_list;
         onScreenListChanged(screen_list);
     }
+    else if (extension.name() == kScreenTypeExtension)
+    {
+        // The type of the screen capturer is a part of the configuration of the current version of
+        // the program, so there is nothing to do with the extension of the previous version.
+        LOG(TRACE) << "Screen type extension received";
+    }
     else
     {
         LOG(ERROR) << "Unknown extension:" << extension.name();

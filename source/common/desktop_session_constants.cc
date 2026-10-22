@@ -43,3 +43,4 @@ const char kFlagElevated[] = "elevated";
 // The names of the extensions of the previous version of the program.
 const char kSelectScreenExtension[] = "select_screen";
 const char kPowerControlExtension[] = "power_control";
+const char kScreenTypeExtension[] = "screen_type";

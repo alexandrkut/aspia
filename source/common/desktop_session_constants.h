@@ -44,5 +44,6 @@ extern const char kFlagElevated[];
 // The names of the extensions of the previous version of the program.
 extern const char kSelectScreenExtension[];
 extern const char kPowerControlExtension[];
+extern const char kScreenTypeExtension[];
 
 #endif // COMMON_DESKTOP_SESSION_CONSTANTS_H
