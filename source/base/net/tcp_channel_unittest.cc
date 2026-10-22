@@ -38,6 +38,7 @@
 #include "base/net/tcp_server.h"
 #include "base/peer/authenticator.h"
 #include "base/peer/client_authenticator.h"
+#include "base/peer/client_authenticator_legacy.h"
 #include "base/peer/user.h"
 #include "base/peer/user_list.h"
 #include "base/threading/asio_event_dispatcher.h"
@@ -205,7 +206,8 @@ protected:
     }
 
     // Starts the server on the loopback interface. Returns the port it listens on, or zero.
-    quint16 startServer(const QString& iface = "127.0.0.1")
+    // |legacy| makes the server speak the protocol of the previous version of the program.
+    quint16 startServer(const QString& iface = "127.0.0.1", bool legacy = false)
     {
         quint16 port = 0;
 
@@ -213,6 +215,9 @@ protected:
         {
             server_ = new TcpServer();
             server_->setUserList(user_list_);
+
+            if (legacy)
+                server_->setProtocol(TcpChannel::Protocol::LEGACY);
 
             // The rate limiter is not what these tests are about, and every connection here comes
             // from the same address.
@@ -262,19 +267,38 @@ protected:
     }
 
     // Opens a client channel and starts the handshake. Returns once the connect is under way, not
-    // once it has completed.
+    // once it has completed. |legacy| makes the client speak the protocol of the previous version
+    // of the program.
     void connectClient(quint16 port, const QString& user_name, const QString& password,
-                       quint32 session_type)
+                       quint32 session_type, bool legacy = false)
     {
         worker_->invoke([&]()
         {
-            ClientAuthenticator* authenticator = new ClientAuthenticator();
-            authenticator->setIdentify(proto::key_exchange::IDENTIFY_SRP);
-            authenticator->setUserName(user_name);
-            authenticator->setPassword(SecureString(password));
-            authenticator->setSessionType(session_type);
+            Authenticator* authenticator = nullptr;
 
-            client_channel_ = new TcpChannelNative(TcpChannel::Type::DIRECT, authenticator);
+            if (legacy)
+            {
+                auto* legacy_authenticator = new ClientAuthenticatorLegacy();
+                legacy_authenticator->setIdentify(proto::key_exchange::IDENTIFY_SRP);
+                legacy_authenticator->setUserName(user_name);
+                legacy_authenticator->setPassword(SecureString(password));
+                legacy_authenticator->setSessionType(session_type);
+
+                authenticator = legacy_authenticator;
+            }
+            else
+            {
+                auto* modern_authenticator = new ClientAuthenticator();
+                modern_authenticator->setIdentify(proto::key_exchange::IDENTIFY_SRP);
+                modern_authenticator->setUserName(user_name);
+                modern_authenticator->setPassword(SecureString(password));
+                modern_authenticator->setSessionType(session_type);
+
+                authenticator = modern_authenticator;
+            }
+
+            client_channel_ = new TcpChannelNative(TcpChannel::Type::DIRECT, authenticator, nullptr,
+                legacy ? TcpChannel::Protocol::LEGACY : TcpChannel::Protocol::MODERN);
 
             QObject::connect(client_channel_, &TcpChannel::sig_authenticated, client_channel_,
                              [this]() { client_authenticated_.signal(); });
@@ -1095,4 +1119,55 @@ TEST_F(LegacyTcpChannelTest, ClientAnswersTheKeepAliveOfThePreviousVersion)
     quint32 pong_length = 0;
     memcpy(&pong_length, raw_buffer_.constData() + 5, sizeof(pong_length));
     EXPECT_EQ(pong_length, 4u);
+}
+
+//--------------------------------------------------------------------------------------------------
+// The whole stack of the previous version of the program at once: the handshake, the frame format
+// and the cipher. A peer of that version must be able to talk to a peer of that version.
+TEST_F(TcpChannelTest, LegacyClientAndLegacyServerTalkToEachOther)
+{
+    const quint16 port = startServer(QString(), /* legacy = */ true);
+    ASSERT_NE(port, 0);
+
+    connectClient(port, QLatin1String(kUserName), QLatin1String(kPassword), kAllowedSessionType,
+                  /* legacy = */ true);
+
+    ASSERT_TRUE(client_authenticated_.wait(1, kWaitTimeout));
+    ASSERT_TRUE(accepted_.wait(1, kWaitTimeout));
+
+    resumeBothEnds();
+
+    const QByteArray payload = QByteArrayLiteral("hello from the previous version");
+
+    sendFromClient(3, payload);
+
+    ASSERT_TRUE(server_message_.wait(1, kWaitTimeout));
+    ASSERT_EQ(server_messages_.size(), 1);
+    EXPECT_EQ(server_messages_.first().first, quint8(3));
+    EXPECT_EQ(server_messages_.first().second, payload);
+
+    const QByteArray answer = QByteArrayLiteral("and back");
+
+    sendFromServer(4, answer);
+
+    ASSERT_TRUE(client_message_.wait(1, kWaitTimeout));
+    ASSERT_EQ(client_messages_.size(), 1);
+    EXPECT_EQ(client_messages_.first().first, quint8(4));
+    EXPECT_EQ(client_messages_.first().second, answer);
+}
+
+//--------------------------------------------------------------------------------------------------
+// The peers of the previous version of the program have another handshake, so the client of the
+// current version must not be able to talk to the server of that version.
+TEST_F(TcpChannelTest, ModernClientAndLegacyServerDoNotTalkToEachOther)
+{
+    const quint16 port = startServer(QString(), /* legacy = */ true);
+    ASSERT_NE(port, 0);
+
+    connectClient(port, QLatin1String(kUserName), QLatin1String(kPassword), kAllowedSessionType,
+                  /* legacy = */ false);
+
+    // The handshake fails one way or another, but it must not succeed.
+    EXPECT_TRUE(client_error_.wait(1, kWaitTimeout) || client_authenticated_.wait(1, kWaitTimeout));
+    EXPECT_EQ(client_error_code_, TcpChannel::ErrorCode::REMOTE_HOST_CLOSED);
 }
