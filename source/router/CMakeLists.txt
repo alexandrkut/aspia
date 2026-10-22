@@ -111,6 +111,15 @@ if (WIN32)
     set_target_properties(aspia_router PROPERTIES LINK_FLAGS "/MANIFEST:NO")
 endif()
 
+if (LINUX)
+    # The router is built with a compiler that is newer than the compiler of the system it
+    # is meant to run on, and the C++ runtime of that compiler is not on the system: the
+    # system has GLIBCXX_3.4.25 and the binary asks for more. Linking the runtime and the
+    # unwinder statically keeps the binary free of a dependency it cannot satisfy, and
+    # leaves nothing but the C library to be found on the target.
+    target_link_options(aspia_router PRIVATE -static-libstdc++ -static-libgcc)
+endif()
+
 target_link_libraries(aspia_router
     aspia_router_core)
 
