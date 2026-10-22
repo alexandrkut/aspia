@@ -26,6 +26,7 @@
 #include "proto/router_constants.h"
 #include "proto/router_host.h"
 #include "proto/router_legacy_host.h"
+#include "proto/router_legacy_host.h"
 #include "router/loopback_channel.h"
 #include "router/router_test_base.h"
 #include "router/router_test_worker.h"
@@ -89,6 +90,24 @@ protected:
             ASSERT_NE(channel.routerEnd(), nullptr);
 
             Host host(worker_->database(), channel.routerEnd(), nullptr);
+
+            announced_.clear();
+            QObject::connect(&host, &Host::sig_hostIdAssigned, &host,
+                             [this](HostId host_id) { announced_.append(host_id); });
+
+            body(host, &channel);
+        });
+    }
+
+    // The same, for a host of the previous version of the program: it speaks another protocol.
+    void withLegacyHost(const std::function<void(HostLegacy&, LoopbackChannel*)>& body)
+    {
+        worker_->invoke([&]()
+        {
+            LoopbackChannel channel(proto::router::SESSION_TYPE_HOST);
+            ASSERT_NE(channel.routerEnd(), nullptr);
+
+            HostLegacy host(worker_->database(), channel.routerEnd(), nullptr);
 
             announced_.clear();
             QObject::connect(&host, &Host::sig_hostIdAssigned, &host,
@@ -538,5 +557,50 @@ TEST_F(HostTest, LegacyHostKeepsItsId)
         EXPECT_EQ(second_reply.host_id_response().error_code(),
                   proto::router::legacy::HostIdResponse::SUCCESS);
         EXPECT_EQ(second_reply.host_id_response().host_id(), first_id);
+    });
+}
+
+
+
+//--------------------------------------------------------------------------------------------------
+// The host of the previous version of the program takes its own id from the offer of the router: the
+// offer it gets carries the id it was given when it asked for it.
+TEST_F(HostTest, TheLegacyHostGetsItsIdInTheOffer)
+{
+    withLegacyHost([this](HostLegacy& host, LoopbackChannel* channel)
+    {
+        host.start();
+        channel->clearSent();
+
+        proto::router::legacy::PeerToRouter message;
+        proto::router::legacy::HostIdRequest* request = message.mutable_host_id_request();
+        request->set_type(proto::router::legacy::HostIdRequest::NEW_ID);
+        request->set_key(kHostKey);
+
+        channel->receive(0, serialize(message));
+
+        ASSERT_EQ(announced_.size(), 1);
+        const HostId host_id = announced_.first();
+
+        channel->clearSent();
+
+        proto::router::ConnectionOffer offer;
+        offer.set_error_code(proto::router::kErrorOk);
+        host.sendConnectionOffer(offer);
+
+        ASSERT_FALSE(channel->sent().isEmpty());
+
+        proto::router::legacy::RouterToPeer reply;
+        ASSERT_TRUE(parse(channel->sent().back().buffer, &reply));
+        ASSERT_TRUE(reply.has_connection_offer());
+
+        EXPECT_EQ(reply.connection_offer().peer_role(),
+                  proto::router::legacy::ConnectionOffer::HOST);
+        EXPECT_EQ(reply.connection_offer().error_code(),
+                  proto::router::legacy::ConnectionOffer::SUCCESS);
+
+        // The id the host was given.
+        EXPECT_EQ(reply.connection_offer().host_data().host_id(),
+                  static_cast<uint64_t>(host_id));
     });
 }

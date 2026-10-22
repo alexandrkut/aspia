@@ -100,6 +100,10 @@ void HostLegacy::sendConnectionOfferMessage(const proto::router::ConnectionOffer
 
     legacy_offer->mutable_relay()->CopyFrom(offer.relay());
 
+    // The host of the previous version of the program takes its own id from here: the id it was
+    // given when it asked for it.
+    legacy_offer->mutable_host_data()->set_host_id(hostId());
+
     sendMessage(0, serialize(message));
 }
 
