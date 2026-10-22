@@ -1286,6 +1286,25 @@ TEST(RouterDatabaseMigrationTest, TheHostsOfAnOldDatabaseKeepTheirIds)
     ASSERT_EQ(db.hostId(key_hash, &host_id), proto::router::kErrorOk);
     EXPECT_EQ(host_id, 42u);
 
+    // The host is an approved one: it is in the list the administrator sees, and not among the
+    // temporary hosts of the ones that are not approved yet.
+    proto::router::HostList list;
+    db.hosts(proto::router::HostFilter(), 0, 10, &list);
+    ASSERT_EQ(list.error_code(), proto::router::kErrorOk);
+    ASSERT_EQ(list.host_size(), 1);
+    EXPECT_EQ(list.host(0).host_id(), 42u);
+
+    // A host that comes for the first time gets an id that no host of the old database has, so the
+    // ids of the old hosts stay the ids of those hosts.
+    const QByteArray new_key = QByteArrayLiteral("the-key-of-a-new-host");
+    const QByteArray new_key_hash = GenericHash::hash(GenericHash::Type::BLAKE2b512, new_key);
+
+    ASSERT_TRUE(db.addHost(new_key_hash, "hwid"));
+
+    HostId new_host_id = kInvalidHostId;
+    ASSERT_EQ(db.hostId(new_key_hash, &new_host_id), proto::router::kErrorOk);
+    EXPECT_GT(new_host_id, 42u);
+
     // The columns of the current version are there.
     {
         SqlDatabase raw;
