@@ -289,11 +289,13 @@ int createConfig(QTextStream& out)
         return 1;
     }
 
-    if (QFileInfo::exists(Database::filePath()))
-    {
-        out << "Database already exists. Continuation is impossible." << Qt::endl;
-        return 1;
-    }
+    // The database of a router of an older version of the program is taken over as it is: the hosts
+    // keep their ids and the user of that database stays. Only the configuration and the keys of the
+    // router are new.
+    const bool database_exists = QFileInfo::exists(Database::filePath());
+
+    if (database_exists)
+        out << "Database already exists. It is taken over as it is." << Qt::endl;
 
     Database& db = Database::instance();
     if (!db.isValid())
@@ -302,31 +304,45 @@ int createConfig(QTextStream& out)
         return 1;
     }
 
-    out << "Creating a user..." << Qt::endl;
+    RouterUser existing_user;
+    QString created_user_name;
+    SecureString created_password;
 
-    const char kUserName[] = "admin";
-    const SecureString password = PasswordGenerator().result();
-
-    RouterUser user = RouterUser::create(kUserName, password);
-    if (!user.isValid())
+    if (database_exists && db.findUser("admin", &existing_user) == proto::router::kErrorOk)
     {
-        out << "Failed to create user." << Qt::endl;
-        return 1;
+        out << "The user of the existing database is kept." << Qt::endl;
     }
-
-    out << "User has been created. Adding a user to the database..." << Qt::endl;
-
-    user.sessions = proto::router::SESSION_TYPE_ADMIN | proto::router::SESSION_TYPE_MANAGER |
-                    proto::router::SESSION_TYPE_OPERATOR;
-    user.flags = User::ENABLED;
-
-    if (db.addUser(user) != proto::router::kErrorOk)
+    else
     {
-        out << "Failed to add user to database." << Qt::endl;
-        return 1;
-    }
+        out << "Creating a user..." << Qt::endl;
 
-    out << "User was successfully added to the database." << Qt::endl;
+        const char kUserName[] = "admin";
+        const SecureString password = PasswordGenerator().result();
+
+        RouterUser user = RouterUser::create(kUserName, password);
+        if (!user.isValid())
+        {
+            out << "Failed to create user." << Qt::endl;
+            return 1;
+        }
+
+        out << "User has been created. Adding a user to the database..." << Qt::endl;
+
+        user.sessions = proto::router::SESSION_TYPE_ADMIN | proto::router::SESSION_TYPE_MANAGER |
+                        proto::router::SESSION_TYPE_OPERATOR;
+        user.flags = User::ENABLED;
+
+        if (db.addUser(user) != proto::router::kErrorOk)
+        {
+            out << "Failed to add user to database." << Qt::endl;
+            return 1;
+        }
+
+        out << "User was successfully added to the database." << Qt::endl;
+
+        created_user_name = kUserName;
+        created_password = password;
+    }
     out << "Generating encryption keys..." << Qt::endl;
 
     SecureByteArray host_private_key;
@@ -396,9 +412,19 @@ int createConfig(QTextStream& out)
     out << "Any other value, a misspelt key included, keeps the second factor required." << Qt::endl;
     out << Qt::endl;
     out << "==================== LOGIN CREDENTIALS ====================" << Qt::endl;
-    out << "User name: " << kUserName << Qt::endl;
-    out << "Password: " << password.toString() << Qt::endl;
-    out << "Save the password. It is not shown again." << Qt::endl;
+
+    if (created_user_name.isEmpty())
+    {
+        out << "The user of the existing database is used. Its password is not shown again."
+            << Qt::endl;
+    }
+    else
+    {
+        out << "User name: " << created_user_name << Qt::endl;
+        out << "Password: " << created_password.toString() << Qt::endl;
+        out << "Save the password. It is not shown again." << Qt::endl;
+    }
+
     out << "===========================================================" << Qt::endl;
 
     return 0;

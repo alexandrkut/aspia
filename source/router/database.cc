@@ -235,6 +235,12 @@ QStringList tableColumns(SqlDatabase& db, const char* table)
     return columns;
 }
 
+// Whether the table has the column.
+bool hasColumn(SqlDatabase& db, const char* table, const char* column)
+{
+    return tableColumns(db, table).contains(QLatin1String(column));
+}
+
 // The database of an older version of the program keeps its rows, and the ids of the hosts among
 // them, so the missing columns are added with the defaults of the current version instead of the
 // table being replaced. A host of an older version finds itself by the hash of its key, so it
@@ -325,10 +331,30 @@ bool ensureSchema(SqlDatabase& db)
     //
     // The tables of an older version of the program keep their rows, and the ids of the hosts
     // among them, so the columns they do not have are added before the tables are created.
+    // A users table without the column of the second factor has the layout of the version 2.7. The
+    // manager role did not exist then, so the administrators of such a table lack the bit of that
+    // role their level implies. A table that is not there yet is a new one, not an old one.
+    const QStringList user_columns = tableColumns(db, "users");
+    const bool users_from_2_7 = !user_columns.isEmpty() &&
+                                 !user_columns.contains(QLatin1String("otp_secret"));
+
     if (!addMissingColumns(db, "hosts", kHostColumns, std::size(kHostColumns)) ||
         !addMissingColumns(db, "users", kUserColumns, std::size(kUserColumns)))
     {
         return false;
+    }
+
+    if (users_from_2_7)
+    {
+        SqlQuery query(db, "UPDATE users SET sessions=sessions|? WHERE (sessions&?)!=0");
+        query.addInt64(proto::router::SESSION_TYPE_MANAGER | proto::router::SESSION_TYPE_OPERATOR);
+        query.addInt64(proto::router::SESSION_TYPE_ADMIN);
+
+        if (!query.exec())
+        {
+            LOG(ERROR) << "Unable to expand the sessions of administrators:" << db.lastError();
+            return false;
+        }
     }
 
     if (!run("CREATE TABLE IF NOT EXISTS \"users\" ("
