@@ -1,4 +1,4 @@
-﻿//
+//
 // Aspia Project
 // Copyright (C) 2016-2026 Dmitry Chapyshev <dmitry@aspia.ru>
 //
@@ -17,7 +17,6 @@
 //
 
 #include "router/host.h"
-#include "router/host_legacy.h"
 
 #include <optional>
 
@@ -25,8 +24,6 @@
 #include "base/crypto/generic_hash.h"
 #include "proto/router_constants.h"
 #include "proto/router_host.h"
-#include "proto/router_legacy_host.h"
-#include "proto/router_legacy_host.h"
 #include "router/loopback_channel.h"
 #include "router/router_test_base.h"
 #include "router/router_test_worker.h"
@@ -90,24 +87,6 @@ protected:
             ASSERT_NE(channel.routerEnd(), nullptr);
 
             Host host(worker_->database(), channel.routerEnd(), nullptr);
-
-            announced_.clear();
-            QObject::connect(&host, &Host::sig_hostIdAssigned, &host,
-                             [this](HostId host_id) { announced_.append(host_id); });
-
-            body(host, &channel);
-        });
-    }
-
-    // The same, for a host of the previous version of the program: it speaks another protocol.
-    void withLegacyHost(const std::function<void(HostLegacy&, LoopbackChannel*)>& body)
-    {
-        worker_->invoke([&]()
-        {
-            LoopbackChannel channel(proto::router::SESSION_TYPE_HOST);
-            ASSERT_NE(channel.routerEnd(), nullptr);
-
-            HostLegacy host(worker_->database(), channel.routerEnd(), nullptr);
 
             announced_.clear();
             QObject::connect(&host, &Host::sig_hostIdAssigned, &host,
@@ -457,150 +436,5 @@ TEST_F(HostTest, UnknownKeyIsRefused)
         EXPECT_EQ(message->host_id_response().error_code(), proto::router::kErrorNotFound);
         EXPECT_EQ(message->host_id_response().host_id(), kInvalidHostId);
         EXPECT_TRUE(announced_.isEmpty());
-    });
-}
-
-
-//--------------------------------------------------------------------------------------------------
-// A host of the previous version of the program asks for its id in its own format and gets the
-// answer in its own format. It has no hardware id and no approval, so it goes into the database
-// right away and keeps the id it has been given.
-TEST_F(HostTest, LegacyHostGetsItsIdAndIsAnnounced)
-{
-    worker_->invoke([&]()
-    {
-        LoopbackChannel channel(proto::router::SESSION_TYPE_HOST);
-        ASSERT_NE(channel.routerEnd(), nullptr);
-
-        HostLegacy host(worker_->database(), channel.routerEnd(), nullptr);
-
-        announced_.clear();
-        QObject::connect(&host, &Host::sig_hostIdAssigned, &host,
-                         [this](HostId host_id) { announced_.append(host_id); });
-
-        host.start();
-        channel.clearSent();
-
-        proto::router::legacy::PeerToRouter message;
-        proto::router::legacy::HostIdRequest* request = message.mutable_host_id_request();
-        request->set_type(proto::router::legacy::HostIdRequest::NEW_ID);
-        request->set_key(kHostKey);
-
-        channel.receive(0, serialize(message));
-
-        ASSERT_FALSE(channel.sent().isEmpty());
-
-        proto::router::legacy::RouterToPeer reply;
-        ASSERT_TRUE(parse(channel.sent().back().buffer, &reply));
-        ASSERT_TRUE(reply.has_host_id_response());
-
-        const proto::router::legacy::HostIdResponse& response = reply.host_id_response();
-
-        EXPECT_EQ(response.error_code(), proto::router::legacy::HostIdResponse::SUCCESS);
-        EXPECT_NE(response.host_id(), static_cast<uint64_t>(0));
-        EXPECT_EQ(response.key(), std::string(kHostKey));
-
-        // The host is in the database and announced to the rest of the router.
-        EXPECT_EQ(countRaw(QString("SELECT COUNT(*) FROM hosts WHERE id=%1").arg(response.host_id())), 1);
-        EXPECT_EQ(announced_.size(), 1);
-        EXPECT_EQ(announced_.first(), static_cast<HostId>(response.host_id()));
-    });
-}
-
-//--------------------------------------------------------------------------------------------------
-// A host of the previous version of the program comes back with the key it was given, and the
-// router answers with the same id.
-TEST_F(HostTest, LegacyHostKeepsItsId)
-{
-    worker_->invoke([&]()
-    {
-        LoopbackChannel channel(proto::router::SESSION_TYPE_HOST);
-        ASSERT_NE(channel.routerEnd(), nullptr);
-
-        HostLegacy host(worker_->database(), channel.routerEnd(), nullptr);
-
-        host.start();
-        channel.clearSent();
-
-        proto::router::legacy::PeerToRouter message;
-        proto::router::legacy::HostIdRequest* request = message.mutable_host_id_request();
-        request->set_type(proto::router::legacy::HostIdRequest::NEW_ID);
-        request->set_key(kHostKey);
-
-        channel.receive(0, serialize(message));
-
-        proto::router::legacy::RouterToPeer reply;
-        ASSERT_TRUE(parse(channel.sent().back().buffer, &reply));
-        ASSERT_TRUE(reply.has_host_id_response());
-
-        const uint64_t first_id = reply.host_id_response().host_id();
-
-        // The same host, a new connection.
-        LoopbackChannel second_channel(proto::router::SESSION_TYPE_HOST);
-        HostLegacy second_host(worker_->database(), second_channel.routerEnd(), nullptr);
-
-        second_host.start();
-        second_channel.clearSent();
-
-        proto::router::legacy::PeerToRouter second_message;
-        proto::router::legacy::HostIdRequest* second_request =
-            second_message.mutable_host_id_request();
-        second_request->set_type(proto::router::legacy::HostIdRequest::EXISTING_ID);
-        second_request->set_key(kHostKey);
-
-        second_channel.receive(0, serialize(second_message));
-
-        proto::router::legacy::RouterToPeer second_reply;
-        ASSERT_TRUE(parse(second_channel.sent().back().buffer, &second_reply));
-        ASSERT_TRUE(second_reply.has_host_id_response());
-
-        EXPECT_EQ(second_reply.host_id_response().error_code(),
-                  proto::router::legacy::HostIdResponse::SUCCESS);
-        EXPECT_EQ(second_reply.host_id_response().host_id(), first_id);
-    });
-}
-
-
-
-//--------------------------------------------------------------------------------------------------
-// The host of the previous version of the program takes its own id from the offer of the router: the
-// offer it gets carries the id it was given when it asked for it.
-TEST_F(HostTest, TheLegacyHostGetsItsIdInTheOffer)
-{
-    withLegacyHost([this](HostLegacy& host, LoopbackChannel* channel)
-    {
-        host.start();
-        channel->clearSent();
-
-        proto::router::legacy::PeerToRouter message;
-        proto::router::legacy::HostIdRequest* request = message.mutable_host_id_request();
-        request->set_type(proto::router::legacy::HostIdRequest::NEW_ID);
-        request->set_key(kHostKey);
-
-        channel->receive(0, serialize(message));
-
-        ASSERT_EQ(announced_.size(), 1);
-        const HostId host_id = announced_.first();
-
-        channel->clearSent();
-
-        proto::router::ConnectionOffer offer;
-        offer.set_error_code(proto::router::kErrorOk);
-        host.sendConnectionOffer(offer);
-
-        ASSERT_FALSE(channel->sent().isEmpty());
-
-        proto::router::legacy::RouterToPeer reply;
-        ASSERT_TRUE(parse(channel->sent().back().buffer, &reply));
-        ASSERT_TRUE(reply.has_connection_offer());
-
-        EXPECT_EQ(reply.connection_offer().peer_role(),
-                  proto::router::legacy::ConnectionOffer::HOST);
-        EXPECT_EQ(reply.connection_offer().error_code(),
-                  proto::router::legacy::ConnectionOffer::SUCCESS);
-
-        // The id the host was given.
-        EXPECT_EQ(reply.connection_offer().host_data().host_id(),
-                  static_cast<uint64_t>(host_id));
     });
 }

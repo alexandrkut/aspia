@@ -36,7 +36,7 @@ class HostIdRequest;
 class HostTelemetry;
 } // namespace proto::router
 
-class Host : public QObject
+class Host final : public QObject
 {
     Q_OBJECT
 
@@ -45,7 +45,7 @@ public:
     // object of that thread. Passing it instead of reaching for the per-thread singleton is what
     // lets a host object be driven against a temporary database in a test.
     Host(Database& database, TcpChannel* channel, QObject* parent);
-    ~Host() override;
+    ~Host() final;
 
     void start();
     void stop();
@@ -79,44 +79,12 @@ signals:
     void sig_notifyChanged(quint32 flags);
     void sig_hostIdAssigned(HostId host_id);
 
-protected:
-    LOG_DECLARE_CONTEXT(Host);
-
-    Database& database() const { return database_; }
-
-    // The message from the host. The hosts of the previous version of the program speak another
-    // protocol, so the handling of the message is in the derived classes.
-    virtual void onSessionMessage(quint8 channel_id, const QByteArray& buffer);
-
-    // The offer of the connection is sent in the format of the protocol of the host.
-    virtual void sendConnectionOfferMessage(const proto::router::ConnectionOffer& offer);
-
-    void sendMessage(quint8 channel_id, const QByteArray& message);
-
-    // The id of the host. The hosts of the previous version of the program get it the same way, so
-    // the derived classes set it too.
-    void setHostId(HostId host_id) { host_id_ = host_id; }
-
-    // Reserves a temporary id for a host that is not approved yet.
-    HostId reserveTempHostId();
-
-    // The size of the key the router hands to a host that is not approved yet.
-    static constexpr size_t kHostKeySize = 512;
-
-    // The number of the requests for the id in this connection.
-    int id_request_count_ = 0;
-
-    // The hash of the key of the host.
-    QByteArray key_hash_;
-
-    // The telemetry of the connection, so that a report repeating it is not written again.
-    std::string telemetry_;
-
 private slots:
     void onTcpErrorOccurred(TcpChannel::ErrorCode error_code);
     void onTcpMessageReceived(quint8 channel_id, const QByteArray& buffer);
 
 private:
+    void sendMessage(quint8 channel_id, const QByteArray& message);
     void readHostIdRequest(const proto::router::HostIdRequest& host_id_request);
     void readHostTelemetry(const proto::router::HostTelemetry& host_telemetry, TimePoint now);
 
@@ -126,12 +94,16 @@ private:
     TcpChannel* tcp_channel_ = nullptr;
 
     HostId host_id_ = kInvalidHostId;
+    QByteArray key_hash_;
     QByteArray hw_id_;
     bool portable_ = false;
+    std::string telemetry_;
     TimePoint next_telemetry_time_ = TimePoint::min();
+    int id_request_count_ = 0;
     bool remove_command_sent_ = false;
 
     friend class HostTestPeer;
+    LOG_DECLARE_CONTEXT(Host);
     Q_DISABLE_COPY_MOVE(Host)
 };
 

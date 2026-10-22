@@ -29,8 +29,6 @@ list(APPEND SOURCE_ROUTER_CORE
     database.h
     host.cc
     host.h
-    host_legacy.cc
-    host_legacy.h
     migration_utils.cc
     migration_utils.h
     relay.cc

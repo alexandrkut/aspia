@@ -373,7 +373,6 @@ void ClientOperator::sendConnectionOffer(qint64 request_id, HostId host_id)
     client.host_id = host_id;
     client.address = address();
     client.user_name = userName();
-    client.version = version();
     client.stun_port = stun_port_;
 
     ConnectionRequestResult built = handleConnectionRequest(

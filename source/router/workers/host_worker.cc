@@ -21,7 +21,6 @@
 #include <algorithm>
 
 #include "base/logging.h"
-#include "base/build_config.h"
 #include "base/crypto/secure_byte_array.h"
 #include "base/net/net_utils.h"
 #include "base/net/tcp_channel.h"
@@ -30,7 +29,6 @@
 #include "proto/router_constants.h"
 #include "router/database.h"
 #include "router/host.h"
-#include "router/host_legacy.h"
 #include "router/settings.h"
 #include "router/shared_hosts.h"
 #include "router/workers/client_worker.h"
@@ -157,19 +155,6 @@ void HostWorker::onPrepare()
     server_->setMaxConnectionsPerMinute(kMaxConnectionsPerMinute);
     server_->setWhiteList(host_white_list);
 
-    // The hosts of the previous version of the program connect to the port they have always used
-    // and speak another protocol, so they have a listener of their own.
-    legacy_server_ = new TcpServer();
-    connect(legacy_server_, &TcpServer::sig_newConnection, this, &HostWorker::onNewLegacyHostConnection);
-
-    legacy_server_->setProtocol(TcpChannel::Protocol::LEGACY);
-    legacy_server_->setPrivateKey(private_key);
-    legacy_server_->setAnonymousAccess(
-        ServerAuthenticator::AnonymousAccess::ENABLE, proto::router::SESSION_TYPE_HOST);
-    legacy_server_->setMaxPendingConnections(kMaxPendingConnections);
-    legacy_server_->setMaxConnectionsPerMinute(kMaxConnectionsPerMinute);
-    legacy_server_->setWhiteList(host_white_list);
-
     listen_interface_ = listen_interface;
     listen_port_ = port;
 }
@@ -177,16 +162,13 @@ void HostWorker::onPrepare()
 //--------------------------------------------------------------------------------------------------
 void HostWorker::onStart()
 {
-    if (server_ && !server_->start(listen_port_, listen_interface_))
+    if (!server_)
+        return;
+
+    if (!server_->start(listen_port_, listen_interface_))
     {
         LOG(ERROR) << "Unable to start host listener";
         server_.reset();
-    }
-
-    if (legacy_server_ && !legacy_server_->start(kDefaultRouterLegacyHostTcpPort, listen_interface_))
-    {
-        LOG(ERROR) << "Unable to start legacy host listener";
-        legacy_server_.reset();
     }
 }
 
@@ -194,7 +176,6 @@ void HostWorker::onStart()
 void HostWorker::onStop()
 {
     server_.reset();
-    legacy_server_.reset();
 
     for (auto* host : std::as_const(hosts_))
     {
@@ -234,24 +215,6 @@ void HostWorker::onTimer(TimePoint now)
     Database& database = Database::instance();
     if (database.isValid())
         database.pruneExpiredHostRemovals();
-}
-
-//--------------------------------------------------------------------------------------------------
-void HostWorker::onNewLegacyHostConnection()
-{
-    CHECK(legacy_server_);
-    while (legacy_server_->hasReadyConnections())
-    {
-        TcpChannel* channel = legacy_server_->nextReadyConnection();
-        LOG(INFO) << "New legacy host:" << channel->peerAddress();
-
-        Host* host = new HostLegacy(Database::instance(), channel, this);
-        hosts_.emplace_back(host);
-        connect(host, &Host::sig_hostIdAssigned, this, &HostWorker::onHostIdAssigned);
-        connect(host, &Host::sig_finished, this, &HostWorker::onHostFinished);
-        connect(host, &Host::sig_notifyChanged, this, &HostWorker::sig_notify);
-        host->start();
-    }
 }
 
 //--------------------------------------------------------------------------------------------------

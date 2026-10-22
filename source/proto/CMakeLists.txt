@@ -41,7 +41,6 @@ list(APPEND SOURCE_PROTO
     router_client.proto
     router_manager.proto
     router_host.proto
-    router_legacy_host.proto
     router_peer.proto
     router_relay.proto
     storage.proto

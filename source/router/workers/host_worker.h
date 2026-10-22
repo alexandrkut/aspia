@@ -99,7 +99,6 @@ protected:
 
 private slots:
     void onNewHostConnection();
-    void onNewLegacyHostConnection();
     void onHostFinished();
     void onHostIdAssigned(HostId host_id);
 
@@ -117,11 +116,6 @@ private:
     quint16 listen_port_ = 0;
 
     ScopedQPointer<TcpServer> server_;
-
-    // The listener of the hosts of the previous version of the program. They speak another
-    // protocol, so they have a listener of their own.
-    ScopedQPointer<TcpServer> legacy_server_;
-
     std::vector<Host*> hosts_;
 
     // The holder of each assigned host id. At most one holder per id at any moment; a reconnecting
