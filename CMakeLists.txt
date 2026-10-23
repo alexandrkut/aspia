@@ -38,10 +38,10 @@ set(ASPIA_VERSION_PATCH 37)
 # starts at one with every new line and is raised by hand with every release. Unlike the number
 # of the commits it does not depend on the depth of the clone, so the packages built from the
 # same sources carry the same number on every machine.
-set(ASPIA_VERSION_BUILD 1)
+set(ASPIA_VERSION_BUILD 2)
 
 # A mark of a build that is not the released one: the version on the screen reads
-# "3.0.37.1-mod" so that this executable is never mistaken for the stock binary. It is only a
+# "3.0.37.2-mod" so that this executable is never mistaken for the stock binary. It is only a
 # suffix of the printed version - the numeric ASPIA_VERSION the code compares stays 3.0.37, so
 # nothing that checks the version of a peer or of an update breaks.
 set(ASPIA_VERSION_SUFFIX "-mod")
