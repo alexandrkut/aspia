@@ -73,6 +73,22 @@ protected:
         withClient<ClientT>(admin_, session_type, body);
     }
 
+    // The session of a role whose second factor is switched off in the configuration.
+    template <typename ClientT>
+    void withClient(quint32 session_type, bool two_factor_required,
+                    const std::function<void(ClientT&, FakeTcpChannel*)>& body)
+    {
+        worker_->invoke([&]()
+        {
+            FakeTcpChannel* channel = new FakeTcpChannel();
+            channel->setPeer(admin_.entry_id, admin_.name.toStdString(), session_type,
+                             kVersion_3_0_0);
+
+            ClientT client(worker_->database(), channel, nullptr, two_factor_required);
+            body(client, channel);
+        });
+    }
+
     // The reply the session sent last, parsed as |MessageT|.
     template<typename MessageT>
     static std::optional<MessageT> lastMessage(const FakeTcpChannel* channel, quint8 channel_id)
@@ -239,6 +255,41 @@ TEST_F(ClientOperatorTest, AnswerSentBeforeTheChallengeWaitsForIt)
             lastMessage<proto::router::RouterToClient>(channel, proto::router::CHANNEL_ID_CLIENT);
         ASSERT_TRUE(message.has_value());
         EXPECT_TRUE(message->has_login_result());
+    });
+}
+
+//--------------------------------------------------------------------------------------------------
+// A role whose second factor is switched off asks no question at all. The handshake ends with the
+// channel paused, and with nothing on the way out but the login result the pause has no chance to
+// be lifted elsewhere: if it stays, the client keeps an open session the channel never reads a
+// single request of, and every list it asks for is gone without an error.
+TEST_F(ClientOperatorTest, LoginWithoutTheSecondFactorUnpausesTheChannel)
+{
+    withClient<ClientOperator>(proto::router::SESSION_TYPE_OPERATOR, false,
+                               [](ClientOperator& client, FakeTcpChannel* channel)
+    {
+        EXPECT_TRUE(channel->isPaused());
+        client.start();
+
+        // No question was asked and the session is complete the moment the login went out.
+        const std::optional<proto::router::RouterToClient> message =
+            lastMessage<proto::router::RouterToClient>(channel, proto::router::CHANNEL_ID_CLIENT);
+        ASSERT_TRUE(message.has_value());
+        EXPECT_FALSE(message->has_two_factor_challenge());
+        EXPECT_TRUE(message->has_login_result());
+        EXPECT_TRUE(message->login_result().new_token().empty());
+        EXPECT_TRUE(client.isTwoFactorCompleted());
+
+        // The pause is off with the login, so the requests that follow it are answered.
+        EXPECT_FALSE(channel->isPaused());
+
+        channel->clearSent();
+        channel->receive(proto::router::CHANNEL_ID_CLIENT, checkHostStatusRequest(1, 1234567));
+
+        const std::optional<proto::router::RouterToClient> answer =
+            lastMessage<proto::router::RouterToClient>(channel, proto::router::CHANNEL_ID_CLIENT);
+        ASSERT_TRUE(answer.has_value());
+        EXPECT_TRUE(answer->has_host_status());
     });
 }
 
